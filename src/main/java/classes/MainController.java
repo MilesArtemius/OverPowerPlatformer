@@ -10,7 +10,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 
 public class MainController {
@@ -20,10 +19,10 @@ public class MainController {
     private void setScene() {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/game_layout.fxml"));
+            loader.setLocation(getClass().getResource("/layouts/game_layout.fxml"));
             StackPane pane = (StackPane) loader.load();
 
-            Stage stage = OPApp.getPrimaryStage();
+            Stage stage = Main.getPrimaryStage();
 
             pane.setPrefSize(stage.getWidth(), stage.getHeight());
             Scene scene = new Scene(pane);

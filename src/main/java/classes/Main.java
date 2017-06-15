@@ -15,7 +15,7 @@ import java.io.FileInputStream;
 /**
  * Created by User on 11.06.2017.
  */
-public class OPApp extends Application {
+public class Main extends Application {
     private static Stage stage;
 
     //
@@ -34,7 +34,7 @@ public class OPApp extends Application {
 
         FirebaseDatabase.getInstance().getReference().child("sample").setValue("sample text");
 
-        Parent root = FXMLLoader.load(getClass().getResource("/main_layout.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/layouts/main_layout.fxml"));
         copyPrimaryStage(primaryStage);
         //primaryStage.setFullScreen(true);
         primaryStage.setAlwaysOnTop(true);
@@ -50,7 +50,7 @@ public class OPApp extends Application {
     }
 
     private void copyPrimaryStage(Stage pStage) {
-        OPApp.stage = pStage;
+        Main.stage = pStage;
     }
 
     public static void main(String[] args) {
