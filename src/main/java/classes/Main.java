@@ -1,5 +1,6 @@
 package classes;
 
+import classes.NoControllers.Depacker;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseCredentials;
@@ -10,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileInputStream;
 
 /**
@@ -23,16 +25,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        FileInputStream serviceAccount = new FileInputStream("C:\\Users\\User\\Documents\\SECRET FILE FOR OP\\ultimateplatformer-firebase-adminsdk-0aory-7936ac32f2.json");
-
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
-                .setDatabaseUrl("https://ultimateplatformer.firebaseio.com/")
-                .build();
-
-        FirebaseApp.initializeApp(options);
-
-        FirebaseDatabase.getInstance().getReference().child("sample").setValue("sample text");
+        Depacker.getStartedConnection(getClass());
 
         Parent root = FXMLLoader.load(getClass().getResource("/layouts/main_layout.fxml"));
         copyPrimaryStage(primaryStage);

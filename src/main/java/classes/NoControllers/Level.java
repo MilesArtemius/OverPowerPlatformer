@@ -7,8 +7,8 @@ public class Level {
     String name;
     int Height;
     int Width;
+    Block [][] level;
 
-    Block [][] level = new Block [Height][Width];
 
     
 }

@@ -4,10 +4,10 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import classes.NoControllers.Const;
 import classes.NoControllers.GameRulez;
 
 import java.io.FileInputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -17,8 +17,8 @@ import java.util.zip.ZipInputStream;
  */
 public class ResizableCanvas extends Canvas {
 
-    GameRulez gr;
-    List<Const> gm;
+    GameRulez gr = GameRulez.get();
+    HashMap<String, Double> gm;
     double x = 0;
     double y = 0;
     double t = 1;
@@ -28,19 +28,6 @@ public class ResizableCanvas extends Canvas {
     static boolean AntiJumper = false;
     static int MOVEMENTER = 0;
     static int MOVEMENTER2 = 0;
-
-    public double getRule(String rule) {
-        if (gm != null) {
-            for (Const c : gm) {
-                if (c.getName().equals(rule)) {
-                    return c.getValue();
-                }
-            }
-        } else {
-            return 0;
-        }
-        return 0;
-    }
 
     public double Standartify(int parameter, char definitor) {
         if (definitor == 'w') {
@@ -57,11 +44,11 @@ public class ResizableCanvas extends Canvas {
 
     private void redraw() {
         if ((getWidth() > 0) && (getHeight() > 0)) {
-            gr = GameRulez.get(getWidth(), getHeight());
-            gm = gr.getRulez();
+            gm = gr.getRulez(getWidth(), getHeight());
+            System.out.println(gm.toString());
 
-            x = getRule("BASIC_STATE_X");//gm.getRule("BASIC_STATE_X")
-            y = getRule("BASIC_STATE_Y");//gm.getRule("BASIC_STATE_Y")
+            x = gm.get("BASIC_STATE_X");//gm.getRule("BASIC_STATE_X")
+            y = gm.get("BASIC_STATE_Y");//gm.getRule("BASIC_STATE_Y")
         }
 
         GraphicsContext gc = getGraphicsContext2D();
@@ -91,22 +78,22 @@ public class ResizableCanvas extends Canvas {
 
                     //
                     gc.setFill(Color.BLACK);
-                    gc.fillRect(x, y, getRule("BLOCK_SIZE"), getRule("BLOCK_SIZE"));
+                    gc.fillRect(x, y, gm.get("BLOCK_SIZE"), gm.get("BLOCK_SIZE"));
 
                     //
                     gc.setFill(Color.BLACK);
-                    gc.fillRect(Standartify(100, 'w'), Standartify(200, 'h'), getRule("BLOCK_SIZE"), getRule("BLOCK_SIZE"));
-                    gc.fillRect(Standartify(200, 'w'), Standartify(200, 'h'), getRule("BLOCK_SIZE"), getRule("BLOCK_SIZE"));
+                    gc.fillRect(Standartify(100, 'w'), Standartify(200, 'h'), gm.get("BLOCK_SIZE"), gm.get("BLOCK_SIZE"));
+                    gc.fillRect(Standartify(200, 'w'), Standartify(200, 'h'), gm.get("BLOCK_SIZE"), gm.get("BLOCK_SIZE"));
 
-                    getLevel("C:\\Users\\User\\Documents\\UP levels folder.zip");
+                    //getLevel("C:\\Users\\User\\Documents\\UP levels folder.zip");
 
                     //
                     if (MOVEMENTER == 1) {
-                        y = y - (getRule("SPEED") * t - getRule("GRAVITY") * t * t / 2) / getRule("MULTIPLIER");
+                        y = y - (gm.get("SPEED") * t - gm.get("GRAVITY") * t * t / 2) / gm.get("MULTIPLIER");
                         t += 0.3;
-                        if (y >= getRule("BASIC_STATE_Y")) {
+                        if (y >= gm.get("BASIC_STATE_Y")) {
                             t = 1;
-                            y = getRule("BASIC_STATE_Y");
+                            y = gm.get("BASIC_STATE_Y");
                             if (AntiJumper) {
                                 MOVEMENTER = 0;
                                 AntiJumper = false;
@@ -116,17 +103,17 @@ public class ResizableCanvas extends Canvas {
                     //
                     switch (MOVEMENTER2) {
                         case 1:
-                            x += getRule("MOVEMENT");
+                            x += gm.get("MOVEMENT");
                             //if (x >= (sSize.width/3*2+AT)) {
-                            gc.translate(-getRule("MOVEMENT"), 0);
-                            AT -= getRule("MOVEMENT");
+                            gc.translate(-gm.get("MOVEMENT"), 0);
+                            AT -= gm.get("MOVEMENT");
                             //}
 
                             break;
                         case 2:
-                            x -= getRule("MOVEMENT");
-                            gc.translate(+getRule("MOVEMENT"), 0);
-                            AT += getRule("MOVEMENT");
+                            x -= gm.get("MOVEMENT");
+                            gc.translate(+gm.get("MOVEMENT"), 0);
+                            AT += gm.get("MOVEMENT");
                             break;
                     }
                 }
