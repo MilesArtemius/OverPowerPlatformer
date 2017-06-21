@@ -65,7 +65,7 @@ public class Depacker {
         try {
             JsonParser JP = new JsonParser();
 
-            JsonElement config = JP.parse(new FileReader(pathname + "games\\test.upson"));
+            JsonElement config = JP.parse(new FileReader(app.getResource("/preinstallations/test.upson").getFile())); //pathname + "games\\test.upson"
             jo = config.getAsJsonObject();
 
         } catch (FileNotFoundException e) {

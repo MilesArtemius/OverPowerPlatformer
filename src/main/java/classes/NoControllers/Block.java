@@ -10,7 +10,7 @@ import java.util.UUID;
  * Created by User on 15.06.2017.
  */
 public class Block {
-    String name;
+    public String name;
     public Image texture;
 
     public Block(String name) {

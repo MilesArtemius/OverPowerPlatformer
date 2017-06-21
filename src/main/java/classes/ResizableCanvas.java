@@ -1,13 +1,11 @@
 package classes;
 
-import classes.NoControllers.Block;
-import classes.NoControllers.OuterFunctions;
+import classes.NoControllers.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import classes.NoControllers.GameRulez;
 
 import java.io.FileInputStream;
 import java.util.HashMap;
@@ -25,12 +23,16 @@ public class ResizableCanvas extends Canvas {
     double x = 0;
     double y = 0;
     double t = 1;
-    static int AT = 0;
+    static double AT = 0;
     static AnimationTimer at;
     private static GraphicsContext gc;
     static boolean AntiJumper = false;
     static int MOVEMENTER = 0;
     static int MOVEMENTER2 = 0;
+    Level level;
+
+    static double ScreenWidth;
+    static double ScreenHeight;
 
     public double Standartify(int parameter, char definitor) {
         if (definitor == 'w') {
@@ -52,19 +54,15 @@ public class ResizableCanvas extends Canvas {
 
             x = gm.get("BASIC_STATE_X");
             y = gm.get("BASIC_STATE_Y");
+
+            ScreenHeight = getHeight();
+            ScreenWidth = getWidth();
         }
 
-        GraphicsContext gc = getGraphicsContext2D();
+        level = Depacker.getStartedLevel(getClass());
+
+        gc = getGraphicsContext2D();
         gc.clearRect(0, 0, getWidth(), getHeight());
-
-        // Секция объявления фона: на канвах рисуется прямоугольник определённого фона.
-        gc.setFill(Color.WHEAT);
-        gc.fillRect(0, 0, getWidth(), getHeight());
-
-        //gc.translate(AT, 0);
-
-        //System.out.println("TRANSLATED " + AT);
-        //System.out.println();
 
         if (at == null) {
             at = new AnimationTimer() {
@@ -73,16 +71,22 @@ public class ResizableCanvas extends Canvas {
 
                     System.out.println(AT);
                     System.out.println(x);
+                    System.out.println(getWidth());
                     System.out.println();
 
                     // Секция объявления фона: на канвах рисуется прямоугольник определённого фона.
                     gc.setFill(Color.WHEAT);
-                    gc.fillRect(-AT, 0, getWidth() - AT, getHeight());
+                    gc.fillRect(-AT, 0, ScreenWidth - AT, ScreenHeight);
 
                     //
                     gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("sample").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), x, y); //0 - bad, 1 - good;
 
                     //
+                    for (String string: gr.getBlockz().keySet()) {
+                        //gc.drawImage(OuterFunctions.scale(gr.getBlockz().get(gr.getBlockz().get(string).name).texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), (gr.getBlockz().get(string));
+                    }
+
+                    gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(1000, 'w'), Standartify(200, 'h'));
                     gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(100, 'w'), Standartify(200, 'h'));
                     gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(200, 'w'), Standartify(200, 'h'));
 
