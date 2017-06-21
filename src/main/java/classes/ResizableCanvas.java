@@ -1,8 +1,11 @@
 package classes;
 
+import classes.NoControllers.Block;
+import classes.NoControllers.OuterFunctions;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import classes.NoControllers.GameRulez;
 
@@ -17,7 +20,7 @@ import java.util.zip.ZipInputStream;
  */
 public class ResizableCanvas extends Canvas {
 
-    GameRulez gr = GameRulez.get();
+    GameRulez gr = GameRulez.get(true);
     HashMap<String, Double> gm;
     double x = 0;
     double y = 0;
@@ -47,8 +50,8 @@ public class ResizableCanvas extends Canvas {
             gm = gr.getRulez(getWidth(), getHeight());
             System.out.println(gm.toString());
 
-            x = gm.get("BASIC_STATE_X");//gm.getRule("BASIC_STATE_X")
-            y = gm.get("BASIC_STATE_Y");//gm.getRule("BASIC_STATE_Y")
+            x = gm.get("BASIC_STATE_X");
+            y = gm.get("BASIC_STATE_Y");
         }
 
         GraphicsContext gc = getGraphicsContext2D();
@@ -77,15 +80,11 @@ public class ResizableCanvas extends Canvas {
                     gc.fillRect(-AT, 0, getWidth() - AT, getHeight());
 
                     //
-                    gc.setFill(Color.BLACK);
-                    gc.fillRect(x, y, gm.get("BLOCK_SIZE"), gm.get("BLOCK_SIZE"));
+                    gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("sample").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), x, y); //0 - bad, 1 - good;
 
                     //
-                    gc.setFill(Color.BLACK);
-                    gc.fillRect(Standartify(100, 'w'), Standartify(200, 'h'), gm.get("BLOCK_SIZE"), gm.get("BLOCK_SIZE"));
-                    gc.fillRect(Standartify(200, 'w'), Standartify(200, 'h'), gm.get("BLOCK_SIZE"), gm.get("BLOCK_SIZE"));
-
-                    //getLevel("C:\\Users\\User\\Documents\\UP levels folder.zip");
+                    gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(100, 'w'), Standartify(200, 'h'));
+                    gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(200, 'w'), Standartify(200, 'h'));
 
                     //
                     if (MOVEMENTER == 1) {
@@ -132,6 +131,10 @@ public class ResizableCanvas extends Canvas {
 
     public void move(int moves) {
         MOVEMENTER2 = moves;
+        at.start();
+    }
+
+    public void start() {
         at.start();
     }
 

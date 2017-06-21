@@ -1,12 +1,10 @@
 package classes.NoControllers;
 
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import javax.naming.Context;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +20,7 @@ public class Depacker {
         System.out.println(path);
 
         try {
-            FileInputStream serviceAccount = new FileInputStream(pathname + "firebase_loc\\ultimateplatformer-firebase-adminsdk-0aory-7936ac32f2.json");
+            FileInputStream serviceAccount = new FileInputStream(app.getResource("/preinstallations/connector.json").getFile());
             //FirebaseOptions options = new FirebaseOptions.Builder()
             //.setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
             //.setDatabaseUrl("https://ultimateplatformer.firebaseio.com/")
@@ -31,33 +29,51 @@ public class Depacker {
             //FirebaseApp.initializeApp(options);
             //FirebaseDatabase.getInstance().getReference().child("sample").setValue("sample text");
         } catch (FileNotFoundException e) {
-            System.out.println("folder malformed");
+            System.out.println("game .jar damaged");
             e.printStackTrace();
         }
     }
 
-    public static HashMap<String, Double> getStartedConfiguration(Class app) {
+    public static HashMap<String, JsonElement> getStartedConfiguration(Class app, String path) {
 
-        HashMap<String, Double> hm = new HashMap<>();
+        HashMap<String, JsonElement> hm = new HashMap<>();
 
         try {
-            //FileInputStream serviceAccount = new FileInputStream(pathname + "config.json");
-
             JsonParser JP = new JsonParser();
 
-            JsonElement config = JP.parse(new FileReader(pathname + "config.json"));
+            JsonElement config = JP.parse(new FileReader(app.getResource("/preinstallations" + path).getFile()));
             JsonObject jo = config.getAsJsonObject();
             for (Map.Entry<String, JsonElement> entry: jo.entrySet()) {
-                hm.put(entry.getKey(), entry.getValue().getAsDouble());
+                hm.put(entry.getKey(), entry.getValue());
             }
-            System.out.println(hm.toString());
+
+        } catch (FileNotFoundException e) {
+            System.out.println("game .jar damaged");
+            e.printStackTrace();
+        }
+
+        return hm;
+
+        //File file = new File(pathname);
+        //file.mkdir();
+    }
+
+    public static Level getStartedLevel(Class app) {
+
+        JsonObject jo = new JsonObject();
+
+        try {
+            JsonParser JP = new JsonParser();
+
+            JsonElement config = JP.parse(new FileReader(pathname + "games\\test.upson"));
+            jo = config.getAsJsonObject();
 
         } catch (FileNotFoundException e) {
             System.out.println("folder malformed");
             e.printStackTrace();
         }
 
-        return hm;
+        return new Level(jo.get("name").getAsString(), jo.get("height").getAsInt(), jo.get("width").getAsInt(), jo.get("level_pack").getAsJsonObject());
 
         //File file = new File(pathname);
         //file.mkdir();

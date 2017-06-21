@@ -18,9 +18,6 @@ public class Conrtoller {
         ReadOnlyDoubleProperty heightProperty = pane.heightProperty();
         resizableCanvas.widthProperty().bind(widthProperty);
         resizableCanvas.heightProperty().bind(heightProperty);
-
-        resizableCanvas.move(1);
-        resizableCanvas.move(0);
     }
 }
 

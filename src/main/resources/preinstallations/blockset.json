@@ -1,0 +1,10 @@
+{
+  "sample": {
+    "texture": "ErEsursE",
+    "name": "sample"
+  },
+  "floor": {
+    "texture": "floor",
+    "name": "floor"
+  }
+}

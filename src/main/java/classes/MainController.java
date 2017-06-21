@@ -1,5 +1,7 @@
 package classes;
 
+import classes.NoControllers.Depacker;
+import classes.NoControllers.Level;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,6 +17,7 @@ import java.io.IOException;
 public class MainController {
 
     ResizableCanvas gc = new ResizableCanvas();
+    Level level;
 
     private void setScene() {
         try {
@@ -26,6 +29,10 @@ public class MainController {
 
             pane.setPrefSize(stage.getWidth(), stage.getHeight());
             Scene scene = new Scene(pane);
+
+            //gc.getLevel("hfng");
+
+            gc.start();
 
             scene.addEventHandler(KeyEvent.ANY, keyEvent -> {
                 if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
@@ -66,8 +73,6 @@ public class MainController {
 
     @FXML
     public void initialize(){
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            setScene();
-    });
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> setScene());
 }
 }

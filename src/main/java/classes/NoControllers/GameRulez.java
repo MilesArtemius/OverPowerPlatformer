@@ -1,6 +1,11 @@
 package classes.NoControllers;
 
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,39 +19,26 @@ public class GameRulez {
     static double width = 0;
     static double height = 0;
 
-    private static HashMap<String, Double> fromFile;
-    private static HashMap<String, Double> RuleSet;
+    private static HashMap<String, JsonElement> RulezfromFile;
+    private static HashMap<String, Double> RuleSet = new HashMap<>();
+    private static HashMap<String, JsonElement> BlockzfromFile;
+    private static HashMap<String, Block> BlockSet = new HashMap<>();
 
     public HashMap<String, Double> getRulez(double w, double h) {
         if ((w != width) || (h != height)) {
             System.out.println("-=-=-=-=REDRAWED=-=-=-=-");
             width = w;
             height = h;
-            for (String name : fromFile.keySet()) { // убрать с применением единой системы отсчёта.
-                switch (name) {
-                    case "BASIC_STATE_X":
-                        RuleSet.put(name, width / fromFile.get(name));
+            for (String name : RulezfromFile.keySet()) {
+                switch (name.charAt(0)) {
+                    case '0':
+                        RuleSet.put(name.substring(2), width / RulezfromFile.get(name).getAsDouble());
                         break;
-                    case "BASIC_STATE_Y":
-                        RuleSet.put(name, height / fromFile.get(name));
+                    case '1':
+                        RuleSet.put(name.substring(2), height / RulezfromFile.get(name).getAsDouble());
                         break;
-                    case "SPEED":
-                        RuleSet.put(name, fromFile.get(name));
-                        break;
-                    case "GRAVITY":
-                        RuleSet.put(name, fromFile.get(name));
-                        break;
-                    case "DELAY":
-                        RuleSet.put(name, fromFile.get(name));
-                        break;
-                    case "BLOCK_SIZE":
-                        RuleSet.put(name, width / fromFile.get(name));
-                        break;
-                    case "MULTIPLIER":
-                        RuleSet.put(name, fromFile.get(name));
-                        break;
-                    case "MOVEMENT":
-                        RuleSet.put(name, width / fromFile.get(name));
+                    case '2':
+                        RuleSet.put(name.substring(2), (Double) RulezfromFile.get(name).getAsDouble());
                         break;
                 }
             }
@@ -54,14 +46,24 @@ public class GameRulez {
         return RuleSet;
     }
 
-    public static GameRulez get() {
-        return GRulez = new GameRulez();
+    public HashMap<String, Block> getBlockz() {
+        for (String name : BlockzfromFile.keySet()) {
+            BlockSet.put(name, new Block(BlockzfromFile.get(name).getAsJsonObject()));
+        }
+        return BlockSet;
     }
 
-    private  GameRulez() {
-        fromFile = Depacker.getStartedConfiguration(getClass());
-        RuleSet = new HashMap<>();
-        System.out.println(fromFile.toString());
+    public static GameRulez get(boolean inout) {
+        return GRulez = new GameRulez(inout);
+    }
+
+    private GameRulez(boolean inout) {
+        if (inout) {
+            RulezfromFile = Depacker.getStartedConfiguration(getClass(), "/config.json");
+            BlockzfromFile = Depacker.getStartedConfiguration(getClass(), "/blockset.json");
+        } else {
+            //TODO: reading from an external resource;
+        }
     }
 
 
