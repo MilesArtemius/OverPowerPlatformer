@@ -14,7 +14,9 @@ public class Block {
     public Image texture;
 
     public Block(String name) {
-
+        GameRulez gr = GameRulez.get(true);
+        this.name = gr.getBlockz().get(name).name;
+        this.texture = gr.getBlockz().get(name).texture;
     }
 
     public Block(JsonObject block) {

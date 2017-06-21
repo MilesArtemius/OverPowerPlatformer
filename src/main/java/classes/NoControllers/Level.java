@@ -9,10 +9,10 @@ import java.util.Map;
  * Created by User on 15.06.2017.
  */
 public class Level {
-    String name;
+    public String name;
     int Height;
     int Width;
-    Block [][] level;
+    public Block [][] level;
 
     public Level(String name, int height, int width, JsonObject level_pack) {
         this.name = name;

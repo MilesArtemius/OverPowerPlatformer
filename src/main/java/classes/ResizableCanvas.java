@@ -30,6 +30,7 @@ public class ResizableCanvas extends Canvas {
     static int MOVEMENTER = 0;
     static int MOVEMENTER2 = 0;
     Level level;
+    static Double param;
 
     static double ScreenWidth;
     static double ScreenHeight;
@@ -49,7 +50,8 @@ public class ResizableCanvas extends Canvas {
 
     private void redraw() {
         if ((getWidth() > 0) && (getHeight() > 0)) {
-            gm = gr.getRulez(getWidth(), getHeight());
+            param = ((getHeight() > getWidth())?(getWidth()):(getHeight()));
+            gm = gr.getRulez(param, param);
             System.out.println(gm.toString());
 
             x = gm.get("BASIC_STATE_X");
@@ -63,6 +65,8 @@ public class ResizableCanvas extends Canvas {
 
         gc = getGraphicsContext2D();
         gc.clearRect(0, 0, getWidth(), getHeight());
+        gc.setFill(Color.WHEAT);
+        gc.fillRect(0, 0, ScreenWidth, ScreenHeight);
 
         if (at == null) {
             at = new AnimationTimer() {
@@ -70,25 +74,30 @@ public class ResizableCanvas extends Canvas {
                 public void handle(long now) {
 
                     System.out.println(AT);
-                    System.out.println(x);
-                    System.out.println(getWidth());
+                    System.out.println(x - AT);
                     System.out.println();
 
                     // Секция объявления фона: на канвах рисуется прямоугольник определённого фона.
                     gc.setFill(Color.WHEAT);
-                    gc.fillRect(-AT, 0, ScreenWidth - AT, ScreenHeight);
+                    gc.fillRect(AT, 0, getWidth() + AT, getHeight());
 
                     //
                     gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("sample").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), x, y); //0 - bad, 1 - good;
 
                     //
-                    for (String string: gr.getBlockz().keySet()) {
-                        //gc.drawImage(OuterFunctions.scale(gr.getBlockz().get(gr.getBlockz().get(string).name).texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), (gr.getBlockz().get(string));
+                    for (int i = 0; i < level.level.length; i++) {
+                        for (int j = 0; j < level.level[i].length; j++) {
+                            try {
+                                gc.drawImage(OuterFunctions.scale(level.level[i][j].texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), gm.get("BLOCK_SIZE") * i,gm.get("BLOCK_SIZE") * j);
+                            } catch(NullPointerException npe) {
+                                npe.getMessage();
+                            }
+                        }
                     }
 
-                    gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(1000, 'w'), Standartify(200, 'h'));
-                    gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(100, 'w'), Standartify(200, 'h'));
-                    gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(200, 'w'), Standartify(200, 'h'));
+                    //gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(1000, 'w'), Standartify(200, 'h'));
+                    //gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(299, 'w'), Standartify(200, 'h'));
+                    //gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(200, 'w'), Standartify(200, 'h'));
 
                     //
                     if (MOVEMENTER == 1) {
@@ -109,14 +118,14 @@ public class ResizableCanvas extends Canvas {
                             x += gm.get("MOVEMENT");
                             //if (x >= (sSize.width/3*2+AT)) {
                             gc.translate(-gm.get("MOVEMENT"), 0);
-                            AT -= gm.get("MOVEMENT");
+                            AT += gm.get("MOVEMENT");
                             //}
 
                             break;
                         case 2:
                             x -= gm.get("MOVEMENT");
                             gc.translate(+gm.get("MOVEMENT"), 0);
-                            AT += gm.get("MOVEMENT");
+                            AT -= gm.get("MOVEMENT");
                             break;
                     }
                 }
