@@ -10,8 +10,8 @@ import java.util.Map;
  */
 public class Level {
     public String name;
-    int Height;
-    int Width;
+    public int Height;
+    public int Width;
     public Block [][] level;
 
     public Level(String name, int height, int width, JsonObject level_pack) {

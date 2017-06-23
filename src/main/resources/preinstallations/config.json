@@ -1,11 +1,11 @@
 {
   "0_BASIC_STATE_X": "2",
   "1_BASIC_STATE_Y": "3",
-  "2_SPEED": "1000",
+  "2_SPEED": "80",
   "2_IMG_QUALITY": "0.0",
   "2_GRAVITY": "50",
   "2_DELAY": "15",
-  "0_BLOCK_SIZE": "64",
+  "2_BLOCK_SIZE": "32",
   "2_MULTIPLIER": "2",
   "0_MOVEMENT": "275"
 }

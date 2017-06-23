@@ -24,9 +24,9 @@ public class GameRulez {
     private static HashMap<String, JsonElement> BlockzfromFile;
     private static HashMap<String, Block> BlockSet = new HashMap<>();
 
-    public HashMap<String, Double> getRulez(double w, double h) {
+    public HashMap<String, Double> getRulez(double w, double h, double param) {
         if ((w != width) || (h != height)) {
-            System.out.println("-=-=-=-=REDRAWED=-=-=-=-");
+            System.out.println("-=-=-=-= REDRAWED =-=-=-=-");
             width = w;
             height = h;
             for (String name : RulezfromFile.keySet()) {
@@ -38,6 +38,9 @@ public class GameRulez {
                         RuleSet.put(name.substring(2), height / RulezfromFile.get(name).getAsDouble());
                         break;
                     case '2':
+                        RuleSet.put(name.substring(2), param / RulezfromFile.get(name).getAsDouble());
+                        break;
+                    case '3':
                         RuleSet.put(name.substring(2), (Double) RulezfromFile.get(name).getAsDouble());
                         break;
                 }
