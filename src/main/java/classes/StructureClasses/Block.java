@@ -1,10 +1,7 @@
-package classes.NoControllers;
+package classes.StructureClasses;
 
 import com.google.gson.JsonObject;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
-import java.util.UUID;
 
 /**
  * Created by User on 15.06.2017.

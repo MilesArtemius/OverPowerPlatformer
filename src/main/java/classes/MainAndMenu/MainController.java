@@ -1,17 +1,15 @@
-package classes;
+package classes.MainAndMenu;
 
-import classes.NoControllers.Depacker;
-import classes.NoControllers.Level;
+import classes.ResizableCanvas;
+import classes.StructureClasses.Level;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 
 public class MainController {
@@ -19,22 +17,27 @@ public class MainController {
     ResizableCanvas gc = new ResizableCanvas();
     Level level;
 
+    @FXML
+    private AnchorPane anchorPane;
+
+    @FXML
+    private Button button;
+
     private void setScene() {
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/layouts/game_layout.fxml"));
-            StackPane pane = (StackPane) loader.load();
+            Parent root = FXMLLoader.load(getClass().getResource("/layouts/game_layout.fxml"));
 
-            Stage stage = Main.getPrimaryStage();
+            Stage stage = (Stage) anchorPane.getScene().getWindow();
 
-            pane.setPrefSize(stage.getWidth(), stage.getHeight());
-            Scene scene = new Scene(pane);
+            System.out.println(stage);
 
-            //gc.getLevel("hfng");
+            Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 
-            gc.start();
+            stage.setScene(scene);
 
-            scene.addEventHandler(KeyEvent.ANY, keyEvent -> {
+            //gc.start();
+
+            /*scene.addEventHandler(KeyEvent.ANY, keyEvent -> {
                 if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
                     switch (keyEvent.getCode()) {
                         case UP:
@@ -58,21 +61,17 @@ public class MainController {
                             break;
                     }
                 }
-            });
+            });*/
 
-            stage.setScene(scene);
             //stage.setFullScreen(true);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private Button button;
-
-    @FXML
     public void initialize(){
         button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> setScene());
-}
+    }
 }

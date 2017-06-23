@@ -1,5 +1,6 @@
-package classes.NoControllers;
+package classes.StructureClasses;
 
+import classes.StructureClasses.Block;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -12,7 +13,7 @@ public class Level {
     public String name;
     public int Height;
     public int Width;
-    public Block [][] level;
+    public Block[][] level;
 
     public Level(String name, int height, int width, JsonObject level_pack) {
         this.name = name;

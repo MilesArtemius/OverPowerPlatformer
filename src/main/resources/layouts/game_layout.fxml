@@ -3,8 +3,24 @@
 <?import javafx.scene.layout.StackPane?>
 <?import classes.ResizableCanvas?>
 
-<StackPane fx:id="pane" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="classes.Conrtoller">
+<?import javafx.scene.control.Button?>
+<StackPane fx:id="stackPane"
+           minHeight="-Infinity"
+           minWidth="-Infinity"
+           style="-fx-background-color: white;"
+           xmlns:fx="http://javafx.com/fxml/1"
+           xmlns="http://javafx.com/javafx/2.2"
+           fx:controller="classes.ResizableCanvasStuff.Controller">
+
     <children>
         <ResizableCanvas fx:id="resizableCanvas" />
+
+        <Button fx:id="button"
+                layoutX="39.0"
+                layoutY="53.0"
+                mnemonicParsing="false"
+                prefHeight="43.5"
+                prefWidth="159.0"
+                text="Start Game"/>
     </children>
 </StackPane>
