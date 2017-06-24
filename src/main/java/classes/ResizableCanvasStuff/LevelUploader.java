@@ -33,7 +33,7 @@ public class LevelUploader {
     Canvas structure; // level canvas.
     double currentTranslationX = 0; // AT / ScreenWidth.
     double currentTranslationY; // AT / ScreenHeight.
-    int multiplier = 0; // number of currenttranslations from 0,0.
+    static int multiplier = 0; // number of currenttranslations from 0,0.
     ResizableCanvas source;
     GraphicsContext gc;
 
@@ -150,14 +150,35 @@ public class LevelUploader {
         System.out.println((ATX >= (currentTranslationX + screenwidth)));
         if (ATX >= (currentTranslationX + screenwidth)) {
             System.out.println("redrawed");
-            if (ATX != 0) {
-                multiplier++;
-            }
+
             SnapshotParameters params = new SnapshotParameters();
             params.setFill(Color.AQUA);
-            for (int i = 0; i < 9; i++) {
-                params.setViewport(new Rectangle2D(screenwidth * ((i % 3) + multiplier - 1), 0, screenwidth, screenheight));
-                wim[i] = structure.snapshot(params, null);
+
+            if (ATX != 0) {
+                multiplier++;
+
+
+                {
+                    wim[0] = wim[1];
+                    wim[1] = wim[2];
+                    params.setViewport(new Rectangle2D(screenwidth * (1 + multiplier), 0, screenwidth, screenheight));
+                    wim[2] = structure.snapshot(params, null);
+
+                    wim[3] = wim[4];
+                    wim[4] = wim[5];
+                    params.setViewport(new Rectangle2D(screenwidth * (1 + multiplier), 0, screenwidth, screenheight));
+                    wim[5] = structure.snapshot(params, null);
+
+                    wim[6] = wim[7];
+                    wim[7] = wim[8];
+                    params.setViewport(new Rectangle2D(screenwidth * (1 + multiplier), 0, screenwidth, screenheight));
+                    wim[8] = structure.snapshot(params, null);
+                }
+            } else {
+                for (int i = 0; i < 9; i++) {
+                    params.setViewport(new Rectangle2D(screenwidth * ((i % 3) + multiplier - 1), 0, screenwidth, screenheight));
+                    wim[i] = structure.snapshot(params, null);
+                }
             }
             currentTranslationX += screenwidth;
         } else {

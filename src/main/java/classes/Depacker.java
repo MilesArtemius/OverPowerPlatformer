@@ -2,11 +2,19 @@ package classes;
 
 
 import classes.StructureClasses.Level;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseCredentials;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,15 +29,17 @@ public class Depacker {
         System.out.println(path);
 
         try {
-            FileInputStream serviceAccount = new FileInputStream(app.getResource("/preinstallations/connector.json").getFile());
-            //FirebaseOptions options = new FirebaseOptions.Builder()
-            //.setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
-            //.setDatabaseUrl("https://ultimateplatformer.firebaseio.com/")
-            //.build();
+            Path temo = Files.createTempFile("resource", ".json");
+            Files.copy(app.getResourceAsStream("/preinstallations/connector.json"), temo, StandardCopyOption.REPLACE_EXISTING);
+            FileInputStream serviceAccount = new FileInputStream(temo.toFile());
+            FirebaseOptions options = new FirebaseOptions.Builder()
+            .setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
+            .setDatabaseUrl("https://ultimateplatformer.firebaseio.com/")
+            .build();
 
-            //FirebaseApp.initializeApp(options);
-            //FirebaseDatabase.getInstance().getReference().child("sample").setValue("sample text");
-        } catch (FileNotFoundException e) {
+            FirebaseApp.initializeApp(options);
+            FirebaseDatabase.getInstance().getReference().child("sample").setValue("epic fail");
+        } catch (Exception e) {
             System.out.println("game .jar damaged");
             e.printStackTrace();
         }
@@ -42,13 +52,13 @@ public class Depacker {
         try {
             JsonParser JP = new JsonParser();
 
-            JsonElement config = JP.parse(new FileReader(app.getResource("/preinstallations" + path).getFile()));
+            JsonElement config = JP.parse(new JsonReader(new InputStreamReader(app.getResourceAsStream("/preinstallations" + path))));
             JsonObject jo = config.getAsJsonObject();
             for (Map.Entry<String, JsonElement> entry: jo.entrySet()) {
                 hm.put(entry.getKey(), entry.getValue());
             }
 
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             System.out.println("game .jar damaged");
             e.printStackTrace();
         }
@@ -66,10 +76,10 @@ public class Depacker {
         try {
             JsonParser JP = new JsonParser();
 
-            JsonElement config = JP.parse(new FileReader(app.getResource("/preinstallations/test.upson").getFile())); //pathname + "games\\test.upson"
+            JsonElement config = JP.parse(new JsonReader(new InputStreamReader(app.getResourceAsStream("/preinstallations/test.upson")))); //pathname + "games\\test.upson"
             jo = config.getAsJsonObject();
 
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             System.out.println("folder malformed");
             e.printStackTrace();
         }
