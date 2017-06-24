@@ -1,6 +1,6 @@
 {
   "name": "3",
-  "height": "96",
+  "height": "150",
   "width": "192",
   "level_pack": {
     "12x12": "sample",
@@ -15,6 +15,8 @@
     "3x3": "sample",
     "2x2": "sample",
     "1x1": "sample",
-    "70x12": "sample"
+    "70x12": "sample",
+    "140x12": "sample",
+    "141x12": "sample"
   }
 }

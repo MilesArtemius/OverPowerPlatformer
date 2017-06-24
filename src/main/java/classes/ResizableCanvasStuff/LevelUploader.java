@@ -33,9 +33,13 @@ public class LevelUploader {
     Canvas structure; // level canvas.
     double currentTranslationX = 0; // AT / ScreenWidth.
     double currentTranslationY; // AT / ScreenHeight.
-    static int multiplier = 0; // number of currenttranslations from 0,0.
+    static int multiplierX = 0; // number of currentXtranslations from 0,0.
+    static int multiplierY = 0; // number of currentYtranslations from 0,0.
+    boolean forceRedraw;
     ResizableCanvas source;
     GraphicsContext gc;
+    double CurrentSourceW = 1;
+    double CurrentSourceH = 1;
 
     public LevelUploader(ResizableCanvas resizableCanvas) {
         this.source = resizableCanvas;
@@ -44,16 +48,19 @@ public class LevelUploader {
 
     public void redrawCanvas() {
         if ((source.getWidth() > 0) && (source.getHeight() > 0)) {
+
             GraphicsContext gc = source.getGraphicsContext2D();
 
             param = ((source.getHeight() > source.getWidth()) ? (source.getWidth()) : (source.getHeight()));
             gm = gr.getRulez(source.getWidth(), source.getHeight(), param);
             System.out.println(gm.toString());
 
-            x = gm.get("BASIC_STATE_X");
-            y = gm.get("BASIC_STATE_Y");
+            if (AT == 0) {
+                x = gm.get("BASIC_STATE_X");
+                y = gm.get("BASIC_STATE_Y");
 
-            level = Depacker.getStartedLevel(getClass());
+                level = Depacker.getStartedLevel(getClass());
+            }
 
             gc.clearRect(0, 0, source.getWidth(), source.getHeight());
             gc.setFill(Color.WHEAT);
@@ -75,15 +82,17 @@ public class LevelUploader {
                 }
             }
 
-            //str_gc.translate(3*getWidth(), 0);
+            currentTranslationX = (currentTranslationX / CurrentSourceW) * source.getWidth();
 
+            forceRedraw = true;
 
-            //System.out.println(wim[0].getWidth() / getWidth() + "\n" + wim[0].getHeight() / getHeight());
-            currentTranslationX = -source.getWidth();
-            //gc.drawImage(wim [0], 0, 0);
+            /*for (int i = 0; i < 9; i++) {
+                wim[i] = new WritableImage(1,1);
+            }*/
+
+            CurrentSourceH = source.getHeight();
+            CurrentSourceW = source.getWidth();
         }
-
-
 
 
         if (at == null) {
@@ -91,30 +100,28 @@ public class LevelUploader {
                 @Override
                 public void handle(long now) {
 
+                    //System.out.println(x);
+                    //System.out.println(y);
                     System.out.println();
-                    System.out.println(AT);
-                    System.out.println(source.getWidth());
 
 
-                    // Секция объявления фона: на канвах рисуется прямоугольник определённого фона.
                     gc.setFill(Color.WHEAT);
                     gc.fillRect(AT, 0, source.getWidth() + AT, source.getHeight());
 
                     ScreenDrawer(gc, source.getWidth(), source.getHeight(), AT, 0);
+
+                    forceRedraw = false;
 
                     //
                     gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("sample").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), x, y); //0 - bad, 1 - good;
 
                     //
 
-                    //gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(1000, 'w'), Standartify(200, 'h'));
-                    //gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(299, 'w'), Standartify(200, 'h'));
-                    //gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("floor").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), Standartify(200, 'w'), Standartify(200, 'h'));
-
                     //
                     if (MOVEMENTER == 1) {
                         y = y - (gm.get("SPEED") * t - gm.get("GRAVITY") * t * t / 2) / gm.get("MULTIPLIER");
                         t += 0.3;
+                        System.out.println("Y COORDINATE IS " + y);
                         if (y >= gm.get("BASIC_STATE_Y")) {
                             t = 1;
                             y = gm.get("BASIC_STATE_Y");
@@ -145,61 +152,50 @@ public class LevelUploader {
     }
 
     public void ScreenDrawer(GraphicsContext gc, double screenwidth, double screenheight, double ATX, double ATY) {
+        System.out.println(ATX);
         System.out.println(currentTranslationX);
-        System.out.println(currentTranslationX + screenwidth);
+        System.out.println(screenwidth);
         System.out.println((ATX >= (currentTranslationX + screenwidth)));
-        if (ATX >= (currentTranslationX + screenwidth)) {
+        if ((ATX < currentTranslationX) || (ATX > (currentTranslationX + screenwidth)) || (forceRedraw)) {
             System.out.println("redrawed");
+            System.out.println("is force: " + forceRedraw);
 
             SnapshotParameters params = new SnapshotParameters();
             params.setFill(Color.AQUA);
 
-            if (ATX != 0) {
-                multiplier++;
+            if ((ATX != 0) && (!forceRedraw)) {
 
+                multiplierX += Math.signum(ATX - (currentTranslationX + screenwidth));
+                System.out.println("multiplierX changed " + multiplierX);
 
-                { //TODO: optimize;
-                    wim[0] = wim[1];
-                    wim[1] = wim[2];
-                    params.setViewport(new Rectangle2D(screenwidth * (1 + multiplier), 0, screenwidth, screenheight));
-                    wim[2] = structure.snapshot(params, null);
-
-                    wim[3] = wim[4];
-                    wim[4] = wim[5];
-                    params.setViewport(new Rectangle2D(screenwidth * (1 + multiplier), 0, screenwidth, screenheight));
-                    wim[5] = structure.snapshot(params, null);
-
-                    wim[6] = wim[7];
-                    wim[7] = wim[8];
-                    params.setViewport(new Rectangle2D(screenwidth * (1 + multiplier), 0, screenwidth, screenheight));
-                    wim[8] = structure.snapshot(params, null);
+                for (int i = 2; i < 9; i += 3) {
+                    wim[i-(1+((int) Math.signum(ATX - (currentTranslationX + screenwidth))))] = wim[i-1];
+                    wim[i-1] = wim[i-(1-((int) Math.signum(ATX - (currentTranslationX + screenwidth))))];
+                    if (i == 5) {
+                        gc.drawImage(wim[4], 0 + (screenwidth * multiplierX), 0);
+                    }
+                    params.setViewport(new Rectangle2D(screenwidth * (multiplierX + Math.signum(ATX - (currentTranslationX + screenwidth))), 0, screenwidth, screenheight));
+                    wim[i-(1-((int) Math.signum(ATX - (currentTranslationX + screenwidth))))] = structure.snapshot(params, null);
                 }
+
+                currentTranslationX += screenwidth * Math.signum(ATX - (currentTranslationX + screenwidth));
+
             } else {
                 for (int i = 0; i < 9; i++) {
-                    params.setViewport(new Rectangle2D(screenwidth * ((i % 3) + multiplier - 1), 0, screenwidth, screenheight));
+                    params.setViewport(new Rectangle2D(screenwidth * ((i % 3) + multiplierX - 1), 0, screenwidth, screenheight));
                     wim[i] = structure.snapshot(params, null);
                 }
             }
-            currentTranslationX += screenwidth;
         } else {
-            /*gc.drawImage(OuterFunctions.scale(wim[4], 100, 100, true), 0, 0);
-            gc.drawImage(OuterFunctions.scale(wim[0], 100, 100, true), 100, 0);
-            gc.drawImage(OuterFunctions.scale(wim[1], 100, 100, true), 200, 0);
-            gc.drawImage(OuterFunctions.scale(wim[2], 100, 100, true), 300, 0);
-            gc.drawImage(OuterFunctions.scale(wim[3], 100, 100, true), 400, 0);
-            gc.drawImage(OuterFunctions.scale(wim[5], 100, 100, true), 500, 0);
-            gc.drawImage(OuterFunctions.scale(wim[6], 100, 100, true), 600, 0);
-            gc.drawImage(OuterFunctions.scale(wim[7], 100, 100, true), 700, 0);
-            gc.drawImage(OuterFunctions.scale(wim[8], 100, 100, true), 800, 0);*/
-            gc.drawImage(wim[4], 0 + (screenwidth * multiplier), 0);
-            gc.drawImage(wim[0], -screenwidth + (screenwidth * multiplier), -screenheight);
-            gc.drawImage(wim[1], 0 + (screenwidth * multiplier), -screenheight);
-            gc.drawImage(wim[2], +screenwidth + (screenwidth * multiplier), -screenheight);
-            gc.drawImage(wim[3], -screenwidth + (screenwidth * multiplier), 0);
-            gc.drawImage(wim[5], +screenwidth + (screenwidth * multiplier), 0);
-            gc.drawImage(wim[6], -screenwidth + (screenwidth * multiplier), +screenheight);
-            gc.drawImage(wim[7], 0 + (screenwidth * multiplier), +screenheight);
-            gc.drawImage(wim[8], +screenwidth + (screenwidth * multiplier), +screenheight);
+            gc.drawImage(wim[4], 0 + (screenwidth * multiplierX), 0);
+            gc.drawImage(wim[0], -screenwidth + (screenwidth * multiplierX), -screenheight);
+            gc.drawImage(wim[1], 0 + (screenwidth * multiplierX), -screenheight);
+            gc.drawImage(wim[2], +screenwidth + (screenwidth * multiplierX), -screenheight);
+            gc.drawImage(wim[3], -screenwidth + (screenwidth * multiplierX), 0);
+            gc.drawImage(wim[5], +screenwidth + (screenwidth * multiplierX), 0);
+            gc.drawImage(wim[6], -screenwidth + (screenwidth * multiplierX), +screenheight);
+            gc.drawImage(wim[7], 0 + (screenwidth * multiplierX), +screenheight);
+            gc.drawImage(wim[8], +screenwidth + (screenwidth * multiplierX), +screenheight);
         }
     }
 
