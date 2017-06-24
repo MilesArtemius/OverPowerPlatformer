@@ -158,7 +158,7 @@ public class LevelUploader {
                 multiplier++;
 
 
-                {
+                { //TODO: optimize;
                     wim[0] = wim[1];
                     wim[1] = wim[2];
                     params.setViewport(new Rectangle2D(screenwidth * (1 + multiplier), 0, screenwidth, screenheight));
