@@ -33,6 +33,9 @@ public class Controller {
                     case UP:
                         resizableCanvas.LUP.jump(1);
                         break;
+                    case DOWN:
+                        resizableCanvas.LUP.jump(2);
+                        break;
                     case RIGHT:
                         resizableCanvas.LUP.move(1);
                         break;
@@ -47,6 +50,7 @@ public class Controller {
                         resizableCanvas.LUP.move(0);
                         break;
                     case UP:
+                    case DOWN:
                         resizableCanvas.LUP.jump(0);
                         break;
                 }

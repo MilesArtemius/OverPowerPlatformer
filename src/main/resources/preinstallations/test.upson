@@ -17,6 +17,8 @@
     "1x1": "sample",
     "70x12": "sample",
     "140x12": "sample",
-    "141x12": "sample"
+    "141x12": "sample",
+    "12x140": "floor",
+    "141x40": "floor"
   }
 }
