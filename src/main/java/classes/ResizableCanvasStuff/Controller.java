@@ -31,10 +31,10 @@ public class Controller {
             if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
                 switch (keyEvent.getCode()) {
                     case UP:
-                        resizableCanvas.LUP.jump(1);
+                        resizableCanvas.LUP.jump(2);
                         break;
                     case DOWN:
-                        resizableCanvas.LUP.jump(2);
+                        resizableCanvas.LUP.jump(1);
                         break;
                     case RIGHT:
                         resizableCanvas.LUP.move(1);

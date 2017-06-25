@@ -6,5 +6,9 @@
   "floor": {
     "texture": "floor",
     "name": "floor"
+  },
+  "air": {
+    "texture": "null",
+    "name": "air"
   }
 }

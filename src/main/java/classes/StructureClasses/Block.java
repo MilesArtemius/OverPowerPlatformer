@@ -18,7 +18,11 @@ public class Block {
 
     public Block(JsonObject block) {
         this.name = block.get("name").getAsString();
-        this.texture = new Image(getClass().getResource("/textures/" +  block.get("texture").getAsString() + ".png").toString(), 122, 122, true, true);
+        if (block.get("texture").getAsString().equals("null")) {
+            this.texture = null;
+        } else {
+            this.texture = new Image(getClass().getResource("/textures/" + block.get("texture").getAsString() + ".png").toString(), 122, 122, true, true);
+        }
     }
 
     public Block() {

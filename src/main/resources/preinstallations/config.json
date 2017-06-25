@@ -1,12 +1,13 @@
 {
   "0_BASIC_STATE_X": "2",
   "1_BASIC_STATE_Y": "3",
-  "3_SPEED": "30",
+  "3_SPEED": "13",
   "3_IMG_QUALITY": "0.0",
   "3_GRAVITY": "10",
   "2_DELAY": "15",
   "2_BLOCK_SIZE": "32",
   "3_MULTIPLIER": "2",
   "0_MOVEMENT": "275",
-  "3_PLATFORMER": "1"
+  "3_PLATFORMER": "1",
+  "3_TEST_LEVEL": "1"
 }

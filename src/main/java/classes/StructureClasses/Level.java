@@ -20,6 +20,7 @@ public class Level {
         Height = height;
         Width = width;
         this.level = new Block [Height][Width];
+
         for (Map.Entry<String, JsonElement> coordinates: level_pack.entrySet()) {
             int x_coord = Integer.parseInt(coordinates.getKey().substring(0, coordinates.getKey().indexOf('x')));
             int y_coord = Integer.parseInt(coordinates.getKey().substring(coordinates.getKey().indexOf('x') + 1));

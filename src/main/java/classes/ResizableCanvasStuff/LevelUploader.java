@@ -102,8 +102,11 @@ public class LevelUploader {
                 @Override
                 public void handle(long now) {
 
-                    //System.out.println(x);
-                    //System.out.println(y);
+                    if ((gm.get("TEST_LEVEL") == 1) && (y > (level.Height * gm.get("BLOCK_SIZE")))) {
+                        y = gm.get("BASIC_STATE_Y");
+                        t = 2 * gm.get("SPEED") / gm.get("GRAVITY");;
+                    }
+
                     System.out.println();
 
 
@@ -117,32 +120,26 @@ public class LevelUploader {
                     //
                     gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("sample").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), x, y); //0 - bad, 1 - good;
 
-                    //
                     if (gm.get("PLATFORMER") == 1) {
-                        if (MOVEMENTER == 1) {
-                            y = y - (gm.get("SPEED") * t - gm.get("GRAVITY") * t * t / 2) / gm.get("MULTIPLIER");
-                            t += 0.3;
+                        if (MOVEMENTER == 2) {
+                            y = y - (gm.get("SPEED") * t - gm.get("GRAVITY") * t * t / 2);
+                            t += 0.1;
                             System.out.println("Y COORDINATE IS " + y);
-                            if (y >= gm.get("BASIC_STATE_Y")) {
-                                t = 1;
-                                y = gm.get("BASIC_STATE_Y");
-                                if (AntiJumper) {
-                                    MOVEMENTER = 0;
-                                    AntiJumper = false;
-                                }
-                            }
+                        } else {
+                            t = 2 * gm.get("SPEED") / gm.get("GRAVITY");
+                            MOVEMENTER = 2;
                         }
                     } else {
                         switch (MOVEMENTER) {
                             case 1:
-                                y -= gm.get("MOVEMENT");
-                                gc.translate(0, gm.get("MOVEMENT"));
-                                ATY -= gm.get("MOVEMENT");
-                                break;
-                            case 2:
                                 y += gm.get("MOVEMENT");
                                 gc.translate(0, -gm.get("MOVEMENT"));
                                 ATY += gm.get("MOVEMENT");
+                                break;
+                            case 2:
+                                y -= gm.get("MOVEMENT");
+                                gc.translate(0, gm.get("MOVEMENT"));
+                                ATY = gm.get("MOVEMENT");
                                 break;
                         }
                     }
@@ -159,6 +156,8 @@ public class LevelUploader {
                             ATX -= gm.get("MOVEMENT");
                             break;
                     }
+
+                    InterActivator();
                 }
             };
         }
@@ -236,6 +235,62 @@ public class LevelUploader {
             gc.drawImage(wim[6], -source.getWidth() + (source.getWidth() * multiplierX), source.getHeight() + (source.getHeight() * multiplierY));
             gc.drawImage(wim[7], source.getWidth() * multiplierX, source.getHeight() + (source.getHeight() * multiplierY));
             gc.drawImage(wim[8], +source.getWidth() + (source.getWidth() * multiplierX), source.getHeight() + (source.getHeight() * multiplierY));
+        }
+    }
+
+    public void InterActivator() {
+        for (int i = 0; i < 2; i++) {
+            try {
+                if (level.level[((int) (x / gm.get("BLOCK_SIZE")))][((int) (y / gm.get("BLOCK_SIZE") - i))] != null) {
+                    MOVEMENTER2 = 0;
+                    x = ((int) (x / gm.get("BLOCK_SIZE")) + 1) * gm.get("BLOCK_SIZE") + 1;
+                    gc.translate(-gm.get("MOVEMENT"), 0);
+                    ATX += gm.get("MOVEMENT");
+                    break;
+                }
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        }
+        for (int i = 0; i < 2; i++) {
+            try {
+                if (level.level[((int) (x / gm.get("BLOCK_SIZE") + 1))][((int) (y / gm.get("BLOCK_SIZE") - i))] != null) {
+                    MOVEMENTER2 = 0;
+                    x = ((int) (x / gm.get("BLOCK_SIZE"))) * gm.get("BLOCK_SIZE") - 1;
+                    gc.translate(gm.get("MOVEMENT"), 0);
+                    ATX -= gm.get("MOVEMENT");
+                    break;
+                }
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        }
+        for (int i = 0; i < 2; i++) {
+            try {
+                System.out.println("SEARCHING FOR GROUND:");
+                System.out.println("X = " + ((int) (x / gm.get("BLOCK_SIZE") + i)));
+                System.out.println("Y = " + ((int) (y / gm.get("BLOCK_SIZE") + 1)));
+                if (level.level[((int) (x / gm.get("BLOCK_SIZE") + i))][((int) (y / gm.get("BLOCK_SIZE") + 1))] != null) {
+                    System.out.println("REACHED THE GROUND");
+                    MOVEMENTER = 0;
+                    t = 1;
+                    y = ((int) (y / gm.get("BLOCK_SIZE"))) * gm.get("BLOCK_SIZE");
+                    break;
+                }
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        }
+        for (int i = 0; i < 2; i++) {
+            try {
+                if (level.level[((int) (x / gm.get("BLOCK_SIZE") + i))][((int) (y / gm.get("BLOCK_SIZE")))] != null) {
+                    y = ((int) (y / gm.get("BLOCK_SIZE") + 1)) * gm.get("BLOCK_SIZE") + 1;
+                    t = 2 * gm.get("SPEED") / gm.get("GRAVITY");
+                    break;
+                }
+            } catch (Exception e) {
+                e.getMessage();
+            }
         }
     }
 
