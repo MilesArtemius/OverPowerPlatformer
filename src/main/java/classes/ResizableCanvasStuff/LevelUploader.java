@@ -21,6 +21,8 @@ public class LevelUploader {
     HashMap<String, Double> gm; // library of level rules.
     double x = 0; // x coordinate of protagonist.
     double y = 0; // x coordinate of protagonist.
+    double prev_x = 0; // x coordinate of protagonist for the previous frame.
+    double prev_y = 0; // x coordinate of protagonist for the previous frame.
     double t = 1; // time for leap.
     double ATX = 0; // translation X from the 0,0.
     double ATY = 0; // translation Y from the 0,0.
@@ -241,12 +243,15 @@ public class LevelUploader {
     public void InterActivator() {
         for (int i = 0; i < 2; i++) {
             try {
-                if (level.level[((int) (x / gm.get("BLOCK_SIZE")))][((int) (y / gm.get("BLOCK_SIZE") - i))] != null) {
-                    MOVEMENTER2 = 0;
-                    x = ((int) (x / gm.get("BLOCK_SIZE")) + 1) * gm.get("BLOCK_SIZE") + 1;
-                    gc.translate(-gm.get("MOVEMENT"), 0);
-                    ATX += gm.get("MOVEMENT");
-                    break;
+                if ((level.level[((int) (x / gm.get("BLOCK_SIZE")))][((int) (y / gm.get("BLOCK_SIZE") - i))] != null) && (Math.abs(x - prev_x) > Math.abs(y - prev_y))) {
+                    if ((level.level[((int) (x / gm.get("BLOCK_SIZE") + 1))][((int) (y / gm.get("BLOCK_SIZE") - i))] == null)) {
+                        System.out.println("REACHED1");
+                        MOVEMENTER2 = 0;
+                        x = ((int) (x / gm.get("BLOCK_SIZE")) + 1) * gm.get("BLOCK_SIZE") + 1;
+                        gc.translate(-gm.get("MOVEMENT"), 0);
+                        ATX += gm.get("MOVEMENT");
+                        break;
+                    }
                 }
             } catch (Exception e) {
                 e.getMessage();
@@ -254,12 +259,15 @@ public class LevelUploader {
         }
         for (int i = 0; i < 2; i++) {
             try {
-                if (level.level[((int) (x / gm.get("BLOCK_SIZE") + 1))][((int) (y / gm.get("BLOCK_SIZE") - i))] != null) {
-                    MOVEMENTER2 = 0;
-                    x = ((int) (x / gm.get("BLOCK_SIZE"))) * gm.get("BLOCK_SIZE") - 1;
-                    gc.translate(gm.get("MOVEMENT"), 0);
-                    ATX -= gm.get("MOVEMENT");
-                    break;
+                if ((level.level[((int) (x / gm.get("BLOCK_SIZE") + 1))][((int) (y / gm.get("BLOCK_SIZE") - i))] != null) && (Math.abs(x - prev_x) > Math.abs(y - prev_y))) {
+                    if ((level.level[((int) (x / gm.get("BLOCK_SIZE")))][((int) (y / gm.get("BLOCK_SIZE") - i))] == null)) {
+                        System.out.println("REACHED2");
+                        MOVEMENTER2 = 0;
+                        x = ((int) (x / gm.get("BLOCK_SIZE"))) * gm.get("BLOCK_SIZE") - 1;
+                        gc.translate(gm.get("MOVEMENT"), 0);
+                        ATX -= gm.get("MOVEMENT");
+                        break;
+                    }
                 }
             } catch (Exception e) {
                 e.getMessage();
@@ -267,11 +275,7 @@ public class LevelUploader {
         }
         for (int i = 0; i < 2; i++) {
             try {
-                System.out.println("SEARCHING FOR GROUND:");
-                System.out.println("X = " + ((int) (x / gm.get("BLOCK_SIZE") + i)));
-                System.out.println("Y = " + ((int) (y / gm.get("BLOCK_SIZE") + 1)));
-                if (level.level[((int) (x / gm.get("BLOCK_SIZE") + i))][((int) (y / gm.get("BLOCK_SIZE") + 1))] != null) {
-                    System.out.println("REACHED THE GROUND");
+                if ((level.level[((int) (x / gm.get("BLOCK_SIZE") + i))][((int) (y / gm.get("BLOCK_SIZE") + 1))] != null) && (prev_y <= y)) {
                     MOVEMENTER = 0;
                     t = 1;
                     y = ((int) (y / gm.get("BLOCK_SIZE"))) * gm.get("BLOCK_SIZE");
@@ -283,7 +287,7 @@ public class LevelUploader {
         }
         for (int i = 0; i < 2; i++) {
             try {
-                if (level.level[((int) (x / gm.get("BLOCK_SIZE") + i))][((int) (y / gm.get("BLOCK_SIZE")))] != null) {
+                if ((level.level[((int) (x / gm.get("BLOCK_SIZE") + i))][((int) (y / gm.get("BLOCK_SIZE")))] != null) && (prev_y >= y)) {
                     y = ((int) (y / gm.get("BLOCK_SIZE") + 1)) * gm.get("BLOCK_SIZE") + 1;
                     t = 2 * gm.get("SPEED") / gm.get("GRAVITY");
                     break;
@@ -292,6 +296,9 @@ public class LevelUploader {
                 e.getMessage();
             }
         }
+
+        prev_x = x;
+        prev_y = y;
     }
 
 
