@@ -56,6 +56,15 @@
     "140x12": "sample",
     "141x12": "sample",
     "12x140": "floor",
-    "141x40": "floor"
+    "140x40": "floor",
+    "139x40": "floor",
+    "138x40": "floor",
+    "137x40": "floor",
+    "136x40": "floor",
+    "135x40": "floor",
+    "134x40": "floor",
+    "133x40": "floor",
+    "132x40": "floor",
+    "131x40": "floor"
   }
 }
