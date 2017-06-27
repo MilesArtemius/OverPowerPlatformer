@@ -276,7 +276,7 @@ public class LevelUploader {
                 }
             }
             for (int i = 0; i < 2; i++) {
-                try { //
+                try {
                     if ((level.level[((int) (x / gm.get("BLOCK_SIZE") + 1))][((int) (y / gm.get("BLOCK_SIZE") + i))] != null) && (Math.abs(x - prev_x) > Math.abs(y - prev_y))) {
                         if ((level.level[((int) (x / gm.get("BLOCK_SIZE")))][((int) (y / gm.get("BLOCK_SIZE") + i))] == null)) {
                             MOVEMENTER2 = 0;
