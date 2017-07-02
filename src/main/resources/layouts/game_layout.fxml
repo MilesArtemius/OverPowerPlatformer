@@ -13,8 +13,6 @@
            fx:controller="classes.ResizableCanvasStuff.GameController">
 
     <children>
-        <ResizableCanvas fx:id="resizableCanvas" />
-
         <Button fx:id="button"
                 layoutX="39.0"
                 layoutY="53.0"

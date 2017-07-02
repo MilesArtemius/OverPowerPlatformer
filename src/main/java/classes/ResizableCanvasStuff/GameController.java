@@ -10,20 +10,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 public class GameController {
+    LevelUploader LUP;
 
     @FXML
     private StackPane stackPane;
 
     @FXML
-    private ResizableCanvas resizableCanvas;
-
-    @FXML
     private Button button;
 
     private void startGame() {
-        Scene scene = stackPane.getScene();
+        System.out.println(stackPane.getUserData());
+        LUP.setSource((String) stackPane.getUserData());
 
-        //Stage stage = (Stage) stackPane.getScene().getWindow();
+        Scene scene = stackPane.getScene();
 
         System.out.println(scene);
 
@@ -31,27 +30,27 @@ public class GameController {
             if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
                 switch (keyEvent.getCode()) {
                     case UP:
-                        resizableCanvas.LUP.jump(2);
+                        LUP.jump(2);
                         break;
                     case DOWN:
-                        resizableCanvas.LUP.jump(1);
+                        LUP.jump(1);
                         break;
                     case RIGHT:
-                        resizableCanvas.LUP.move(1);
+                        LUP.move(1);
                         break;
                     case LEFT:
-                        resizableCanvas.LUP.move(2);
+                        LUP.move(2);
                         break;
                 }
             } else {
                 switch (keyEvent.getCode() ) {
                     case RIGHT:
                     case LEFT:
-                        resizableCanvas.LUP.move(0);
+                        LUP.move(0);
                         break;
                     case UP:
                     case DOWN:
-                        resizableCanvas.LUP.jump(0);
+                        LUP.jump(0);
                         break;
                 }
             }
@@ -59,11 +58,19 @@ public class GameController {
 
         button.setVisible(false);
 
-        resizableCanvas.LUP.start();
+        LUP.start();
     }
 
     @FXML
     public void initialize() {
+        ResizableCanvas resizableCanvas = new ResizableCanvas();
+        stackPane.getChildren().add(resizableCanvas);
+
+        LUP = new LevelUploader(resizableCanvas);
+        resizableCanvas.setUploader(LUP);
+
+        button.toFront();
+
         ReadOnlyDoubleProperty widthProperty = stackPane.widthProperty();
         ReadOnlyDoubleProperty heightProperty = stackPane.heightProperty();
         resizableCanvas.widthProperty().bind(widthProperty);

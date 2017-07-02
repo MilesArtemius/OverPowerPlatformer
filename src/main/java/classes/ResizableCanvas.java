@@ -1,5 +1,6 @@
 package classes;
 
+import classes.ResizableCanvasStuff.BasicUploader;
 import classes.ResizableCanvasStuff.LevelUploader;
 import javafx.scene.canvas.Canvas;
 
@@ -12,14 +13,10 @@ import java.util.zip.ZipInputStream;
  */
 public class ResizableCanvas extends Canvas {
 
-    public LevelUploader LUP = new LevelUploader(this);
+    public BasicUploader LUP = new BasicUploader(this);
 
-    public double Standartify(int parameter, char definitor) {
-        if (definitor == 'w') {
-            return (double) parameter/602*getWidth();
-        } else {
-            return (double) parameter/500*getHeight();
-        }
+    public void setUploader(BasicUploader LUP) {
+        this.LUP = LUP;
     }
 
     public ResizableCanvas() {

@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 
-public class LevelUploader {
+public class LevelUploader extends BasicUploader {
     GameRulez gr = GameRulez.get(true); // current level & rules.
     HashMap<String, Double> gm; // library of level rules.
     double x = 0; // x coordinate of protagonist.
@@ -31,6 +31,7 @@ public class LevelUploader {
     int MOVEMENTER = 0; // move variable.
     int MOVEMENTER2 = 0; // jump variable.
     Level level; // level map.
+    String levelPath; //absolute path to level;
     Double param; // min(ScreenWidth, ScreenHeight).
     WritableImage[] wim = new WritableImage [9]; // images around the protagonist.
     Canvas structure; // level canvas.
@@ -39,16 +40,18 @@ public class LevelUploader {
     static int multiplierX = 0; // number of currentXtranslations from 0,0.
     static int multiplierY = 0; // number of currentYtranslations from 0,0.
     boolean forceRedraw;
-    ResizableCanvas source;
-    GraphicsContext gc;
     double CurrentSourceW = 1;
     double CurrentSourceH = 1;
 
     public LevelUploader(ResizableCanvas resizableCanvas) {
-        this.source = resizableCanvas;
-        this.gc = resizableCanvas.getGraphicsContext2D();
+        super(resizableCanvas);
     }
 
+    public void setSource(String source) {
+        this.levelPath = source;
+    }
+
+    @Override
     public void redrawCanvas() {
         if ((source.getWidth() > 0) && (source.getHeight() > 0)) {
 
@@ -62,6 +65,7 @@ public class LevelUploader {
                 x = gm.get("BASIC_STATE_X");
                 y = gm.get("BASIC_STATE_Y");
 
+                System.out.println(levelPath);
                 level = Depacker.getStartedLevel(getClass());
             }
 
