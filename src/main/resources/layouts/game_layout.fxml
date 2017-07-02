@@ -10,7 +10,7 @@
            style="-fx-background-color: white;"
            xmlns:fx="http://javafx.com/fxml/1"
            xmlns="http://javafx.com/javafx/2.2"
-           fx:controller="classes.ResizableCanvasStuff.Controller">
+           fx:controller="classes.ResizableCanvasStuff.GameController">
 
     <children>
         <ResizableCanvas fx:id="resizableCanvas" />

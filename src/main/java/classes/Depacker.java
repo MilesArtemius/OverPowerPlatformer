@@ -22,7 +22,7 @@ import java.util.Map;
  * Created by HP on 21.06.2017.
  */
 public class Depacker {
-    private static final String pathname = "C:\\Users\\HP\\Documents\\OP_GAME_SYS\\";
+    public static final String pathname = "C:\\Users\\HP\\Documents\\OP_GAME_SYS\\";
 
     public static void getStartedConnection(Class app) {
         String path = app.getProtectionDomain().getCodeSource().getLocation().getPath();

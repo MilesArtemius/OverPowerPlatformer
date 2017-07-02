@@ -52,7 +52,22 @@ public class MainController {
         }
     }
 
-    private void startNewGame() {}
+    private void startNewGame() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/layouts/level_chosen_layout.fxml"));
+
+            Stage stage = (Stage) pane.getScene().getWindow();
+
+            System.out.println(stage);
+
+            Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
+
+            stage.setScene(scene);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void somethingElse() {}
 
@@ -74,6 +89,5 @@ public class MainController {
                 e.printStackTrace();
             }
         });
-
     }
 }

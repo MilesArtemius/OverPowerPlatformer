@@ -9,7 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
-public class Controller {
+public class GameController {
 
     @FXML
     private StackPane stackPane;
