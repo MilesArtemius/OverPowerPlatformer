@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,7 +27,16 @@ public class NavigationController {
     private Accordion ap2;
 
     @FXML
+    private Text text1;
+
+    @FXML
+    private Text text2;
+
+    @FXML
     public void initialize() {
+
+        text1.setText("Pre-installed levels");
+        text2.setText("User levels");
 
         ArrayList<TitledPane> tp = new ArrayList<>();
 
