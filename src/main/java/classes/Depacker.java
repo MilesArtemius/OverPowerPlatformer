@@ -14,6 +14,7 @@ import com.google.gson.stream.JsonReader;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ import java.util.Map;
  * Created by HP on 21.06.2017.
  */
 public class Depacker {
-    public static final String pathname = "C:\\Users\\HP\\Documents\\OP_GAME_SYS\\";
+    public static final String pathname = "C:\\OP_GAME_SYS\\";
 
     public static void getStartedConnection(Class app) {
         String path = app.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -51,8 +52,13 @@ public class Depacker {
 
         try {
             JsonParser JP = new JsonParser();
-
-            JsonElement config = JP.parse(new JsonReader(new InputStreamReader(app.getResourceAsStream("/preinstallations" + path))));
+            JsonElement config;
+            if (path.charAt(0) == '/') {
+                config = JP.parse(new JsonReader(new InputStreamReader(app.getResourceAsStream("/preinstallations" + path))));
+            } else {
+                System.out.println(path.substring(0, path.lastIndexOf('/')) + path.substring(path.lastIndexOf('&')));
+                config = JP.parse(new JsonReader(new InputStreamReader(Files.newInputStream(Paths.get(path.substring(0, path.lastIndexOf('/')) + path.substring(path.lastIndexOf('&')))))));
+            }
             JsonObject jo = config.getAsJsonObject();
             for (Map.Entry<String, JsonElement> entry: jo.entrySet()) {
                 hm.put(entry.getKey(), entry.getValue());
@@ -64,19 +70,22 @@ public class Depacker {
         }
 
         return hm;
-
-        //File file = new File(pathname);
-        //file.mkdir();
     }
 
-    public static Level getStartedLevel(Class app) {
+    public static Level getStartedLevel(Class app, String filepath) {
 
         JsonObject jo = new JsonObject();
 
         try {
             JsonParser JP = new JsonParser();
+            JsonElement config;
 
-            JsonElement config = JP.parse(new JsonReader(new InputStreamReader(app.getResourceAsStream("/preinstallations/test.upson")))); //pathname + "games\\test.upson"
+            if (!filepath.equals("null")) {
+                config = JP.parse(new JsonReader(new InputStreamReader(Files.newInputStream(Paths.get(filepath)))));
+            } else {
+                config = JP.parse(new JsonReader(new InputStreamReader(app.getResourceAsStream("/preinstallations/null.upson"))));
+            }
+
             jo = config.getAsJsonObject();
 
         } catch (Exception e) {
@@ -85,8 +94,5 @@ public class Depacker {
         }
 
         return new Level(jo.get("name").getAsString(), jo.get("height").getAsInt(), jo.get("width").getAsInt(), jo.get("level_pack").getAsJsonObject());
-
-        //File file = new File(pathname);
-        //file.mkdir();
     }
 }

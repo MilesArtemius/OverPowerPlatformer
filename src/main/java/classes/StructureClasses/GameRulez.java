@@ -52,16 +52,17 @@ public class GameRulez {
         return BlockSet;
     }
 
-    public static GameRulez get(boolean inout) {
-        return GRulez = new GameRulez(inout);
+    public static GameRulez get(String filepath) {
+        return GRulez = new GameRulez(filepath);
     }
 
-    private GameRulez(boolean inout) {
-        if (inout) {
+    private GameRulez(String filepath) {
+        if (filepath.equals("null")) {
             RulezfromFile = Depacker.getStartedConfiguration(getClass(), "/config.json");
             BlockzfromFile = Depacker.getStartedConfiguration(getClass(), "/blockset.json");
         } else {
-            //TODO: reading from an external resource;
+            RulezfromFile = Depacker.getStartedConfiguration(getClass(), filepath + "&config.json");
+            BlockzfromFile = Depacker.getStartedConfiguration(getClass(), filepath + "&blockset.json");
         }
     }
 

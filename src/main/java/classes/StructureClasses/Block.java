@@ -11,7 +11,7 @@ public class Block {
     public Image texture;
 
     public Block(String name) {
-        GameRulez gr = GameRulez.get(true);
+        GameRulez gr = GameRulez.get("null");
         this.name = gr.getBlockz().get(name).name;
         this.texture = gr.getBlockz().get(name).texture;
     }

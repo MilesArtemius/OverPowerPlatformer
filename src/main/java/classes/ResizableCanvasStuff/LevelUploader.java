@@ -17,7 +17,7 @@ import javafx.scene.paint.Color;
 import java.util.HashMap;
 
 public class LevelUploader extends BasicUploader {
-    GameRulez gr = GameRulez.get(true); // current level & rules.
+    GameRulez gr = GameRulez.get("null"); // current level & rules.
     HashMap<String, Double> gm; // library of level rules.
     double x = 0; // x coordinate of protagonist.
     double y = 0; // x coordinate of protagonist.
@@ -31,7 +31,7 @@ public class LevelUploader extends BasicUploader {
     int MOVEMENTER = 0; // move variable.
     int MOVEMENTER2 = 0; // jump variable.
     Level level; // level map.
-    String levelPath; //absolute path to level;
+    String levelPath = "null"; //absolute path to level;
     Double param; // min(ScreenWidth, ScreenHeight).
     WritableImage[] wim = new WritableImage [9]; // images around the protagonist.
     Canvas structure; // level canvas.
@@ -65,8 +65,7 @@ public class LevelUploader extends BasicUploader {
                 x = gm.get("BASIC_STATE_X");
                 y = gm.get("BASIC_STATE_Y");
 
-                System.out.println(levelPath);
-                level = Depacker.getStartedLevel(getClass());
+                level = Depacker.getStartedLevel(getClass(), levelPath);
             }
 
             gc.clearRect(0, 0, source.getWidth(), source.getHeight());

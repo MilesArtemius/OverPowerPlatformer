@@ -18,13 +18,13 @@ public class GameController {
     @FXML
     private Button button;
 
-    private void startGame() {
+    private void startGame(ResizableCanvas resizableCanvas) {
         System.out.println(stackPane.getUserData());
         LUP.setSource((String) stackPane.getUserData());
 
-        Scene scene = stackPane.getScene();
+        resizableCanvas.LUP.redrawCanvas();
 
-        System.out.println(scene);
+        Scene scene = stackPane.getScene();
 
         scene.addEventHandler(KeyEvent.ANY, keyEvent -> {
             if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
@@ -76,7 +76,7 @@ public class GameController {
         resizableCanvas.widthProperty().bind(widthProperty);
         resizableCanvas.heightProperty().bind(heightProperty);
 
-        button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> startGame());
+        button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> startGame(resizableCanvas));
     }
 }
 
