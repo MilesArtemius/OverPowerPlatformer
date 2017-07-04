@@ -1,7 +1,7 @@
 package classes.StructureClasses;
 
 
-import classes.Depacker;
+import classes.MainAndMenu.Depacker;
 import com.google.gson.JsonElement;
 
 import java.util.HashMap;
@@ -20,8 +20,8 @@ public class GameRulez {
     private static HashMap<String, JsonElement> BlockzfromFile;
     private static HashMap<String, Block> BlockSet = new HashMap<>();
 
-    public HashMap<String, Double> getRulez(double w, double h, double param) {
-        if ((w != width) || (h != height)) {
+    public HashMap<String, Double> getRulez(double w, double h, double param, boolean force) {
+        if ((w != width) || (h != height) || (force)) {
             System.out.println("-=-=-=-= REDRAWED =-=-=-=-");
             width = w;
             height = h;
@@ -45,9 +45,13 @@ public class GameRulez {
         return RuleSet;
     }
 
-    public HashMap<String, Block> getBlockz() {
-        for (String name : BlockzfromFile.keySet()) {
-            BlockSet.put(name, new Block(BlockzfromFile.get(name).getAsJsonObject()));
+    public HashMap<String, Block> getBlockz(String filepath, boolean force) {
+        if (force) {
+            for (String name : BlockzfromFile.keySet()) {
+                if (!BlockSet.containsKey(name)) {
+                    BlockSet.put(name, new Block(filepath, BlockzfromFile.get(name).getAsJsonObject()));
+                }
+            }
         }
         return BlockSet;
     }
@@ -62,8 +66,10 @@ public class GameRulez {
             BlockzfromFile = Depacker.getStartedConfiguration(getClass(), "/blockset.json");
         } else {
             RulezfromFile = Depacker.getStartedConfiguration(getClass(), filepath + "&config.json");
-            BlockzfromFile = Depacker.getStartedConfiguration(getClass(), filepath + "&blockset.json");
+            BlockzfromFile = (Depacker.getStartedConfiguration(getClass(), filepath + "&blockset.json"));
         }
+
+        BlockSet = getBlockz(filepath, true);
     }
 
 

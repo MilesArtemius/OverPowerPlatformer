@@ -15,7 +15,7 @@ public class Level {
     public int Width;
     public Block[][] level;
 
-    public Level(String name, int height, int width, JsonObject level_pack) {
+    public Level(String filepath, String name, int height, int width, JsonObject level_pack) {
         this.name = name;
         Height = height;
         Width = width;
@@ -24,7 +24,8 @@ public class Level {
         for (Map.Entry<String, JsonElement> coordinates: level_pack.entrySet()) {
             int x_coord = Integer.parseInt(coordinates.getKey().substring(0, coordinates.getKey().indexOf('x')));
             int y_coord = Integer.parseInt(coordinates.getKey().substring(coordinates.getKey().indexOf('x') + 1));
-            this.level[x_coord][y_coord] = new Block(level_pack.get(coordinates.getKey()).getAsString());
+
+            this.level[x_coord][y_coord] = new Block(filepath, level_pack.get(coordinates.getKey()).getAsString());
         }
     }
 }

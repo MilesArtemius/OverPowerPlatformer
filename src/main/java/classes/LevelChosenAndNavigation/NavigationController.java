@@ -13,13 +13,12 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import static classes.Depacker.pathname;
+import static classes.MainAndMenu.Depacker.pathname;
 
 /**
  * Created by HP on 02.07.2017.

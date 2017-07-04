@@ -1,7 +1,7 @@
 package classes.ResizableCanvasStuff;
 
 
-import classes.Depacker;
+import classes.MainAndMenu.Depacker;
 import classes.OuterFunctions;
 import classes.ResizableCanvas;
 import classes.StructureClasses.GameRulez;
@@ -47,8 +47,9 @@ public class LevelUploader extends BasicUploader {
         super(resizableCanvas);
     }
 
-    public void setSource(String source) { //
-        this.levelPath = source;
+    public void setSource(String path) {
+        this.levelPath = path;
+        this.gr = GameRulez.get(path);
     }
 
     @Override
@@ -58,7 +59,8 @@ public class LevelUploader extends BasicUploader {
             GraphicsContext gc = source.getGraphicsContext2D();
 
             param = ((source.getHeight() > source.getWidth()) ? (source.getWidth()) : (source.getHeight()));
-            gm = gr.getRulez(source.getWidth(), source.getHeight(), param);
+
+            gm = gr.getRulez(source.getWidth(), source.getHeight(), param, true);
             System.out.println(gm.toString());
 
             if (ATX == 0) {
@@ -123,7 +125,7 @@ public class LevelUploader extends BasicUploader {
                     forceRedraw = false;
 
                     //
-                    gc.drawImage(OuterFunctions.scale(gr.getBlockz().get("sample").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), x, y); //0 - bad, 1 - good;
+                    gc.drawImage(OuterFunctions.scale(gr.getBlockz(levelPath, false).get("sample").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), x, y); //0 - bad, 1 - good;
 
                     if (gm.get("PLATFORMER") == 1) {
                         if ((MOVEMENTER == 2) || (!AntiJumper)) {

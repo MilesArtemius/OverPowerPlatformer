@@ -1,4 +1,4 @@
-package classes;
+package classes.MainAndMenu;
 
 
 import classes.StructureClasses.Level;
@@ -56,8 +56,7 @@ public class Depacker {
             if (path.charAt(0) == '/') {
                 config = JP.parse(new JsonReader(new InputStreamReader(app.getResourceAsStream("/preinstallations" + path))));
             } else {
-                System.out.println(path.substring(0, path.lastIndexOf('/')) + path.substring(path.lastIndexOf('&')));
-                config = JP.parse(new JsonReader(new InputStreamReader(Files.newInputStream(Paths.get(path.substring(0, path.lastIndexOf('/')) + path.substring(path.lastIndexOf('&')))))));
+                config = JP.parse(new JsonReader(new InputStreamReader(Files.newInputStream(Paths.get(path.substring(0, path.lastIndexOf("\\levels") + 1) + path.substring(path.lastIndexOf('&') + 1))))));
             }
             JsonObject jo = config.getAsJsonObject();
             for (Map.Entry<String, JsonElement> entry: jo.entrySet()) {
@@ -93,6 +92,6 @@ public class Depacker {
             e.printStackTrace();
         }
 
-        return new Level(jo.get("name").getAsString(), jo.get("height").getAsInt(), jo.get("width").getAsInt(), jo.get("level_pack").getAsJsonObject());
+        return new Level(filepath, jo.get("name").getAsString(), jo.get("height").getAsInt(), jo.get("width").getAsInt(), jo.get("level_pack").getAsJsonObject());
     }
 }

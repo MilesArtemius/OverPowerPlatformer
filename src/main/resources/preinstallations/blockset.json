@@ -1,14 +1,10 @@
 {
   "sample": {
-    "texture": "ErEsursE",
+    "texture": "ErEsursE.png",
     "name": "sample"
   },
   "floor": {
-    "texture": "floor",
+    "texture": "floor.png",
     "name": "floor"
-  },
-  "air": {
-    "texture": "null",
-    "name": "air"
   }
 }
