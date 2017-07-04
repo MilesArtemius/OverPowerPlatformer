@@ -30,7 +30,7 @@ public class MainController {
     private Button continue_button;
 
     @FXML
-    private Button something_else_button;
+    private Button redactor_button;
 
     @FXML
     private Hyperlink link;
@@ -40,8 +40,6 @@ public class MainController {
             Parent root = FXMLLoader.load(getClass().getResource("/layouts/game_layout.fxml"));
 
             Stage stage = (Stage) pane.getScene().getWindow();
-
-            System.out.println(stage);
 
             Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 
@@ -58,8 +56,6 @@ public class MainController {
 
             Stage stage = (Stage) pane.getScene().getWindow();
 
-            System.out.println(stage);
-
             Scene scene = new Scene(root, stage.getWidth(), stage.getHeight());
 
             stage.setScene(scene);
@@ -69,7 +65,22 @@ public class MainController {
         }
     }
 
-    private void somethingElse() {}
+    private void somethingElse() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/layouts/editor_layout.fxml"));
+
+            Stage stage = new Stage();
+
+            Scene scene = new Scene(root, pane.getScene().getWindow().getWidth(), pane.getScene().getWindow().getHeight());
+
+            stage.setScene(scene);
+            stage.setTitle("Ultimate Level Editor");
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void initialize(){
@@ -81,7 +92,7 @@ public class MainController {
 
         new_game_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> startNewGame());
         continue_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> continueGame());
-        something_else_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> somethingElse());
+        redactor_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> somethingElse());
         link.setOnAction(event -> {
             try {
                 Desktop.getDesktop().browse(new URI("https://firebase.google.com/"));

@@ -17,7 +17,7 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/layouts/main_layout.fxml"));
         //primaryStage.setFullScreen(true);
-        primaryStage.setAlwaysOnTop(true);
+        //primaryStage.setAlwaysOnTop(true);
         //primaryStage.setMaximized(true);
         primaryStage.setTitle("Ultimate Platformer");
         Scene scene = new Scene(root, 800, 600);
