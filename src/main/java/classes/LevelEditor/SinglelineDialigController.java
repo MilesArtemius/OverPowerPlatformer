@@ -12,5 +12,6 @@ public class SinglelineDialigController {
 
     @FXML
     public void initialize() {
+
     }
 }

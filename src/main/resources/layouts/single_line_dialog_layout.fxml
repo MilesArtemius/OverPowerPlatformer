@@ -34,7 +34,4 @@
          </children>
       </VBox>
    </content>
-   <expandableContent>
-      <TextArea prefHeight="200.0" prefWidth="200.0" />
-   </expandableContent>
 </DialogPane>
