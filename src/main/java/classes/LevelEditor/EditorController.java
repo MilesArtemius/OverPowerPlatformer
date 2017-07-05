@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static classes.MainAndMenu.Depacker.pathname;
@@ -113,9 +114,16 @@ public class EditorController {
                         MenuItem menuItem = new MenuItem("Rename");
                         menuItem.setOnAction(event1 -> {
                             try {
-                                TextInputDialog renaming = new TextInputDialog(folderView.getRoot().getValue().toString());
+                                TextInputDialog renaming = new TextInputDialog(treeFile.toString());
                                 renaming.showAndWait();
-                                Files.move(Paths.get(treeFile.getAbsolutePath()), Paths.get(treeFile.getAbsolutePath()).resolveSibling(renaming.getResult()));
+                                Path newPath = Files.move(Paths.get(treeFile.getAbsolutePath()), Paths.get(treeFile.getAbsolutePath()).resolveSibling(renaming.getResult()));
+                                if (treeItem.equals(folderView.getRoot())) {
+                                    TreeItem root = fileTreeBuilder(new TreeFile(newPath.toString(), newPath.toString().substring(newPath.toString().lastIndexOf('\\') + 1)), true);
+                                    folderView.setRoot(root);
+                                } else {
+                                    treeFile.setViewName(renaming.getResult());
+                                    treeItem.getParent().setExpanded(false);
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
