@@ -49,13 +49,13 @@ public class TreeBuilder {
         return treeItem;
     }
 
-    public TreeItem<TreeFile> fileTreeRootBuilder(TreeFile file, String pathToPrimaryFile, int lastIndex, TreeView parent, TreeSelectionDialog root) {
+    public TreeItem<TreeFile> fileTreeRootBuilder(TreeFile file, String pathToPrimaryFile, int lastIndex) {
         TreeItem<TreeFile> treeItem = new TreeItem<>(file);
         if ((file.getAbsolutePath().equals(pathToPrimaryFile.substring(0, pathToPrimaryFile.substring(lastIndex).indexOf('\\') + ((lastIndex == 0)?(1):(0)) + lastIndex))) || (file.getAbsolutePath().equals(pathToPrimaryFile))) {
             treeItem.setExpanded(true);
             for (File subFile: file.listFiles()) {
                 TreeFile subTreeFile = new TreeFile(subFile.getAbsolutePath(), subFile.getAbsolutePath().substring(subFile.getAbsolutePath().lastIndexOf('\\') + 1));
-                treeItem.getChildren().add(fileTreeRootBuilder(subTreeFile, pathToPrimaryFile, pathToPrimaryFile.substring(lastIndex).indexOf('\\') + 1 + lastIndex, parent, root));
+                treeItem.getChildren().add(fileTreeRootBuilder(subTreeFile, pathToPrimaryFile, pathToPrimaryFile.substring(lastIndex).indexOf('\\') + 1 + lastIndex));
             }
         } else if (file.isDirectory()) {
             try {
@@ -63,11 +63,6 @@ public class TreeBuilder {
                     if (file.isLevel()) {
                         ImageView iv = new ImageView(level);
                         treeItem.setGraphic(iv);
-                        parent.setOnMouseClicked(event -> {
-                            if (event.getClickCount() > 1) {
-                                root.setResult(treeItem.getValue().getAbsolutePath());
-                            }
-                        });
                     } else {
                         loadTreeBuilder(treeItem);
                     }
@@ -84,20 +79,24 @@ public class TreeBuilder {
     private void loadTreeBuilder(TreeItem treeItem) {
         TreeFile treeFile = (TreeFile) treeItem.getValue();
         if ((treeFile.isDirectory()) && (!treeFile.isHidden() && (treeFile.canRead()))) {
-            treeItem.getChildren().add(new TreeItem<>(new TreeFile("dummy", "dummy")));
-            treeItem.setExpanded(false);
-            treeItem.expandedProperty().addListener((observable, oldValue, newValue) -> {
-                System.out.println("Click");
-                if (newValue) {
-                    treeItem.getChildren().clear();
-                    for (File filed : treeFile.listFiles()) {
-                        TreeFile treeFiled = new TreeFile(filed.getAbsolutePath(), filed.getName());
-                        TreeItem item = new TreeItem(treeFiled);
-                        loadTreeBuilder(item);
-                        treeItem.getChildren().add(item);
+            if (treeFile.isLevel()) {
+                ImageView iv = new ImageView(level);
+                treeItem.setGraphic(iv);
+            } else {
+                treeItem.getChildren().add(new TreeItem<>(new TreeFile("dummy", "dummy")));
+                treeItem.setExpanded(false);
+                treeItem.expandedProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue) {
+                        treeItem.getChildren().clear();
+                        for (File filed : treeFile.listFiles()) {
+                            TreeFile treeFiled = new TreeFile(filed.getAbsolutePath(), filed.getName());
+                            TreeItem item = new TreeItem(treeFiled);
+                            loadTreeBuilder(item);
+                            treeItem.getChildren().add(item);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 }

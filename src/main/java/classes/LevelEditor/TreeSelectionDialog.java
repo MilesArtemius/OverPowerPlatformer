@@ -36,8 +36,16 @@ public class TreeSelectionDialog extends Dialog {
     public void setTreeRoot(TreeFile root) {
         System.out.println(root.getAbsolutePath());
         TreeItem rootItem = TreeBuilder.get().fileTreeRootBuilder(new TreeFile(root.getAbsolutePath().substring(0, root.getAbsolutePath().indexOf('\\') + 1),
-                root.getAbsolutePath().substring(0, root.getAbsolutePath().indexOf('\\') + 1)),
-                root.getAbsolutePath(), 0, this.treeView, TreeSelectionDialog.this);
+                root.getAbsolutePath().substring(0, root.getAbsolutePath().indexOf('\\') + 1)), root.getAbsolutePath(), 0);
         treeView.setRoot(rootItem);
+        treeView.setOnMouseClicked(event -> {
+            TreeItem item = treeView.getSelectionModel().getSelectedItem();
+            if (item != null) {
+                TreeFile treeFile = (TreeFile) item.getValue();
+                if ((event.getClickCount() > 1) && (treeFile.isLevel())) {
+                    this.setResult(treeFile.getAbsolutePath());
+                }
+            }
+        });
     }
 }
