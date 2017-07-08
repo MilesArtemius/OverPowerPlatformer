@@ -2,6 +2,7 @@ package classes.LevelEditor;
 
 import classes.OuterFunctions;
 import classes.ResizableCanvas;
+import classes.StructureClasses.TreeBuilder;
 import classes.StructureClasses.TreeFile;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -71,34 +72,6 @@ public class EditorController {
     @FXML
     private Menu fileMenu;
 
-    /*private TreeItem<TreeFile> fileTreeBuilder(TreeFile file, boolean deep) {
-        TreeItem<TreeFile> treeItem = new TreeItem<>(file);
-        if (file.isDirectory()) {
-            for (File subfile: file.listFiles()) {
-                TreeFile subtreefile = new TreeFile(subfile.getAbsolutePath(), subfile.getAbsolutePath().substring(subfile.getAbsolutePath().lastIndexOf('\\') + 1));
-                treeItem.getChildren().add(((deep) ? (fileTreeBuilder(subtreefile, true)) : (new TreeItem<>(subtreefile))));
-            }
-        } else {
-            return new TreeItem<>(file);
-        }
-        return treeItem;
-    }*/
-
-    private void editLevel() {
-        try {
-            File rootFolder = new File(pathname + "games\\custom_levels");
-            TreeItem root = OuterFunctions.fileTreeBuilder(new TreeFile(rootFolder.getAbsolutePath(), rootFolder.getAbsolutePath().substring(rootFolder.getAbsolutePath().lastIndexOf('\\') + 1)), false);
-            folderView.setRoot(root);
-            folderView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                TreeItem file = (TreeItem<TreeFile>) newValue;
-                TreeFile kk = (TreeFile) file.getValue();
-                TreeItem newRoot = OuterFunctions.fileTreeBuilder(new TreeFile(kk.getAbsolutePath(), kk.getAbsolutePath().substring(kk.getAbsolutePath().lastIndexOf('\\') + 1)), true);
-                folderView.setRoot(newRoot);
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @FXML
     public void initialize() {
@@ -119,13 +92,13 @@ public class EditorController {
                                 renaming.setTitle("Rename");
                                 renaming.setContentText("Enter a new name for the file");
                                 renaming.showAndWait();
-                                if (renaming.getResult() != null) {
-                                    Path newPath = Files.move(Paths.get(treeFile.getAbsolutePath()), Paths.get(treeFile.getAbsolutePath()).resolveSibling(((renaming.getResult().contains(".upson")) || (treeItem.equals(folderView.getRoot())))?(renaming.getResult()):(renaming.getResult() + ".upson")));
+                                if (renaming.getResult() != null) { //TODO: with Files.getExtension;
+                                    Path newPath = Files.move(Paths.get(treeFile.getAbsolutePath()), Paths.get(treeFile.getAbsolutePath()).resolveSibling(((renaming.getResult().contains(".upson")) || (treeItem.equals(folderView.getRoot())))?(renaming.getResult().substring(0, renaming.getResult().indexOf(".upson") + ".upson".length())):(renaming.getResult() + ".upson")));
                                     if (treeItem.equals(folderView.getRoot())) {
-                                        TreeItem root = OuterFunctions.fileTreeBuilder(new TreeFile(newPath.toString(), newPath.toString().substring(newPath.toString().lastIndexOf('\\') + 1)), true);
+                                        TreeItem root = TreeBuilder.get().fileTreeBuilder(new TreeFile(newPath.toString(), newPath.toString().substring(newPath.toString().lastIndexOf('\\') + 1)), true);
                                         folderView.setRoot(root);
                                     } else {
-                                        treeFile.setViewName(((renaming.getResult().contains(".upson"))?(renaming.getResult()):(renaming.getResult() + ".upson")));
+                                        treeFile.setViewName(((renaming.getResult().contains(".upson"))?(renaming.getResult().substring(0, renaming.getResult().indexOf(".upson") + ".upson".length())):(renaming.getResult() + ".upson")));
                                         treeItem.getParent().setExpanded(false);
                                     }
                                 } else {
@@ -215,7 +188,7 @@ public class EditorController {
                     blockset = new File(folder.getAbsolutePath() + "\\blockset.json");
                     blockset.createNewFile();
 
-                    TreeItem root = OuterFunctions.fileTreeBuilder(new TreeFile(folder.getAbsolutePath(), folder.getAbsolutePath().substring(folder.getAbsolutePath().lastIndexOf('\\') + 1)), true);
+                    TreeItem root = TreeBuilder.get().fileTreeBuilder(new TreeFile(folder.getAbsolutePath(), folder.getAbsolutePath().substring(folder.getAbsolutePath().lastIndexOf('\\') + 1)), true);
                     folderView.setRoot(root);
                 } catch (Exception e) {
                     e.printStackTrace();
