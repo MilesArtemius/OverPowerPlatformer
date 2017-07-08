@@ -1,10 +1,16 @@
 package classes.StructureClasses;
 
+import classes.LevelEditor.TreeSelectionDialog;
 import classes.OuterFunctions;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 import java.io.File;
 
@@ -42,21 +48,25 @@ public class TreeBuilder {
         return treeItem;
     }
 
-    public TreeItem<TreeFile> fileTreeRootBuilder(TreeFile file, String pathToPrimaryFile, int lastIndex) {
+    public TreeItem<TreeFile> fileTreeRootBuilder(TreeFile file, String pathToPrimaryFile, int lastIndex, TreeView parent, TreeSelectionDialog root) {
         TreeItem<TreeFile> treeItem = new TreeItem<>(file);
         if ((file.getAbsolutePath().equals(pathToPrimaryFile.substring(0, pathToPrimaryFile.substring(lastIndex).indexOf('\\') + ((lastIndex == 0)?(1):(0)) + lastIndex))) || (file.getAbsolutePath().equals(pathToPrimaryFile))) {
             treeItem.setExpanded(true);
             for (File subFile: file.listFiles()) {
                 TreeFile subTreeFile = new TreeFile(subFile.getAbsolutePath(), subFile.getAbsolutePath().substring(subFile.getAbsolutePath().lastIndexOf('\\') + 1));
-                treeItem.getChildren().add(fileTreeRootBuilder(subTreeFile, pathToPrimaryFile, pathToPrimaryFile.substring(lastIndex).indexOf('\\') + 1 + lastIndex));
+                treeItem.getChildren().add(fileTreeRootBuilder(subTreeFile, pathToPrimaryFile, pathToPrimaryFile.substring(lastIndex).indexOf('\\') + 1 + lastIndex, parent, root));
             }
         } else if (file.isDirectory()) {
             try {
                 if ((!file.isHidden()) && (file.canRead())) {
                     if (file.isLevel()) {
-                        System.out.println("drawed");
                         ImageView iv = new ImageView(level);
-                        treeItem = new TreeItem<>(file, iv);
+                        treeItem.setGraphic(iv);
+                        parent.setOnMouseClicked(event -> {
+                            if (event.getClickCount() > 1) {
+                                root.setResult(treeItem.getValue().getAbsolutePath());
+                            }
+                        });
                     } else {
                         loadTreeBuilder(treeItem);
                     }

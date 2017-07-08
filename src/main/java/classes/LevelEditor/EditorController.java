@@ -199,7 +199,10 @@ public class EditorController {
             mit1.setOnAction(event -> {
                 TreeSelectionDialog tsd = new TreeSelectionDialog();
                 tsd.setTreeRoot(new TreeFile(pathname + "games\\custom_levels"));
-                tsd.show();
+                tsd.showAndWait();
+                String path = (String) tsd.getResult();
+                TreeItem root = TreeBuilder.get().fileTreeBuilder(new TreeFile(path, path.substring(path.lastIndexOf('\\') + 1)), true);
+                folderView.setRoot(root);
             });
 
 
