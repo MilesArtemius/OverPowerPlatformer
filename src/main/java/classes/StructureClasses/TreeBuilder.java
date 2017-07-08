@@ -37,6 +37,7 @@ public class TreeBuilder {
 
     public TreeItem<TreeFile> fileTreeBuilder(TreeFile file, boolean deep) {
         TreeItem<TreeFile> treeItem = new TreeItem<>(file);
+        treeItem.setExpanded(true);
         if (file.isDirectory()) {
             for (File subFile: file.listFiles()) {
                 TreeFile subTreeFile = new TreeFile(subFile.getAbsolutePath(), subFile.getAbsolutePath().substring(subFile.getAbsolutePath().lastIndexOf('\\') + 1));
