@@ -10,6 +10,7 @@ public class TreeFile extends File {
 
     public TreeFile(String pathname) {
         super(pathname);
+        this.viewName = "NoName";
     }
 
     @Override

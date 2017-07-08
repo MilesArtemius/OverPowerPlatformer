@@ -2,6 +2,8 @@ package classes.LevelEditor;
 
 import classes.OuterFunctions;
 import classes.StructureClasses.TreeFile;
+import com.google.common.collect.TreeTraverser;
+import com.google.common.io.Files;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.stage.Window;
@@ -31,7 +33,8 @@ public class TreeSelectionDialog extends Dialog {
     }
 
     public void setTreeRoot(TreeFile root) {
-        TreeItem rootItem = OuterFunctions.fileTreeBuilder(new TreeFile(root.getAbsolutePath(), root.getAbsolutePath().substring(root.getAbsolutePath().lastIndexOf('\\') + 1)), true);
+        System.out.println(root.getAbsolutePath());
+        TreeItem rootItem = OuterFunctions.fileTreeRootBuilder(new TreeFile(root.getAbsolutePath().substring(0, root.getAbsolutePath().indexOf('\\') + 1), root.getAbsolutePath().substring(0, root.getAbsolutePath().indexOf('\\') + 1)), root.getAbsolutePath(), 0);
         treeView.setRoot(rootItem);
     }
 }

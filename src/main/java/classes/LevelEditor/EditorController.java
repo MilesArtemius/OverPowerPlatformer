@@ -225,7 +225,7 @@ public class EditorController {
             MenuItem mit1 = new MenuItem("Edit level");
             mit1.setOnAction(event -> {
                 TreeSelectionDialog tsd = new TreeSelectionDialog();
-                tsd.setTreeRoot(new TreeFile(FileSystemView.getFileSystemView().getRoots()[0].getAbsolutePath()));
+                tsd.setTreeRoot(new TreeFile(pathname + "games\\custom_levels"));
                 tsd.show();
             });
 
