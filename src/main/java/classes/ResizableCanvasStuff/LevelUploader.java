@@ -2,7 +2,7 @@ package classes.ResizableCanvasStuff;
 
 
 import classes.MainAndMenu.Depacker;
-import classes.OuterFunctions;
+import classes.Additionals.OuterFunctions;
 import classes.ResizableCanvas;
 import classes.StructureClasses.GameRulez;
 import classes.StructureClasses.Level;

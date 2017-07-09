@@ -7,8 +7,8 @@ import javafx.scene.canvas.GraphicsContext;
  * Created by HP on 02.07.2017.
  */
 public class BasicUploader {
-    ResizableCanvas source;
-    GraphicsContext gc;
+    public ResizableCanvas source;
+    public GraphicsContext gc;
 
     public BasicUploader(ResizableCanvas resizableCanvas) {
         this.source = resizableCanvas;

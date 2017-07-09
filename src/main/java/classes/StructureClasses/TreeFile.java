@@ -59,6 +59,14 @@ public class TreeFile extends File {
         }
     }
 
+    public boolean isImage() {
+        if ((this.isFile()) && (Files.getFileExtension(this.getName()).equals("png"))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void setViewName(String name) {
         this.viewName = name;
     }

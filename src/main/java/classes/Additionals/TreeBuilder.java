@@ -1,16 +1,9 @@
-package classes.StructureClasses;
+package classes.Additionals;
 
-import classes.LevelEditor.TreeSelectionDialog;
-import classes.OuterFunctions;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
+import classes.StructureClasses.TreeFile;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
 import java.io.File;
 
@@ -23,10 +16,10 @@ public class TreeBuilder {
     private static Image IMGlevel_bundle;
     private static Image IMGfolder;
     private static Image IMGfile;
-    private static Image IMGlevel;
+    public static Image IMGlevel;
     private static Image IMGlevel_folder;
     private static Image IMGresources;
-    private static Image IMGtexture;
+    public static Image IMGtexture;
     private static Image IMGno_file;
 
     public static TreeBuilder get() {

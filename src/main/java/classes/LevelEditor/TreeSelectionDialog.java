@@ -1,11 +1,7 @@
 package classes.LevelEditor;
 
-import classes.OuterFunctions;
-import classes.StructureClasses.TreeBuilder;
+import classes.Additionals.TreeBuilder;
 import classes.StructureClasses.TreeFile;
-import com.google.common.collect.TreeTraverser;
-import com.google.common.io.Files;
-import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.stage.Window;
 

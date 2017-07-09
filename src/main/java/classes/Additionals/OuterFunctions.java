@@ -1,4 +1,4 @@
-package classes;
+package classes.Additionals;
 
 import classes.StructureClasses.TreeFile;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
@@ -17,7 +17,7 @@ import java.io.IOException;
  * Created by HP on 21.06.2017.
  */
 public class OuterFunctions {
-    public static Image scale(Image source, int targetWidth, int targetHeight, boolean preserveRatio) {
+    public static Image scale(Image source, double targetWidth, double targetHeight, boolean preserveRatio) {
         ImageView imageView = new ImageView(source);
         imageView.setPreserveRatio(preserveRatio);
         imageView.setFitWidth(targetWidth);

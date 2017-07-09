@@ -39,7 +39,7 @@
                       </TitledPane>
                     </panes>
                   </Accordion>
-                  <TextArea prefHeight="200.0" prefWidth="200.0" />
+                  <TextArea fx:id="console" prefHeight="200.0" prefWidth="200.0" />
               </items>
             </SplitPane>
 

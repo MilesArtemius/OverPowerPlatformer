@@ -1,32 +1,26 @@
 package classes.LevelEditor;
 
-import classes.OuterFunctions;
+import classes.Additionals.OuterFunctions;
 import classes.ResizableCanvas;
-import classes.StructureClasses.Toast;
-import classes.StructureClasses.TreeBuilder;
+import classes.Additionals.TreeBuilder;
+import classes.ResizableCanvasStuff.BasicUploader;
 import classes.StructureClasses.TreeFile;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
-import javax.management.Notification;
-import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,6 +28,9 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static classes.MainAndMenu.Depacker.pathname;
 
@@ -52,33 +49,35 @@ public class EditorController {
     PrintWriter consolePrintWriter;
 
     @FXML
-    private BorderPane rootPane;
+    public BorderPane rootPane;
     @FXML
-    private SplitPane baseSplit;
+    public SplitPane baseSplit;
     @FXML
-    private SplitPane leftSplit;
+    public SplitPane leftSplit;
     @FXML
-    private TreeView folderView;
+    public TreeView folderView;
     @FXML
-    private TextArea consoleView;
+    public TextArea consoleView;
     @FXML
-    private AnchorPane levelViewContainer;
+    public AnchorPane levelViewContainer;
     @FXML
-    private ResizableCanvas levelView;
+    public ResizableCanvas levelView;
     @FXML
-    private SplitPane rightSplit;
+    public SplitPane rightSplit;
     @FXML
-    private Accordion locatorMenu;
+    public Accordion locatorMenu;
     @FXML
-    private TitledPane blockSector;
+    public TitledPane blockSector;
     @FXML
-    private TitledPane entitySector;
+    public TitledPane entitySector;
     @FXML
-    private TitledPane comingsoonSector;
+    public TitledPane comingsoonSector;
     @FXML
-    private MenuBar toolbarView;
+    public MenuBar toolbarView;
     @FXML
-    private Menu fileMenu;
+    public Menu fileMenu;
+    @FXML
+    public TextArea console;
 
 
     @FXML
@@ -127,12 +126,43 @@ public class EditorController {
                                 addingNew.showAndWait();
                                 if (addingNew.getResult() != null) {
                                     Path path = Files.createFile(Paths.get(treeFile.getAbsolutePath() + ((addingNew.getResult().contains(".upson"))?(addingNew.getResult()):(addingNew.getResult() + ".upson"))));
-                                    treeItem.getChildren().add(new TreeItem<>(new TreeFile(path.toString(), ((addingNew.getResult().contains(".upson"))?(addingNew.getResult()):(addingNew.getResult() + ".upson")))));
+                                    TreeItem item =new TreeItem<>(new TreeFile(path.toString(), ((addingNew.getResult().contains(".upson"))?(addingNew.getResult()):(addingNew.getResult() + ".upson"))));
+                                    item.setGraphic(new ImageView(TreeBuilder.get().IMGlevel));
+                                    treeItem.getChildren().add(item);
                                 } else {
                                     System.out.println("No adding");
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
+                            }
+                        });
+                        contextMenu.getItems().add(addItem);
+                        contextMenu.show(rootPane.getScene().getWindow(), event.getScreenX(), event.getScreenY());
+                    } else if (treeFile.getName().equals("textures")) {
+                        ContextMenu contextMenu = new ContextMenu();
+                        MenuItem addItem = new MenuItem("Add new texture");
+                        addItem.setOnAction(event1 -> {
+                            try {
+                                FileChooser fc = new FileChooser();
+                                fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Only capable image yet", "*.png"));
+                                //DirectoryChooser fc = new DirectoryChooser();
+                                //fc.showDialog((rootPane.getScene().getWindow()));
+                                List<File> files = fc.showOpenMultipleDialog(rootPane.getScene().getWindow());
+                                //ArrayList<File> files = new ArrayList<File>();
+                                for (File file: files) {
+                                    TextInputDialog addingNew = new TextInputDialog(file.toString());
+                                    addingNew.showAndWait();
+                                    if (addingNew.getResult() != null) {
+                                        Path path = Files.copy(file.toPath(), Paths.get(treeFile.getAbsolutePath() + (addingNew.getResult() + "." + com.google.common.io.Files.getFileExtension(file.getName()))));
+                                        TreeItem item = new TreeItem<>(new TreeFile(path.toString(), addingNew.getResult() + "." + com.google.common.io.Files.getFileExtension(file.getName())));
+                                        item.setGraphic(new ImageView(TreeBuilder.get().IMGtexture));
+                                        treeItem.getChildren().add(item);
+                                    } else {
+                                        System.out.println("No adding");
+                                    }
+                                }
+                            } catch (Exception e) {
+                                System.out.println("No adding");
                             }
                         });
                         contextMenu.getItems().add(addItem);
@@ -145,11 +175,15 @@ public class EditorController {
                 try {
                     TreeItem treeItem = (TreeItem) folderView.getSelectionModel().getSelectedItem();
                     TreeFile treeFile = (TreeFile) treeItem.getValue();
-                    if (treeFile.isFile()) {
+                    if (treeFile.isImage()) {
+                        Image image = new Image(Files.newInputStream(treeFile.toPath()));
+                        double param = (levelView.getWidth() > levelView.getHeight())?(levelView.getHeight()):(levelView.getWidth());
+                        levelView.getGraphicsContext2D().drawImage(OuterFunctions.scale(image, param, param, true), (levelView.getWidth() - param) / 2, (levelView.getHeight() - param) / 2);
+                    } else if (treeFile.isFile()) {
                         openedInConsoleFile = treeFile;
                         consoleView.setText(new String(Files.readAllBytes(Paths.get(treeFile.getAbsolutePath()))));
                         if (consoleView.getText().length() == 0) {
-                            consoleView.setPromptText("Press 'Ctrl + Enter' to save changes");
+                            consoleView.setPromptText("This file is empty...");
                         }
                     } else {
                         consoleView.setText("");
@@ -168,7 +202,7 @@ public class EditorController {
                     consolePrintWriter.println(consoleView.getText());
                     consolePrintWriter.flush();
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    System.out.println("was not appended");
                 }
             }
         });
