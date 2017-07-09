@@ -2,6 +2,7 @@ package classes.LevelEditor;
 
 import classes.OuterFunctions;
 import classes.ResizableCanvas;
+import classes.StructureClasses.Toast;
 import classes.StructureClasses.TreeBuilder;
 import classes.StructureClasses.TreeFile;
 import javafx.event.ActionEvent;
@@ -12,13 +13,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
+import javax.management.Notification;
 import javax.swing.filechooser.FileSystemView;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -134,9 +142,9 @@ public class EditorController {
                     e.printStackTrace();
                 }
             } else if (event.getClickCount() > 1) {
-                TreeItem treeItem = (TreeItem) folderView.getSelectionModel().getSelectedItem();
-                TreeFile treeFile = (TreeFile) treeItem.getValue();
                 try {
+                    TreeItem treeItem = (TreeItem) folderView.getSelectionModel().getSelectedItem();
+                    TreeFile treeFile = (TreeFile) treeItem.getValue();
                     if (treeFile.isFile()) {
                         openedInConsoleFile = treeFile;
                         consoleView.setText(new String(Files.readAllBytes(Paths.get(treeFile.getAbsolutePath()))));
@@ -201,8 +209,12 @@ public class EditorController {
                 tsd.setTreeRoot(new TreeFile(pathname + "games\\custom_levels"));
                 tsd.showAndWait();
                 String path = (String) tsd.getResult();
-                TreeItem root = TreeBuilder.get().fileTreeBuilder(new TreeFile(path, path.substring(path.lastIndexOf('\\') + 1)), true);
-                folderView.setRoot(root);
+                if (path != null) {
+                    TreeItem root = TreeBuilder.get().fileTreeBuilder(new TreeFile(path, path.substring(path.lastIndexOf('\\') + 1)), true);
+                    folderView.setRoot(root);
+                } else {
+                    System.out.println("no renaming");
+                }
             });
 
 

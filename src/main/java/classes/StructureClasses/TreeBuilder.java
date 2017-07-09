@@ -20,9 +20,14 @@ import java.io.File;
  */
 public class TreeBuilder {
     private static TreeBuilder treeBuilder;
-    private Image level;
-    private Image folder;
-    private ImageView file;
+    private static Image IMGlevel_bundle;
+    private static Image IMGfolder;
+    private static Image IMGfile;
+    private static Image IMGlevel;
+    private static Image IMGlevel_folder;
+    private static Image IMGresources;
+    private static Image IMGtexture;
+    private static Image IMGno_file;
 
     public static TreeBuilder get() {
         return treeBuilder = new TreeBuilder();
@@ -30,8 +35,14 @@ public class TreeBuilder {
 
     private TreeBuilder() {
         if (treeBuilder == null) {
-            level = new Image(getClass().getResourceAsStream("/textures/ErEsursE.png"));
-            folder = new Image(getClass().getResourceAsStream("/textures/floor.png"));
+            IMGlevel_bundle = new Image(getClass().getResourceAsStream("/pictures/level_bundle.png"));
+            IMGfolder = new Image(getClass().getResourceAsStream("/pictures/folder.png"));
+            IMGfile = new Image(getClass().getResourceAsStream("/pictures/file.png"));
+            IMGlevel = new Image(getClass().getResourceAsStream("/pictures/level.png"));
+            IMGlevel_folder = new Image(getClass().getResourceAsStream("/pictures/level_folder.png"));
+            IMGresources = new Image(getClass().getResourceAsStream("/pictures/resources.png"));
+            IMGtexture = new Image(getClass().getResourceAsStream("/pictures/texture.png"));
+            IMGno_file = new Image(getClass().getResourceAsStream("/pictures/no_file.png"));
         }
     }
 
@@ -39,12 +50,30 @@ public class TreeBuilder {
         TreeItem<TreeFile> treeItem = new TreeItem<>(file);
         treeItem.setExpanded(true);
         if (file.isDirectory()) {
+            ImageView ivfo;
+            if (file.getName().equals("levels"))  {
+                ivfo = new ImageView(IMGlevel_folder);
+            } else if (file.getName().equals("textures")) {
+                ivfo = new ImageView(IMGresources);
+            } else {
+                ivfo = new ImageView(IMGlevel_bundle);
+            }
+            treeItem.setGraphic(ivfo);
             for (File subFile: file.listFiles()) {
                 TreeFile subTreeFile = new TreeFile(subFile.getAbsolutePath(), subFile.getAbsolutePath().substring(subFile.getAbsolutePath().lastIndexOf('\\') + 1));
                 treeItem.getChildren().add(((deep) ? (fileTreeBuilder(subTreeFile, true)) : (new TreeItem<>(subTreeFile))));
             }
         } else {
-            return new TreeItem<>(file);
+            ImageView ivfi;
+            if (file.getParentFile().getName().equals("levels")) {
+                ivfi = new ImageView(IMGlevel);
+            } else if (file.getParentFile().getName().equals("textures")) {
+                ivfi = new ImageView(IMGtexture);
+            } else {
+                ivfi = new ImageView(IMGfile);
+            }
+            treeItem.setGraphic(ivfi);
+            return treeItem;
         }
         return treeItem;
     }
@@ -56,22 +85,35 @@ public class TreeBuilder {
             for (File subFile: file.listFiles()) {
                 TreeFile subTreeFile = new TreeFile(subFile.getAbsolutePath(), subFile.getAbsolutePath().substring(subFile.getAbsolutePath().lastIndexOf('\\') + 1));
                 treeItem.getChildren().add(fileTreeRootBuilder(subTreeFile, pathToPrimaryFile, pathToPrimaryFile.substring(lastIndex).indexOf('\\') + 1 + lastIndex));
+                ImageView ivfo = new ImageView(IMGfolder);
+                treeItem.setGraphic(ivfo);
             }
         } else if (file.isDirectory()) {
             try {
                 if ((!file.isHidden()) && (file.canRead())) {
+                    ImageView iv;
                     if (file.isLevel()) {
-                        ImageView iv = new ImageView(level);
+                        iv = new ImageView(IMGlevel_bundle);
                         treeItem.setGraphic(iv);
                     } else {
+                        iv = new ImageView(IMGfolder);
+                        treeItem.setGraphic(iv);
                         loadTreeBuilder(treeItem);
                     }
                 }
             } catch (Exception e) {
-                return new TreeItem<>(file);
+                ImageView ivnf = new ImageView(IMGno_file);
+                treeItem.setGraphic(ivnf);
+                return treeItem;
             }
         } else {
-            return new TreeItem<>(file);
+            ImageView ivfi = new ImageView(IMGfile);
+            treeItem.setGraphic(ivfi);
+            return treeItem;
+        }
+        if (treeItem.getGraphic() == null) {
+            ImageView ivnf = new ImageView(IMGno_file);
+            treeItem.setGraphic(ivnf);
         }
         return treeItem;
     }
@@ -80,11 +122,13 @@ public class TreeBuilder {
         TreeFile treeFile = (TreeFile) treeItem.getValue();
         if ((treeFile.isDirectory()) && (!treeFile.isHidden() && (treeFile.canRead()))) {
             if (treeFile.isLevel()) {
-                ImageView iv = new ImageView(level);
-                treeItem.setGraphic(iv);
+                ImageView ivle = new ImageView(IMGlevel_bundle);
+                treeItem.setGraphic(ivle);
             } else {
                 treeItem.getChildren().add(new TreeItem<>(new TreeFile("dummy", "dummy")));
                 treeItem.setExpanded(false);
+                ImageView ivfo = new ImageView(IMGfolder);
+                treeItem.setGraphic(ivfo);
                 treeItem.expandedProperty().addListener((observable, oldValue, newValue) -> {
                     if (newValue) {
                         treeItem.getChildren().clear();
@@ -97,6 +141,9 @@ public class TreeBuilder {
                     }
                 });
             }
+        } else {
+            ImageView ivfi = new ImageView(IMGfile);
+            treeItem.setGraphic(ivfi);
         }
     }
 }

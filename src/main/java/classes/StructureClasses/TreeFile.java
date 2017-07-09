@@ -29,30 +29,34 @@ public class TreeFile extends File {
     }
 
     public boolean isLevel() {
-        if ((this.canRead()) && (this.isDirectory()) && (this.listFiles().length > 0)) {
-            ArrayList<String> files = new ArrayList<>();
-            boolean levelCounter = false;
-            for (File file: this.listFiles()) {
-                files.add(file.getName());
-                if ((file.isDirectory()) && (file.getName().equals("levels"))) {
-                    for (File level: file.listFiles()) {
-                        if (Files.getFileExtension(level.getName()).equals("upson")) {
-                            levelCounter = true;
+        try {
+            if ((this.canRead()) && (this.isDirectory()) && (this.listFiles().length > 0)) {
+                ArrayList<String> files = new ArrayList<>();
+                boolean levelCounter = false;
+                for (File file : this.listFiles()) {
+                    files.add(file.getName());
+                    if ((file.isDirectory()) && (file.getName().equals("levels"))) {
+                        for (File level : file.listFiles()) {
+                            if (Files.getFileExtension(level.getName()).equals("upson")) {
+                                levelCounter = true;
+                            }
                         }
                     }
                 }
+                if ((files.contains("levels")) &&
+                        (files.contains("textures")) &&
+                        (files.contains("blockset.json")) &&
+                        (files.contains("config.json")) &&
+                        levelCounter) {
+                    return true;
+                }
+            } else {
+                return false;
             }
-            if ((files.contains("levels")) &&
-                    (files.contains("textures")) &&
-                    (files.contains("blockset.json")) &&
-                    (files.contains("config.json")) &&
-                    levelCounter) {
-                return true;
-            }
-        } else {
+            return false;
+        } catch (Exception e){
             return false;
         }
-        return false;
     }
 
     public void setViewName(String name) {
