@@ -18,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
@@ -80,6 +81,10 @@ public class EditorController {
     public Menu fileMenu;
     @FXML
     public TextArea console;
+    @FXML
+    public TextField writableConsole;
+    @FXML
+    public VBox consoleContainer;
 
 
     @FXML

@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -22,6 +23,7 @@ import java.util.function.Consumer;
 public class ConsoleReader {
     EditorController father;
     TextArea console;
+    TextField writableConsole;
 
     CommandList commandList;
 
@@ -30,6 +32,8 @@ public class ConsoleReader {
     public ConsoleReader(EditorController father) {
         this.father = father;
         this.console = father.console;
+        this.writableConsole = father.writableConsole;
+        writeConsole(true, father.folder.getAbsolutePath());
         this.commandList = CommandList.get();
         try {
             String fileContent = new String(Files.readAllBytes(father.config.toPath()));
@@ -39,11 +43,21 @@ public class ConsoleReader {
             config = new JsonObject();
             System.out.println("configuration is null");
         }
-        this.console.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+        this.writableConsole.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
-                readConsole(console.getParagraphs().get(console.getParagraphs().size() - 1).toString());
+                readConsole(writableConsole.getText());
+                writeConsole(false, writableConsole.getText());
+                writableConsole.clear();
             }
         });
+    }
+
+    public void writeConsole(boolean isInit, String value) {
+        if (isInit) {
+            console.appendText("Console window initialized!" + "\n" + "Path to level folder: " + value + "\n" + "\n");
+        } else {
+            console.appendText("User commands: " + value);
+        }
     }
 
     public void readConsole(String input) {
@@ -51,6 +65,8 @@ public class ConsoleReader {
         //System.out.println(Arrays.toString(inputArray));
         if (inputArray[0].equals(commandList.getCommands().get("set").getValue())) {
             setCommand(inputArray);
+        } else if (inputArray[0].equals(commandList.getCommands().get("help").getValue())) {
+
         }
     }
 

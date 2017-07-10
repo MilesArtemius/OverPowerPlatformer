@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.Canvas?>
+<?import classes.ResizableCanvas?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.TreeView?>
-<?import javafx.scene.layout.BorderPane?>
-
-<?import classes.ResizableCanvas?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="classes.LevelEditor.EditorController">
    <center>
       <SplitPane fx:id="baseSplit" dividerPositions="0.3, 0.7" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -23,8 +23,8 @@
                   <TextArea fx:id="consoleView" prefHeight="200.0" prefWidth="200.0" promptText="Press 'Ctrl + Enter' to save changes" />
             </SplitPane>
 
-            <AnchorPane fx:id="levelViewContainer" prefWidth="Infinity" prefHeight="Infinity">
-                <ResizableCanvas fx:id="levelView"/>
+            <AnchorPane fx:id="levelViewContainer" prefHeight="Infinity" prefWidth="Infinity">
+                <ResizableCanvas fx:id="levelView" />
             </AnchorPane>
 
             <SplitPane fx:id="rightSplit" dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
@@ -39,7 +39,12 @@
                       </TitledPane>
                     </panes>
                   </Accordion>
-                  <TextArea fx:id="console" prefHeight="200.0" prefWidth="200.0" />
+                  <VBox fx:id="consoleContainer" minHeight="-Infinity" prefHeight="-Infinity">
+                    <children>
+                      <TextArea fx:id="console" mouseTransparent="true" wrapText="true" />
+                      <TextField fx:id="writableConsole" />
+                    </children>
+                  </VBox>
               </items>
             </SplitPane>
 
@@ -49,9 +54,9 @@
    <top>
       <MenuBar fx:id="toolbarView" BorderPane.alignment="CENTER">
         <menus>
-          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File"/>
-          <Menu mnemonicParsing="false" text="Edit"/>
-          <Menu mnemonicParsing="false" text="Help"/>
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File" />
+          <Menu mnemonicParsing="false" text="Edit" />
+          <Menu mnemonicParsing="false" text="Help" />
         </menus>
       </MenuBar>
    </top>

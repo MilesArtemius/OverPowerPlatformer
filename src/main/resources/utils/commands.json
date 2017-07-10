@@ -1,0 +1,10 @@
+{
+  "set": {
+    "value": "set",
+    "usage": "set [object] [name] [value]",
+    "description": "sets object (const, block or entity) with name (name for const or coordinates formatted 'XXxYY' for blocks and entities) and value (number for const and name for blocks and entities"},
+  "help": {
+    "value": "help",
+    "usage": "help OR help [command]",
+    "description": "reveals description of all commands OR description of a specific command"}
+}

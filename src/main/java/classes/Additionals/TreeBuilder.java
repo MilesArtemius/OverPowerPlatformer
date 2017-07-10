@@ -28,14 +28,14 @@ public class TreeBuilder {
 
     private TreeBuilder() {
         if (treeBuilder == null) {
-            IMGlevel_bundle = new Image(getClass().getResourceAsStream("/pictures/level_bundle.png"));
-            IMGfolder = new Image(getClass().getResourceAsStream("/pictures/folder.png"));
-            IMGfile = new Image(getClass().getResourceAsStream("/pictures/file.png"));
-            IMGlevel = new Image(getClass().getResourceAsStream("/pictures/level.png"));
-            IMGlevel_folder = new Image(getClass().getResourceAsStream("/pictures/level_folder.png"));
-            IMGresources = new Image(getClass().getResourceAsStream("/pictures/resources.png"));
-            IMGtexture = new Image(getClass().getResourceAsStream("/pictures/texture.png"));
-            IMGno_file = new Image(getClass().getResourceAsStream("/pictures/no_file.png"));
+            IMGlevel_bundle = new Image(getClass().getResourceAsStream("/utils/pictures/level_bundle.png"));
+            IMGfolder = new Image(getClass().getResourceAsStream("/utils/pictures/folder.png"));
+            IMGfile = new Image(getClass().getResourceAsStream("/utils/pictures/file.png"));
+            IMGlevel = new Image(getClass().getResourceAsStream("/utils/pictures/level.png"));
+            IMGlevel_folder = new Image(getClass().getResourceAsStream("/utils/pictures/level_folder.png"));
+            IMGresources = new Image(getClass().getResourceAsStream("/utils/pictures/resources.png"));
+            IMGtexture = new Image(getClass().getResourceAsStream("/utils/pictures/texture.png"));
+            IMGno_file = new Image(getClass().getResourceAsStream("/utils/pictures/no_file.png"));
         }
     }
 
