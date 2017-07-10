@@ -41,12 +41,14 @@ public class EditorController {
     File folder;
     File textureFolder;
     File levelsFolder;
-    File level;
+    ArrayList<File> levels;
     File config;
     File blockset;
 
     TreeFile openedInConsoleFile;
     PrintWriter consolePrintWriter;
+
+    ConsoleReader consoleReader;
 
     @FXML
     public BorderPane rootPane;
@@ -84,6 +86,8 @@ public class EditorController {
     public void initialize() {
         levelView.widthProperty().bind(levelViewContainer.widthProperty());
         levelView.heightProperty().bind(levelViewContainer.heightProperty());
+
+        levels = new ArrayList<>();
 
         folderView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.SECONDARY) {
@@ -218,20 +222,19 @@ public class EditorController {
                     levelsFolder = new File(folder.getAbsolutePath() + "\\levels");
                     levelsFolder.mkdir();
 
-                    level = new File(levelsFolder.getAbsolutePath() + "\\test.upson");
-                    level.createNewFile();
+                    levels.add(new File(levelsFolder.getAbsolutePath() + "\\test.upson"));
+                    levels.get(0).createNewFile();
 
                     config = new File(folder.getAbsolutePath() + "\\config.json");
                     config.createNewFile();
-                    PrintWriter pw = new PrintWriter(config.getAbsolutePath());
-                    pw.println("It is the .json configuration file of the level...");
-                    pw.close();
 
                     blockset = new File(folder.getAbsolutePath() + "\\blockset.json");
                     blockset.createNewFile();
 
                     TreeItem root = TreeBuilder.get().fileTreeBuilder(new TreeFile(folder.getAbsolutePath(), folder.getAbsolutePath().substring(folder.getAbsolutePath().lastIndexOf('\\') + 1)), true);
                     folderView.setRoot(root);
+
+                    consoleReader = new ConsoleReader(this);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -246,9 +249,18 @@ public class EditorController {
                 if (path != null) {
                     TreeItem root = TreeBuilder.get().fileTreeBuilder(new TreeFile(path, path.substring(path.lastIndexOf('\\') + 1)), true);
                     folderView.setRoot(root);
+                    folder = new File(path);
+                    textureFolder = new File(folder.getAbsolutePath() + "\\textures");
+                    levelsFolder = new File(folder.getAbsolutePath() + "\\levels");
+                    System.out.println(levelsFolder.isDirectory());
+                    levels.addAll(Arrays.asList(levelsFolder.listFiles()));
+                    config = new File(folder.getAbsolutePath() + "\\config.json");
+                    blockset = new File(folder.getAbsolutePath() + "\\blockset.json");
                 } else {
                     System.out.println("no renaming");
                 }
+
+                consoleReader = new ConsoleReader(this);
             });
 
 

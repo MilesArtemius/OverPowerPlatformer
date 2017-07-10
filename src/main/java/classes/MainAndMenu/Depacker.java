@@ -1,6 +1,7 @@
 package classes.MainAndMenu;
 
 
+import classes.Additionals.CommandList;
 import classes.StructureClasses.Level;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -93,5 +94,25 @@ public class Depacker {
         }
 
         return new Level(filepath, jo.get("name").getAsString(), jo.get("height").getAsInt(), jo.get("width").getAsInt(), jo.get("level_pack").getAsJsonObject());
+    }
+
+    public static HashMap<String, CommandList.Command> getCommands(Class app) {
+
+        HashMap<String, CommandList.Command> hm = new HashMap<>();
+
+        try {
+            JsonParser JP = new JsonParser();
+            JsonElement config = JP.parse(new JsonReader(new InputStreamReader(app.getResourceAsStream("/commands.json"))));
+            JsonObject jo = config.getAsJsonObject();
+            for (Map.Entry<String, JsonElement> entry: jo.entrySet()) {
+                hm.put(entry.getKey(), new CommandList.Command(entry.getValue().getAsJsonObject().get("value").getAsString(), entry.getValue().getAsJsonObject().get("description").getAsString()));
+            }
+
+        } catch (Exception e) {
+            System.out.println("commands list damaged");
+            e.printStackTrace();
+        }
+
+        return hm;
     }
 }
