@@ -105,7 +105,9 @@ public class Depacker {
             JsonElement config = JP.parse(new JsonReader(new InputStreamReader(app.getResourceAsStream("/utils/commands.json"))));
             JsonObject jo = config.getAsJsonObject();
             for (Map.Entry<String, JsonElement> entry: jo.entrySet()) {
-                hm.put(entry.getKey(), new CommandList.Command(entry.getValue().getAsJsonObject().get("value").getAsString(), entry.getValue().getAsJsonObject().get("description").getAsString()));
+                hm.put(entry.getKey(), new CommandList.Command(entry.getValue().getAsJsonObject().get("value").getAsString(),
+                        entry.getValue().getAsJsonObject().get("usage").getAsString(),
+                        entry.getValue().getAsJsonObject().get("description").getAsString()));
             }
 
         } catch (Exception e) {

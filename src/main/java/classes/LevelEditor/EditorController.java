@@ -92,6 +92,8 @@ public class EditorController {
         levelView.widthProperty().bind(levelViewContainer.widthProperty());
         levelView.heightProperty().bind(levelViewContainer.heightProperty());
 
+        console.setEditable(false);
+
         levels = new ArrayList<>();
 
         folderView.setOnMouseClicked(event -> {

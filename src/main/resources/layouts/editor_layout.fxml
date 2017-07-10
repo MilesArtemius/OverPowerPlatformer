@@ -41,7 +41,7 @@
                   </Accordion>
                   <VBox fx:id="consoleContainer" minHeight="-Infinity" prefHeight="-Infinity">
                     <children>
-                      <TextArea fx:id="console" mouseTransparent="true" wrapText="true" />
+                      <TextArea fx:id="console" wrapText="true" />
                       <TextField fx:id="writableConsole" />
                     </children>
                   </VBox>

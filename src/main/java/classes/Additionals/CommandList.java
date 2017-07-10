@@ -24,10 +24,12 @@ public class CommandList {
 
     public static class Command {
         String value;
+        String usage;
         String description;
 
-        public Command(String value, String description) {
+        public Command(String value, String usage, String description) {
             this.value = value;
+            this.usage = usage;
             this.description = description;
         }
 
@@ -37,6 +39,13 @@ public class CommandList {
 
         public String getDescription() {
             return description;
+        }
+
+        @Override
+        public String toString() {
+            return "Command: " + value + "\n" +
+                    "   Usage: " + usage + "\n" +
+                    "   Description: " + description;
         }
     }
 }

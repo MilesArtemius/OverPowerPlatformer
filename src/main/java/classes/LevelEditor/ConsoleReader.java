@@ -33,7 +33,7 @@ public class ConsoleReader {
         this.father = father;
         this.console = father.console;
         this.writableConsole = father.writableConsole;
-        writeConsole(true, father.folder.getAbsolutePath());
+        writeConsole(true, false, father.folder.getAbsolutePath());
         this.commandList = CommandList.get();
         try {
             String fileContent = new String(Files.readAllBytes(father.config.toPath()));
@@ -45,19 +45,23 @@ public class ConsoleReader {
         }
         this.writableConsole.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
+                writeConsole(false, true, writableConsole.getText());
                 readConsole(writableConsole.getText());
-                writeConsole(false, writableConsole.getText());
                 writableConsole.clear();
             }
         });
     }
 
-    public void writeConsole(boolean isInit, String value) {
+    public void writeConsole(boolean isInit, boolean userInput, String value) {
+        console.setEditable(true);
         if (isInit) {
             console.appendText("Console window initialized!" + "\n" + "Path to level folder: " + value + "\n" + "\n");
+        } else if (userInput) {
+            console.appendText("\n" + "User commands: " + value + "\n");
         } else {
-            console.appendText("User commands: " + value);
+            console.appendText(value + "\n");
         }
+        console.setEditable(false);
     }
 
     public void readConsole(String input) {
@@ -66,7 +70,7 @@ public class ConsoleReader {
         if (inputArray[0].equals(commandList.getCommands().get("set").getValue())) {
             setCommand(inputArray);
         } else if (inputArray[0].equals(commandList.getCommands().get("help").getValue())) {
-
+            helpCommand(inputArray);
         }
     }
 
@@ -84,23 +88,20 @@ public class ConsoleReader {
         }
     }
 
-    /*private void writeToFile(File file, String value) {
-        try {
-            PrintWriter printWriter = new PrintWriter(file);
-            printWriter.append(value);
-        } catch (Exception e) {
-            System.out.println("was not written");
-        }
-    }*/
-
     private void setCommand(String[] input) {
         switch (input[1]) {
             case "const":
-                //writeToFile(father.config, (configWriteCount == 0)?(""):(","));
-                //configWriteCount++;
                 JsonParser parser = new JsonParser();
                 JsonObject o = parser.parse("{\"" + input[2] + "\": \"" + input[3] + "\"}").getAsJsonObject();
                 writeToFile(father.config, o);
+        }
+    }
+
+    private void helpCommand(String[] input) {
+        for (String name: commandList.getCommands().keySet()) {
+            if (input[1].equals(name)) {
+                writeConsole(false, false, commandList.getCommands().get(name).toString());
+            }
         }
     }
 }
