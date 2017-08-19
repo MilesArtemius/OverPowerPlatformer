@@ -1,7 +1,6 @@
 package classes;
 
 import classes.ResizableCanvasStuff.BasicUploader;
-import classes.ResizableCanvasStuff.LevelUploader;
 import javafx.scene.canvas.Canvas;
 
 import java.io.FileInputStream;

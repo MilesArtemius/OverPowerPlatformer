@@ -1,6 +1,7 @@
 package classes.ResizableCanvasStuff;
 
 import classes.ResizableCanvas;
+import classes.ResizableCanvasStuff.LevelUploaders.LevelUploader;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
