@@ -132,7 +132,7 @@ public class interActivator {
             return;
         }
 
-        // corner interaction;
+        // corner interaction;//
 
         System.out.println(LuP.prev_x);
         System.out.println(LuP.prev_y);
