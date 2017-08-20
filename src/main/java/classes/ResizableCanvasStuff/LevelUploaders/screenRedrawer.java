@@ -18,6 +18,8 @@ public class screenRedrawer {
         System.out.println("Translation by Y limit: " + LuP.currentTranslationY);
         System.out.println("Window width: " + LuP.source.getWidth());
         System.out.println("Window height: " + LuP.source.getHeight());
+        System.out.println("X: " + LuP.x);
+        System.out.println("Y: " + LuP.y);
 
         if (LuP.forceRedraw) {
             System.out.println("Force redraw");

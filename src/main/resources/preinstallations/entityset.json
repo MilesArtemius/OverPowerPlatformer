@@ -1,0 +1,16 @@
+{
+  "main_character": {
+    "abilities": {
+      "health": {
+        "area": "1",
+        "is_endless": "false",
+        "active": "false",
+        "level": "100",
+        "consumes": "0",
+        "hostile": "false"
+      }
+    },
+    "texture": "shrimp.png",
+    "name": "Mr.Shrimp"
+  }
+}

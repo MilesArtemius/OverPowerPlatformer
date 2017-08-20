@@ -6,9 +6,5 @@
   "floor": {
     "texture": "floor.png",
     "name": "floor"
-  },
-  "system_block_name": {
-    "texture": "texture_file_name",
-    "name": "personal_block_name"
   }
 }

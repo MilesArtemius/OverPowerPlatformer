@@ -5,6 +5,7 @@ import classes.MainAndMenu.Depacker;
 import classes.Additionals.OuterFunctions;
 import classes.ResizableCanvas;
 import classes.ResizableCanvasStuff.BasicUploader;
+import classes.StructureClasses.Entity;
 import classes.StructureClasses.GameRulez;
 import classes.StructureClasses.Level;
 import javafx.animation.AnimationTimer;
@@ -15,6 +16,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LevelUploader extends BasicUploader {
@@ -32,6 +34,7 @@ public class LevelUploader extends BasicUploader {
     int MOVEMENTER = 0; // move variable.
     int MOVEMENTER2 = 0; // jump variable.
     Level level; // level map.
+    ArrayList<Entity> entities;
     String levelPath = "null"; //absolute path to level;
     Double param; // min(ScreenWidth, ScreenHeight).
     WritableImage[] wim = new WritableImage [9]; // images around the protagonist.
@@ -43,6 +46,7 @@ public class LevelUploader extends BasicUploader {
     boolean forceRedraw;
     double CurrentSourceW = 1;
     double CurrentSourceH = 1;
+
 
     interActivator activator;
     screenRedrawer redrawer;
@@ -68,10 +72,10 @@ public class LevelUploader extends BasicUploader {
             System.out.println(gm.toString());
 
             if (ATX == 0) {
-                x = gm.get("BASIC_STATE_X");
-                y = gm.get("BASIC_STATE_Y");
-
                 level = Depacker.getStartedLevel(getClass(), levelPath);
+
+                x = level.mainCharacterX * gm.get("BLOCK_SIZE");
+                y = level.mainCharacterY * gm.get("BLOCK_SIZE");
             }
 
             gc.clearRect(0, 0, source.getWidth(), source.getHeight());
@@ -88,6 +92,16 @@ public class LevelUploader extends BasicUploader {
                 for (int j = 0; j < level.level[i].length; j++) {
                     try {
                         str_gc.drawImage(OuterFunctions.scale(level.level[i][j].texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), gm.get("BLOCK_SIZE") * i, gm.get("BLOCK_SIZE") * j);
+                    } catch (NullPointerException npe) {
+                        npe.getMessage();
+                    }
+                }
+            }
+
+            for (int i = 0; i < level.entities.length; i++) {
+                for (int j = 0; j < level.entities[i].length; j++) {
+                    try {
+                        str_gc.drawImage(OuterFunctions.scale(level.entities[i][j].skin, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), gm.get("BLOCK_SIZE") * i, gm.get("BLOCK_SIZE") * j);
                     } catch (NullPointerException npe) {
                         npe.getMessage();
                     }

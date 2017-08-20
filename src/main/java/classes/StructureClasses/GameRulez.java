@@ -4,6 +4,7 @@ package classes.StructureClasses;
 import classes.MainAndMenu.Depacker;
 import com.google.gson.JsonElement;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -19,6 +20,8 @@ public class GameRulez {
     private static HashMap<String, Double> RuleSet = new HashMap<>();
     private static HashMap<String, JsonElement> BlockzfromFile;
     private static HashMap<String, Block> BlockSet = new HashMap<>();
+    private static HashMap<String, JsonElement> EntitiezfromFile;
+    private static HashMap<String, Entity> EntitySet = new HashMap<>();
 
     public HashMap<String, Double> getRulez(double w, double h, double param, boolean force) {
         if ((w != width) || (h != height) || (force)) {
@@ -56,6 +59,18 @@ public class GameRulez {
         return BlockSet;
     }
 
+    public HashMap<String, Entity> getEntitiez(String filepath, boolean force) {
+        if (force) {
+            for (String name : EntitiezfromFile.keySet()) {
+                if (!EntitySet.containsKey(name)) {
+                    System.out.println();
+                    EntitySet.put(name, new Entity(filepath, EntitiezfromFile.get(name).getAsJsonObject()));
+                }
+            }
+        }
+        return EntitySet;
+    }
+
     public static GameRulez get(String filepath) {
         return GRulez = new GameRulez(filepath);
     }
@@ -64,9 +79,11 @@ public class GameRulez {
         if (filepath.equals("null")) {
             RulezfromFile = Depacker.getStartedConfiguration(getClass(), "/config.json");
             BlockzfromFile = Depacker.getStartedConfiguration(getClass(), "/blockset.json");
+            EntitiezfromFile = Depacker.getStartedConfiguration(getClass(), "/entityset.json");
         } else {
             RulezfromFile = Depacker.getStartedConfiguration(getClass(), filepath + "&config.json");
-            BlockzfromFile = (Depacker.getStartedConfiguration(getClass(), filepath + "&blockset.json"));
+            BlockzfromFile = Depacker.getStartedConfiguration(getClass(), filepath + "&blockset.json");
+            EntitiezfromFile = Depacker.getStartedConfiguration(getClass(), filepath + "&entityset.json");
         }
 
         BlockSet = getBlockz(filepath, true);

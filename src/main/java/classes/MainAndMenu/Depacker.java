@@ -93,7 +93,7 @@ public class Depacker {
             e.printStackTrace();
         }
 
-        return new Level(filepath, jo.get("name").getAsString(), jo.get("height").getAsInt(), jo.get("width").getAsInt(), jo.get("level_pack").getAsJsonObject());
+        return new Level(filepath, jo);
     }
 
     public static HashMap<String, CommandList.Command> getCommands(Class app) {

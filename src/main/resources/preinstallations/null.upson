@@ -2,6 +2,9 @@
   "name": "null",
   "height": "1",
   "width": "1",
+  "character_start": "1x1",
+  "entity_pack": {
+  },
   "level_pack": {
   }
 }
