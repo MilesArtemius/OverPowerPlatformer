@@ -15,6 +15,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,13 +26,15 @@ public class LevelUploader extends BasicUploader {
     HashMap<String, Double> gm; // library of level rules.
     double x = 0; // x coordinate of protagonist.
     double y = 0; // x coordinate of protagonist.
-    double prev_x = 0; // x coordinate of protagonist for the previous frame.
-    double prev_y = 0; // x coordinate of protagonist for the previous frame.
     double t = 1; // time for leap.
     double ATX = 0; // translation X from the 0,0.
     double ATY = 0; // translation Y from the 0,0.
     AnimationTimer at; // timer of animation.
     boolean AntiJumper = true; // preventer of multiple jump.
+    int jumpRequest = 0;
+    int jumper = 0;
+    int movementer = 0;
+    int moveRequest = 0;
     int MOVEMENTER = 0; // move variable.
     int MOVEMENTER2 = 0; // jump variable.
     Level level; // level map.
@@ -47,7 +51,6 @@ public class LevelUploader extends BasicUploader {
     double CurrentSourceW = 1;
     double CurrentSourceH = 1;
 
-
     interActivator activator;
     screenRedrawer redrawer;
 
@@ -58,6 +61,7 @@ public class LevelUploader extends BasicUploader {
     public void setSource(String path) {
         this.levelPath = path;
         this.gr = GameRulez.get(path);
+
     }
 
     @Override
@@ -145,46 +149,45 @@ public class LevelUploader extends BasicUploader {
 
                     forceRedraw = false;
 
+                    System.out.println(jumper);
+
                     //
                     gc.drawImage(OuterFunctions.scale(gr.getBlockz(levelPath, false).get("sample").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), x, y); //0 - bad, 1 - good;
 
                     if (gm.get("PLATFORMER") == 1) {
-                        if ((MOVEMENTER == 2) || (!AntiJumper)) {
+                        if ((jumper == 2) || (!AntiJumper)) {
                             y = y - (gm.get("SPEED") * t - gm.get("GRAVITY") * t * t / 2);
                             t += 0.1;
                         } else {
                             t = 2 * gm.get("SPEED") / gm.get("GRAVITY");
-                            MOVEMENTER = 2;
+                            jumper = 2;
                         }
                     } else {
-                        switch (MOVEMENTER) {
+                        switch (jumper) {
                             case 1:
                                 y += gm.get("MOVEMENT");
-                                gc.translate(0, -gm.get("MOVEMENT"));
-                                ATY += gm.get("MOVEMENT");
+                                activator.activateDown();
                                 break;
                             case 2:
                                 y -= gm.get("MOVEMENT");
-                                gc.translate(0, gm.get("MOVEMENT"));
-                                ATY -= gm.get("MOVEMENT");
+                                activator.activateUp();
                                 break;
                         }
                     }
-                    //
-                    switch (MOVEMENTER2) {
+
+                    switch (movementer) {
                         case 1:
                             x += gm.get("MOVEMENT");
-                            gc.translate(-gm.get("MOVEMENT"), 0);
-                            ATX += gm.get("MOVEMENT");
+                            activator.activateRight();
                             break;
                         case 2:
                             x -= gm.get("MOVEMENT");
-                            gc.translate(gm.get("MOVEMENT"), 0);
-                            ATX -= gm.get("MOVEMENT");
+                            activator.activateLeft();
                             break;
                     }
 
-                    activator.activate();
+                    movementer = moveRequest;
+                    jumper = jumpRequest;
                 }
             };
         }
@@ -198,13 +201,13 @@ public class LevelUploader extends BasicUploader {
                 AntiJumper = true;
             }
         } else {
-            MOVEMENTER = moves;
+            jumpRequest = moves;
         }
         at.start();
     }
 
     public void move(int moves) {
-        MOVEMENTER2 = moves;
+        moveRequest = moves;
         at.start();
     }
 
