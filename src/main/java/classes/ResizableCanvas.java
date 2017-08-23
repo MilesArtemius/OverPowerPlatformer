@@ -1,6 +1,5 @@
 package classes;
 
-import classes.ResizableCanvasStuff.BasicUploader;
 import javafx.scene.canvas.Canvas;
 
 import java.io.FileInputStream;
@@ -10,21 +9,14 @@ import java.util.zip.ZipInputStream;
 /**
  * Created by User on 18.03.2017.
  */
-public class ResizableCanvas extends Canvas {
+public abstract class ResizableCanvas extends Canvas {
 
-    public BasicUploader LUP = new BasicUploader(this);
-
-    public void setUploader(BasicUploader LUP) {
-        this.LUP = LUP;
-    }
+    public abstract void redraw();
+        //LUP.redrawCanvas();
 
     public ResizableCanvas() {
         widthProperty().addListener(evt -> redraw());
         heightProperty().addListener(evt -> redraw());
-    }
-
-    private void redraw() {
-        LUP.redrawCanvas();
     }
 
     public void getLevel(String pathTo) {

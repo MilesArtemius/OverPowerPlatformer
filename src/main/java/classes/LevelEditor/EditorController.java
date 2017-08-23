@@ -3,9 +3,9 @@ package classes.LevelEditor;
 import classes.Additionals.OuterFunctions;
 import classes.ResizableCanvas;
 import classes.Additionals.TreeBuilder;
-import classes.ResizableCanvasStuff.BasicUploader;
 import classes.StructureClasses.TreeFile;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -19,7 +19,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -64,7 +63,7 @@ public class EditorController {
     @FXML
     public AnchorPane levelViewContainer;
     @FXML
-    public ResizableCanvas levelView;
+    public Canvas levelView;
     @FXML
     public SplitPane rightSplit;
     @FXML

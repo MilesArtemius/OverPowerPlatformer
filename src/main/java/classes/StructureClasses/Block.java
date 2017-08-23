@@ -32,4 +32,8 @@ public class Block {
             e.printStackTrace();
         }
     }
+
+    public void resetImage(Image texture) {
+        this.texture = texture;
+    }
 }

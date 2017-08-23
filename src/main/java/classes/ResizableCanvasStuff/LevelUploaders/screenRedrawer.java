@@ -2,16 +2,23 @@ package classes.ResizableCanvasStuff.LevelUploaders;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 public class screenRedrawer {
     LevelUploader LuP;
 
+    double currentTranslationX = 0; // ATX / ScreenWidth.
+    double currentTranslationY = 0; // ATY / ScreenHeight.
+    WritableImage[] wim = new WritableImage [9]; // images around the protagonist.
+    int multiplierX = 0; // number of currentXtranslations from 0,0.
+    int multiplierY = 0; // number of currentYtranslations from 0,0.1
+
     public screenRedrawer(LevelUploader luP) {
         this.LuP = luP;
     }
 
-    public void draw() {
+    /*public void draw() {
         System.out.println("Translation by X: " + LuP.ATX);
         System.out.println("Translation by Y: " + LuP.ATY);
         System.out.println("Translation by X limit: " + LuP.currentTranslationX);
@@ -86,5 +93,5 @@ public class screenRedrawer {
             LuP.gc.drawImage(LuP.wim[7], LuP.source.getWidth() * LuP.multiplierX, LuP.source.getHeight() + (LuP.source.getHeight() * LuP.multiplierY));
             LuP.gc.drawImage(LuP.wim[8], +LuP.source.getWidth() + (LuP.source.getWidth() * LuP.multiplierX), LuP.source.getHeight() + (LuP.source.getHeight() * LuP.multiplierY));
         }
-    }
+    }*/
 }

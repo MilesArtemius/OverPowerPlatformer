@@ -1,5 +1,6 @@
 package classes.MainAndMenu;
 
+import classes.NeoButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,13 +25,13 @@ public class MainController {
     private TilePane pane;
 
     @FXML
-    private Button new_game_button;
+    private NeoButton new_game_button;
 
     @FXML
-    private Button continue_button;
+    private NeoButton continue_button;
 
     @FXML
-    private Button redactor_button;
+    private NeoButton redactor_button;
 
     @FXML
     private Hyperlink link;
@@ -84,21 +85,40 @@ public class MainController {
 
     @FXML
     public void initialize(){
-        pane.setBackground(new Background(new BackgroundImage(new Image(getClass().getResource("/textures/ErEsursE.png").toString()),
+        pane.setBackground(new Background(new BackgroundImage(new Image(getClass().getResource("/utils/pictures/TheGreenSun.jpg").toString()),
                 null, null, null,
                 new BackgroundSize(1, 1, true, true, false, false))));
 
         vBox.spacingProperty().bind(pane.heightProperty().divide(vBox.getChildren().size() * 2));
 
+        new_game_button.setHeight(8);
+        new_game_button.setText("NEW GAME");
         new_game_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> startNewGame());
+
+        continue_button.setHeight(8);
+        continue_button.setText("CONTINUE");
         continue_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> continueGame());
+
+        redactor_button.setHeight(8);
+        redactor_button.setText("REDACTOR");
         redactor_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> somethingElse());
-        link.setOnAction(event -> {
+        /*link.setOnAction(event -> {
             try {
                 Desktop.getDesktop().browse(new URI("https://firebase.google.com/"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
+        });*/
     }
 }
+
+
+/*<StackPane prefHeight="150.0" prefWidth="200.0">
+            <children>
+                <Text text="Text">
+                    <font>
+                        <Font name="Veranda" size="24.0" />
+                    </font>
+                </Text>
+            </children>
+         </StackPane>*/
