@@ -1,18 +1,26 @@
 package classes.MainAndMenu;
 
 import classes.NeoButton;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
 
@@ -38,6 +46,9 @@ public class MainController {
 
     private void continueGame() {
         try {
+
+            //scrrenDownButton(continue_button, "C:\\OP_GAME_SYS\\games\\continueButton.png");
+
             Parent root = FXMLLoader.load(getClass().getResource("/layouts/game_layout.fxml"));
 
             Stage stage = (Stage) pane.getScene().getWindow();
@@ -91,15 +102,15 @@ public class MainController {
 
         vBox.spacingProperty().bind(pane.heightProperty().divide(vBox.getChildren().size() * 2));
 
-        new_game_button.setHeight(8);
+        new_game_button.setHeight(64);
         new_game_button.setText("NEW GAME");
         new_game_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> startNewGame());
 
-        continue_button.setHeight(8);
+        continue_button.setHeight(64);
         continue_button.setText("CONTINUE");
         continue_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> continueGame());
 
-        redactor_button.setHeight(8);
+        redactor_button.setHeight(64);
         redactor_button.setText("REDACTOR");
         redactor_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> somethingElse());
         /*link.setOnAction(event -> {
@@ -109,6 +120,21 @@ public class MainController {
                 e.printStackTrace();
             }
         });*/
+    }
+
+    public void scrrenDownButton(NeoButton button, String pathToFile) {
+        WritableImage image = button.snapshot(null, null);
+        try {
+            File file = new File(pathToFile);
+            BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+            //System.out.println(n.getHeight());
+            ImageIO.write(
+                    bImage,
+                    "png",
+                    file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
 

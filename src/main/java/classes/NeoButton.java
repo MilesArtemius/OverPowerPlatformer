@@ -19,12 +19,12 @@ public class NeoButton extends StackPane {
         super();
         text = new Text();
         frame = new Rectangle();
-        paintIt(Color.WHITE, Color.TRANSPARENT);
+        paintIt(Color.WHEAT, Color.BLACK);
         this.getChildren().addAll(frame, text);
 
         this.setStyle("-fx-cursor: hand;");
-        this.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> paintIt(Color.BLACK, Color.WHITE));
-        this.addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> paintIt(Color.WHITE, Color.TRANSPARENT));
+        //this.addEventHandler(MouseEvent.MOUSE_ENTERED, mouseEvent -> paintIt(Color.BLACK, Color.WHITE));
+        //this.addEventHandler(MouseEvent.MOUSE_EXITED, mouseEvent -> paintIt(Color.WHITE, Color.TRANSPARENT));
     }
 
     public void setText(String text) {
