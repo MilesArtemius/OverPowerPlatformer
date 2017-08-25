@@ -1,10 +1,10 @@
-package classes.ResizableCanvasStuff.LevelUploaders;
+package greensun.ResizableCanvasStuff.LevelUploaders;
 
-import classes.MainAndMenu.Depacker;
-import classes.Additionals.OuterFunctions;
-import classes.ResizableCanvas;
-import classes.StructureClasses.GameRulez;
-import classes.StructureClasses.Level;
+import greensun.MainAndMenu.Depacker;
+import greensun.Additionals.OuterFunctions;
+import greensun.ResizableCanvas;
+import greensun.StructureClasses.GameRulez;
+import greensun.StructureClasses.Level;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -139,6 +139,11 @@ public class LevelUploader {
                     System.out.println("X: " + x);
                     System.out.println("Y: " + y);
 
+                    /*System.out.println(gm.get("SPEED") * t);
+                    System.out.println(gm.get("GRAVITY") * t * t / 2);
+                    System.out.println(t);
+                    System.out.println(jumper);*/
+
                     if ((gm.get("PLATFORMER") == 1) && (gm.get("TEST_LEVEL") == 1) && (y > (level.Height * gm.get("BLOCK_SIZE")))) {
                         y = gm.get("BASIC_STATE_Y");
                         t = 2 * gm.get("SPEED") / gm.get("GRAVITY");;
@@ -158,13 +163,23 @@ public class LevelUploader {
                     sourceGC.drawImage(OuterFunctions.scale(gr.getBlockz(levelPath, false).get("sample").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), x, y); //0 - bad, 1 - good;
 
                     if (gm.get("PLATFORMER") == 1) {
-                        if ((jumper == 2) || (!AntiJumper)) {
-                            y = y - (gm.get("SPEED") * t - gm.get("GRAVITY") * t * t / 2);
-                            t += 0.1;
+                        if ((jumper == 2) || (!AntiJumper)) { // optimize
+
+                            if (Math.abs((gm.get("SPEED") * t) - (gm.get("GRAVITY") * t * t / 2)) >=  gm.get("BLOCK_SIZE")) {
+                                t -= 0.1;
+                            } else {
+                                t += 0.1;
+                            }
+
+                            y = y - (gm.get("SPEED") * t) + (gm.get("GRAVITY") * t * t / 2);
+                            jumper = 2; //TODO: make jump not fixed height;
                         } else {
                             t = 2 * gm.get("SPEED") / gm.get("GRAVITY");
                             jumper = 2;
                         }
+
+                        activator.activateDown();
+                        activator.activateUp();
                     } else {
                         switch (jumper) {
                             case 1:
@@ -190,7 +205,7 @@ public class LevelUploader {
                     }
 
                     movementer = moveRequest;
-                    jumper = jumpRequest;
+                    //jumper = jumpRequest;
                 }
             };
         }
@@ -206,6 +221,7 @@ public class LevelUploader {
         } else {
             jumpRequest = moves;
         }
+
         at.start();
     }
 

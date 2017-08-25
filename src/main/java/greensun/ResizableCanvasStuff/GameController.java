@@ -1,18 +1,13 @@
-package classes.ResizableCanvasStuff;
+package greensun.ResizableCanvasStuff;
 
-import classes.ResizableCanvas;
-import classes.ResizableCanvasStuff.LevelUploaders.LevelUploader;
+import greensun.ResizableCanvasStuff.LevelUploaders.LevelUploader;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
-import javafx.scene.Camera;
-import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 public class GameController {
     LevelUploader LUP;

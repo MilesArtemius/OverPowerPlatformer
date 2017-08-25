@@ -1,10 +1,9 @@
-package classes.StructureClasses;
+package greensun.StructureClasses;
 
 
-import classes.MainAndMenu.Depacker;
+import greensun.MainAndMenu.Depacker;
 import com.google.gson.JsonElement;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 

@@ -1,4 +1,4 @@
-package classes.StructureClasses;
+package greensun.StructureClasses;
 
 import com.google.gson.JsonObject;
 import javafx.scene.image.Image;

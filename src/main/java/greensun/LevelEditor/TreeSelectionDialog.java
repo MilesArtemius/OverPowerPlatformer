@@ -1,7 +1,7 @@
-package classes.LevelEditor;
+package greensun.LevelEditor;
 
-import classes.Additionals.TreeBuilder;
-import classes.StructureClasses.TreeFile;
+import greensun.Additionals.TreeBuilder;
+import greensun.StructureClasses.TreeFile;
 import javafx.scene.control.*;
 import javafx.stage.Window;
 

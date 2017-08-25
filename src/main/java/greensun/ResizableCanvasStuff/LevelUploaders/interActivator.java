@@ -1,4 +1,4 @@
-package classes.ResizableCanvasStuff.LevelUploaders;
+package greensun.ResizableCanvasStuff.LevelUploaders;
 
 public class interActivator {
     LevelUploader LuP;
@@ -72,24 +72,25 @@ public class interActivator {
                     } else {
                         if (LuP.y < 0) {
                             LuP.y = 0;
+                            LuP.t = 2 * LuP.gm.get("SPEED") / LuP.gm.get("GRAVITY");
                         }
                     }
                 } else {
+                    LuP.t = 2 * LuP.gm.get("SPEED") / LuP.gm.get("GRAVITY");
+                    LuP.jumper = 0;
                     System.out.println("UP");
-                    LuP.y = Math.round(LuP.y / LuP.gm.get("BLOCK_SIZE")) * LuP.gm.get("BLOCK_SIZE") + 1;
+                    LuP.y = Math.ceil(LuP.y / LuP.gm.get("BLOCK_SIZE")) * LuP.gm.get("BLOCK_SIZE") + 1;
                     LuP.y -= offStep;
                 }
             } catch (Exception e) {
                 e.getMessage();
             }
-
     }
 
     public void activateDown() {
             try {
                 if ((LuP.level.level[((int) ((LuP.x - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))][((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))] == null) &&
                         (LuP.level.level[((int) ((LuP.x + offStep) / LuP.gm.get("BLOCK_SIZE") + 0))][((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))] == null)) {
-
                     if ((LuP.source.getHeight() + LuP.ATY <= LuP.level.Height * LuP.gm.get("BLOCK_SIZE")) && ((LuP.y - LuP.ATY) >= (LuP.source.getHeight() / 2) - (LuP.gm.get("BLOCK_SIZE") / 2))) {
                         LuP.structureGC.translate(0, -LuP.gm.get("MOVEMENT"));
                         LuP.sourceGC.translate(0, -LuP.gm.get("MOVEMENT"));
@@ -100,8 +101,10 @@ public class interActivator {
                         }
                 }
                 } else {
+                    LuP.t = 0;
+                    LuP.jumper = 0;
                     System.out.println("DOWN");
-                    LuP.y = Math.round(LuP.y / LuP.gm.get("BLOCK_SIZE")) * LuP.gm.get("BLOCK_SIZE") - 1;
+                    LuP.y = Math.floor(LuP.y / LuP.gm.get("BLOCK_SIZE")) * LuP.gm.get("BLOCK_SIZE") - 1;
                     LuP.y += offStep;
                 }
             } catch (Exception e) {
@@ -110,6 +113,5 @@ public class interActivator {
                 }
                 e.getMessage();
             }
-
     }
 }

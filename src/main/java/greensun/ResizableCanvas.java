@@ -1,4 +1,4 @@
-package classes;
+package greensun;
 
 import javafx.scene.canvas.Canvas;
 

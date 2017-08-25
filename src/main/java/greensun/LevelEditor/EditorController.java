@@ -1,9 +1,8 @@
-package classes.LevelEditor;
+package greensun.LevelEditor;
 
-import classes.Additionals.OuterFunctions;
-import classes.ResizableCanvas;
-import classes.Additionals.TreeBuilder;
-import classes.StructureClasses.TreeFile;
+import greensun.Additionals.OuterFunctions;
+import greensun.Additionals.TreeBuilder;
+import greensun.StructureClasses.TreeFile;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
@@ -32,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static classes.MainAndMenu.Depacker.pathname;
+import static greensun.MainAndMenu.Depacker.pathname;
 
 /**
  * Created by HP on 04.07.2017.

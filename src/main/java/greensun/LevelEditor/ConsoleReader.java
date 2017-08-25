@@ -1,7 +1,6 @@
-package classes.LevelEditor;
+package greensun.LevelEditor;
 
-import classes.Additionals.CommandList;
-import com.google.api.client.json.Json;
+import greensun.Additionals.CommandList;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -12,10 +11,7 @@ import javafx.scene.input.KeyEvent;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * Created by HP on 09.07.2017.

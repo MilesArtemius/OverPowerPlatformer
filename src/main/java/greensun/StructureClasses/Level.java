@@ -1,6 +1,5 @@
-package classes.StructureClasses;
+package greensun.StructureClasses;
 
-import classes.StructureClasses.Block;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 

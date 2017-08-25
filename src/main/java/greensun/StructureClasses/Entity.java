@@ -1,6 +1,6 @@
-package classes.StructureClasses;
+package greensun.StructureClasses;
 
-import classes.AI.PlatformerAI;
+import greensun.AI.PlatformerAI;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.scene.image.Image;

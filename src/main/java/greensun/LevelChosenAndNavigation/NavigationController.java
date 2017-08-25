@@ -1,4 +1,4 @@
-package classes.LevelChosenAndNavigation;
+package greensun.LevelChosenAndNavigation;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
 
-import static classes.MainAndMenu.Depacker.pathname;
+import static greensun.MainAndMenu.Depacker.pathname;
 
 /**
  * Created by HP on 02.07.2017.

@@ -1,4 +1,4 @@
-package classes.AI;
+package greensun.AI;
 
 public class PlatformerAI {
 }
