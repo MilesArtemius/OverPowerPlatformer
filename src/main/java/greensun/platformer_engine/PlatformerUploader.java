@@ -32,10 +32,8 @@ public class PlatformerUploader {
     AnimationTimer at; // timer of animation.
 
     boolean AntiJumper = true; // preventer of multiple jump.
-    int jumpRequest = 0;
     int jumper = 0;
     int movementer = 0;
-    int moveRequest = 0;
 
     Level level; // level map.
     String levelPath = "null"; //absolute path to level;
@@ -106,18 +104,12 @@ public class PlatformerUploader {
             for (int i = 0; i < level.level.length; i++) {
                 for (int j = 0; j < level.level[i].length; j++) {
                     try {
-                        structureGC.drawImage(OuterFunctions.scale(level.level[i][j].texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), gm.get("BLOCK_SIZE") * i, gm.get("BLOCK_SIZE") * j);
                         level.level[i][j].resetImage(OuterFunctions.scale(level.level[i][j].texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))));
                     } catch (NullPointerException npe) {
                         npe.getMessage();
                     }
-                }
-            }
-
-            for (int i = 0; i < level.entities.length; i++) {
-                for (int j = 0; j < level.entities[i].length; j++) {
                     try {
-                        structureGC.drawImage(OuterFunctions.scale(level.entities[i][j].skin, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), gm.get("BLOCK_SIZE") * i, gm.get("BLOCK_SIZE") * j);
+                        level.entities[i][j].resetImage(OuterFunctions.scale(level.entities[i][j].skin, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))));
                     } catch (NullPointerException npe) {
                         npe.getMessage();
                     }
@@ -204,9 +196,6 @@ public class PlatformerUploader {
                             activator.activateLeft();
                             break;
                     }
-
-                    movementer = moveRequest;
-                    //jumper = jumpRequest;
                 }
             };
         }
@@ -220,14 +209,14 @@ public class PlatformerUploader {
                 AntiJumper = true;
             }
         } else {
-            jumpRequest = moves;
+            jumper = moves;
         }
 
         at.start();
     }
 
     public void move(int moves) {
-        moveRequest = moves;
+        movementer = moves;
         at.start();
     }
 
@@ -237,13 +226,20 @@ public class PlatformerUploader {
 
     public void redraw() {
         structureGC.clearRect(ATX, ATY, structure.getWidth() + ATX, structure.getHeight() + ATY);
-        for (int i = 0; i < level.level.length; i++) {
+
+        for (int i = (int) Math.floor(Math.abs(ATY) / gm.get("BLOCK_SIZE")); i < (int) Math.ceil(ATY + structure.getHeight() / gm.get("BLOCK_SIZE")); i++) {
             for (int j = 0; j < level.level[i].length; j++) {
                 try {
                     structureGC.drawImage(level.level[i][j].texture, gm.get("BLOCK_SIZE") * i, gm.get("BLOCK_SIZE") * j);
                 } catch (NullPointerException npe) {
                     npe.getMessage();
                 }
+                try {
+                    structureGC.drawImage(level.entities[i][j].skin, gm.get("BLOCK_SIZE") * i, gm.get("BLOCK_SIZE") * j);
+                } catch (NullPointerException npe) {
+                    npe.getMessage();
+                }
+
             }
         }
     }

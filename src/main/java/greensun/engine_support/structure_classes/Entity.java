@@ -47,4 +47,8 @@ public class Entity {
         this.name = gr.getEntitiez(filepath, true).get(name).name;
         this.skin = gr.getEntitiez(filepath, true).get(name).skin;
     }
+
+    public void resetImage(Image texture) {
+        this.skin = texture;
+    }
 }

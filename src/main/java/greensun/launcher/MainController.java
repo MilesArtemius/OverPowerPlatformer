@@ -75,7 +75,7 @@ public class MainController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/layouts/editor_layout.fxml"));
 
-            Stage stage = new Stage();//
+            Stage stage = new Stage();
 
             Scene scene = new Scene(root, pane.getScene().getWindow().getWidth(), pane.getScene().getWindow().getHeight());
 
