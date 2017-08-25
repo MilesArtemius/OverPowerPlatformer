@@ -1,4 +1,4 @@
-package greensun;
+package greensun.engine_support;
 
 import javafx.scene.canvas.Canvas;
 

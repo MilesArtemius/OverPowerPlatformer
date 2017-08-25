@@ -9,7 +9,7 @@
            style="-fx-background-color: white;"
            xmlns:fx="http://javafx.com/fxml/1"
            xmlns="http://javafx.com/javafx/2.2"
-           fx:controller="greensun.ResizableCanvasStuff.GameController">
+           fx:controller="greensun.engine_support.GameController">
 
     <children>
         <Button fx:id="button"

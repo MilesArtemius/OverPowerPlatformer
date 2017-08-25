@@ -1,17 +1,18 @@
-package greensun.ResizableCanvasStuff.LevelUploaders;
+package greensun.strategy_engine;
 
-import greensun.MainAndMenu.Depacker;
-import greensun.Additionals.OuterFunctions;
-import greensun.ResizableCanvas;
-import greensun.StructureClasses.GameRulez;
-import greensun.StructureClasses.Level;
+import greensun.engine_support.ResizableCanvas;
+import greensun.engine_support.screenRedrawer;
+import greensun.engine_support.structure_classes.GameRulez;
+import greensun.engine_support.structure_classes.Level;
+import greensun.engine_support.Depacker;
+import greensun.engine_support.OuterFunctions;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
 
-public class LevelUploader {
+public class StrategyUploader {
     ResizableCanvas structure;
     GraphicsContext structureGC;
     ResizableCanvas source;
@@ -57,7 +58,7 @@ public class LevelUploader {
         return decoration;
     }
 
-    public LevelUploader() {
+    public StrategyUploader() {
         this.structure = new ResizableCanvas() {
             @Override
             public void redraw() {

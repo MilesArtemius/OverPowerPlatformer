@@ -1,7 +1,7 @@
-package greensun.StructureClasses;
+package greensun.engine_support.structure_classes;
 
 
-import greensun.MainAndMenu.Depacker;
+import greensun.engine_support.Depacker;
 import com.google.gson.JsonElement;
 
 import java.util.HashMap;

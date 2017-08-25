@@ -1,6 +1,5 @@
-package greensun.Additionals;
+package greensun.redactor;
 
-import greensun.StructureClasses.TreeFile;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

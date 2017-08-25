@@ -1,6 +1,6 @@
-package greensun.ResizableCanvasStuff;
+package greensun.engine_support;
 
-import greensun.ResizableCanvasStuff.LevelUploaders.LevelUploader;
+import greensun.platformer_engine.PlatformerUploader;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -10,7 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 public class GameController {
-    LevelUploader LUP;
+    PlatformerUploader LUP;
 
     @FXML
     private StackPane stackPane;
@@ -71,7 +71,7 @@ public class GameController {
 
     @FXML
     public void initialize() {
-        LUP = new LevelUploader();
+        LUP = new PlatformerUploader();
 
         stackPane.getChildren().add(LUP.getStructure());
         stackPane.getChildren().add(LUP.getSource());

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/src/main/java/greensun/ResizableCanvasStuff/LevelUploaders/LevelUploader.java" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/java/greensun/platformer_engine/PlatformerUploader.java" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/main/java/greensun/strategy_engine/StrategyUploader.java" charset="ISO-8859-1" />
   </component>
 </project>

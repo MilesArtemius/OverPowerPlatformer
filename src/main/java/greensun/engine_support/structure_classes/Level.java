@@ -1,4 +1,4 @@
-package greensun.StructureClasses;
+package greensun.engine_support.structure_classes;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

@@ -1,9 +1,10 @@
-package greensun.ResizableCanvasStuff.LevelUploaders;
+package greensun.engine_support;
 
+import greensun.platformer_engine.PlatformerUploader;
 import javafx.scene.image.WritableImage;
 
 public class screenRedrawer {
-    LevelUploader LuP;
+    PlatformerUploader LuP;
 
     double currentTranslationX = 0; // ATX / ScreenWidth.
     double currentTranslationY = 0; // ATY / ScreenHeight.
@@ -11,7 +12,7 @@ public class screenRedrawer {
     int multiplierX = 0; // number of currentXtranslations from 0,0.
     int multiplierY = 0; // number of currentYtranslations from 0,0.1
 
-    public screenRedrawer(LevelUploader luP) {
+    public screenRedrawer(PlatformerUploader luP) {
         this.LuP = luP;
     }
 

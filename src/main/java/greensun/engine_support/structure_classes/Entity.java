@@ -1,6 +1,6 @@
-package greensun.StructureClasses;
+package greensun.engine_support.structure_classes;
 
-import greensun.AI.PlatformerAI;
+import greensun.platformer_engine.PlatformerAI;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.scene.image.Image;

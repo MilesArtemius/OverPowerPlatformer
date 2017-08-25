@@ -1,6 +1,6 @@
-package greensun.LevelEditor;
+package greensun.redactor.level_editor;
 
-import greensun.Additionals.CommandList;
+import greensun.redactor.CommandList;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

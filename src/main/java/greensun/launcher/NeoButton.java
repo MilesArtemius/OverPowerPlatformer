@@ -1,4 +1,4 @@
-package greensun;
+package greensun.launcher;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;

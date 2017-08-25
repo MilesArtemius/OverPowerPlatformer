@@ -1,11 +1,11 @@
-package greensun.ResizableCanvasStuff.LevelUploaders;
+package greensun.platformer_engine;
 
 public class interActivator {
-    LevelUploader LuP;
+    PlatformerUploader LuP;
 
     int offStep;
 
-    public interActivator(LevelUploader luP) {
+    public interActivator(PlatformerUploader luP) {
         this.LuP = luP;
         offStep = (int) (LuP.gm.get("BLOCK_SIZE") / 10);
     }

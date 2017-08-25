@@ -1,8 +1,8 @@
-package greensun.MainAndMenu;
+package greensun.engine_support;
 
 
-import greensun.Additionals.CommandList;
-import greensun.StructureClasses.Level;
+import greensun.redactor.CommandList;
+import greensun.engine_support.structure_classes.Level;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseCredentials;
