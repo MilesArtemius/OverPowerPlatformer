@@ -11,6 +11,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class PlatformerUploader {
@@ -242,7 +243,8 @@ public class PlatformerUploader {
             }
         }
 
-        for (Block block: level.level){
+        for (Block block: level.blocksInCoordinate(true, Math.ceil((ATX + source.getWidth()) / gm.get("BLOCK_SIZE")), Math.floor(ATX / gm.get("BLOCK_SIZE")),
+                level.blocksInCoordinate(false, Math.ceil((ATY + source.getHeight()) / gm.get("BLOCK_SIZE")), Math.floor(ATY / gm.get("BLOCK_SIZE")), null))) {
             try {
                 structureGC.drawImage(block.texture, gm.get("BLOCK_SIZE") * block.xCoord, gm.get("BLOCK_SIZE") * block.yCoord);
             } catch (NullPointerException npe) {

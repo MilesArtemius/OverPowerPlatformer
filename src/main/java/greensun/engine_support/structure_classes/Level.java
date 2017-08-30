@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import greensun.engine_support.every_day_singles.BlocksNEntities;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -56,9 +57,12 @@ public class Level {
         }
     }
 
-    public ArrayList<Block> blocksInCoordinate(boolean horizontal, double upperRange, double lowerRange) {
+    public ArrayList<Block> blocksInCoordinate(boolean horizontal, double upperRange, double lowerRange, @Nullable ArrayList<Block> source) {
+        if (source == null) {
+            source = this.level;
+        }
         ArrayList<Block> answer = new ArrayList<>();
-        for (Block block: this.level) {
+        for (Block block: source) {
             if (horizontal) {
                 if ((block.xCoord <= upperRange) && (block.xCoord >= lowerRange)) {
                     answer.add(block);
