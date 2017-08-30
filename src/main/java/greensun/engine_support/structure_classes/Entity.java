@@ -1,5 +1,6 @@
 package greensun.engine_support.structure_classes;
 
+import greensun.engine_support.every_day_singles.GameRulez;
 import greensun.platformer_engine.PlatformerAI;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -23,8 +24,6 @@ public class Entity {
     int yCoord;
 
     public Entity(String filepath, JsonObject entity) {
-        System.out.println(filepath);
-
         abilities = new ArrayList<>();
         JsonObject abls = entity.get("abilities").getAsJsonObject();
         for (Map.Entry<String, JsonElement> entry: abls.entrySet()) {
@@ -32,7 +31,7 @@ public class Entity {
         }
         this.name = entity.get("name").getAsString();
         try {
-            if (filepath.equals("null")) {
+            if ((filepath.indexOf("/") == 0) || (filepath.equals("null"))) {
                 this.skin = new Image(getClass().getResource("/textures/" + entity.get("texture").getAsString()).toString(), 128, 128, true, true);
             } else {
                 this.skin = new Image(Files.newInputStream(Paths.get(filepath.substring(0, filepath.lastIndexOf("levels")) + "textures\\" + entity.get("texture").getAsString())), 128, 128, true, true);

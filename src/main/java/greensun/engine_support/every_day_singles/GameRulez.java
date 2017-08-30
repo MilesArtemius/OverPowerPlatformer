@@ -1,8 +1,10 @@
-package greensun.engine_support.structure_classes;
+package greensun.engine_support.every_day_singles;
 
 
 import greensun.engine_support.Depacker;
 import com.google.gson.JsonElement;
+import greensun.engine_support.structure_classes.Block;
+import greensun.engine_support.structure_classes.Entity;
 
 import java.util.HashMap;
 

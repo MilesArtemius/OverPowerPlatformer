@@ -117,4 +117,27 @@ public class Depacker {
 
         return hm;
     }
+
+
+
+
+
+    public static JsonObject getStarted(Class app, String path) {
+        try {
+            JsonParser JP = new JsonParser();
+            JsonElement config;
+            if (path.charAt(0) == '/') {
+                config = JP.parse(new JsonReader(new InputStreamReader(app.getResourceAsStream("/preinstallations" + path))));
+            } else {
+                config = JP.parse(new JsonReader(new InputStreamReader(Files.newInputStream(Paths.get(path.substring(0, path.lastIndexOf("\\levels") + 1) + path.substring(path.lastIndexOf('&') + 1))))));
+            }
+            return config.getAsJsonObject();
+
+        } catch (Exception e) {
+            System.out.println("game .jar damaged");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

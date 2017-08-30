@@ -12,8 +12,8 @@ public class interActivator {
 
     public void activateRight() {
             try {
-                if ((LuP.level.level[((int) ((LuP.x - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))][((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))] == null) &&
-                    (LuP.level.level[((int) ((LuP.x - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))][((int) ((LuP.y + offStep) / LuP.gm.get("BLOCK_SIZE") + 0))] == null)) {
+                if ((LuP.level.getBlock(((int) ((LuP.x - offStep) / LuP.gm.get("BLOCK_SIZE") + 1)), ((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))) == null) &&
+                        (LuP.level.getBlock(((int) ((LuP.x - offStep) / LuP.gm.get("BLOCK_SIZE") + 1)), ((int) ((LuP.y + offStep) / LuP.gm.get("BLOCK_SIZE") + 0))) == null)) {
                     if ((LuP.source.getWidth() + LuP.ATX <= LuP.level.Width * LuP.gm.get("BLOCK_SIZE")) && ((LuP.x - LuP.ATX) >= (LuP.source.getWidth() / 2) - (LuP.gm.get("BLOCK_SIZE") / 2))) {
                         LuP.structureGC.translate(-LuP.gm.get("MOVEMENT"), 0);
                         LuP.sourceGC.translate(-LuP.gm.get("MOVEMENT"), 0);
@@ -39,8 +39,8 @@ public class interActivator {
 
     public void activateLeft() {
             try {
-                if ((LuP.level.level[((int) ((LuP.x + offStep) / LuP.gm.get("BLOCK_SIZE")))][((int) ((LuP.y + offStep) / LuP.gm.get("BLOCK_SIZE") + 0))] == null) &&
-                        (LuP.level.level[((int) ((LuP.x + offStep) / LuP.gm.get("BLOCK_SIZE")))][((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))] == null)) {
+                if ((LuP.level.getBlock(((int) ((LuP.x + offStep) / LuP.gm.get("BLOCK_SIZE"))), ((int) ((LuP.y + offStep) / LuP.gm.get("BLOCK_SIZE") + 0))) == null) &&
+                        (LuP.level.getBlock(((int) ((LuP.x + offStep) / LuP.gm.get("BLOCK_SIZE"))), ((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))) == null)) {
                     if ((LuP.ATX >= 0) && ((LuP.x - LuP.ATX) <= (LuP.source.getWidth() / 2) - (LuP.gm.get("BLOCK_SIZE") / 2))) {
                         LuP.structureGC.translate(LuP.gm.get("MOVEMENT"), 0);
                         LuP.sourceGC.translate(LuP.gm.get("MOVEMENT"), 0);
@@ -63,8 +63,8 @@ public class interActivator {
 
     public void activateUp() {
             try {
-                if ((LuP.level.level[((int) ((LuP.x - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))][((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE")))] == null) &&
-                        (LuP.level.level[((int) ((LuP.x + offStep) / LuP.gm.get("BLOCK_SIZE") + 0))][((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE")))] == null)) {
+                if ((LuP.level.getBlock(((int) ((LuP.x - offStep) / LuP.gm.get("BLOCK_SIZE") + 1)), ((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE")))) == null) &&
+                        (LuP.level.getBlock(((int) ((LuP.x + offStep) / LuP.gm.get("BLOCK_SIZE") + 0)), ((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE")))) == null)) {
                     if ((LuP.ATY >= 0) && ((LuP.y - LuP.ATY) <= (LuP.source.getHeight() / 2) - (LuP.gm.get("BLOCK_SIZE") / 2))) {
                         LuP.structureGC.translate(0, LuP.gm.get("MOVEMENT"));
                         LuP.sourceGC.translate(0, LuP.gm.get("MOVEMENT"));
@@ -77,9 +77,13 @@ public class interActivator {
                     }
                 } else {
                     LuP.t = 2 * LuP.gm.get("SPEED") / LuP.gm.get("GRAVITY");
-                    LuP.jumper = 0;
+                    if (LuP.gm.get("PLATFORMER") == 1) {
+                        LuP.jumper = 0;
+                        LuP.y = Math.ceil(LuP.y / LuP.gm.get("BLOCK_SIZE")) * LuP.gm.get("BLOCK_SIZE") + 1;
+                    } else {
+                        LuP.y = Math.round(LuP.y / LuP.gm.get("BLOCK_SIZE")) * LuP.gm.get("BLOCK_SIZE") + 1;
+                    }
                     System.out.println("UP");
-                    LuP.y = Math.ceil(LuP.y / LuP.gm.get("BLOCK_SIZE")) * LuP.gm.get("BLOCK_SIZE") + 1;
                     LuP.y -= offStep;
                 }
             } catch (Exception e) {
@@ -89,8 +93,8 @@ public class interActivator {
 
     public void activateDown() {
             try {
-                if ((LuP.level.level[((int) ((LuP.x - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))][((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))] == null) &&
-                        (LuP.level.level[((int) ((LuP.x + offStep) / LuP.gm.get("BLOCK_SIZE") + 0))][((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))] == null)) {
+                if ((LuP.level.getBlock(((int) ((LuP.x - offStep) / LuP.gm.get("BLOCK_SIZE") + 1)), ((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))) == null) &&
+                        (LuP.level.getBlock(((int) ((LuP.x + offStep) / LuP.gm.get("BLOCK_SIZE") + 0)), ((int) ((LuP.y - offStep) / LuP.gm.get("BLOCK_SIZE") + 1))) == null)) {
                     if ((LuP.source.getHeight() + LuP.ATY <= LuP.level.Height * LuP.gm.get("BLOCK_SIZE")) && ((LuP.y - LuP.ATY) >= (LuP.source.getHeight() / 2) - (LuP.gm.get("BLOCK_SIZE") / 2))) {
                         LuP.structureGC.translate(0, -LuP.gm.get("MOVEMENT"));
                         LuP.sourceGC.translate(0, -LuP.gm.get("MOVEMENT"));
@@ -102,9 +106,13 @@ public class interActivator {
                 }
                 } else {
                     LuP.t = 0;
-                    LuP.jumper = 0;
+                    if (LuP.gm.get("PLATFORMER") == 1) {
+                        LuP.jumper = 0;
+                        LuP.y = Math.floor(LuP.y / LuP.gm.get("BLOCK_SIZE")) * LuP.gm.get("BLOCK_SIZE") - 1;
+                    } else {
+                        LuP.y = Math.round(LuP.y / LuP.gm.get("BLOCK_SIZE")) * LuP.gm.get("BLOCK_SIZE") - 1;
+                    }
                     System.out.println("DOWN");
-                    LuP.y = Math.floor(LuP.y / LuP.gm.get("BLOCK_SIZE")) * LuP.gm.get("BLOCK_SIZE") - 1;
                     LuP.y += offStep;
                 }
             } catch (Exception e) {

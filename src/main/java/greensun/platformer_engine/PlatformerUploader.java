@@ -4,7 +4,8 @@ import greensun.engine_support.screenRedrawer;
 import greensun.engine_support.Depacker;
 import greensun.engine_support.OuterFunctions;
 import greensun.engine_support.ResizableCanvas;
-import greensun.engine_support.structure_classes.GameRulez;
+import greensun.engine_support.structure_classes.Block;
+import greensun.engine_support.every_day_singles.GameRulez;
 import greensun.engine_support.structure_classes.Level;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
@@ -91,6 +92,7 @@ public class PlatformerUploader {
             System.out.println(gm.toString());
 
             if (ATX == 0) {
+                System.out.println("\n" + levelPath + "\n");
                 level = Depacker.getStartedLevel(getClass(), levelPath);
 
                 x = level.mainCharacterX * gm.get("BLOCK_SIZE");
@@ -101,18 +103,21 @@ public class PlatformerUploader {
             structureGC.setFill(Color.WHEAT);
             structureGC.fillRect(0, 0, source.getWidth(), source.getHeight());
 
-            for (int i = 0; i < level.level.length; i++) {
-                for (int j = 0; j < level.level[i].length; j++) {
-                    try {
-                        level.level[i][j].resetImage(OuterFunctions.scale(level.level[i][j].texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))));
-                    } catch (NullPointerException npe) {
-                        npe.getMessage();
-                    }
+            for (int i = 0; i < level.entities.length; i++) {
+                for (int j = 0; j < level.entities[i].length; j++) {
                     try {
                         level.entities[i][j].resetImage(OuterFunctions.scale(level.entities[i][j].skin, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))));
                     } catch (NullPointerException npe) {
                         npe.getMessage();
                     }
+                }
+            }
+
+            for (Block block: level.level){
+                try {
+                    block.resetImage(OuterFunctions.scale(block.texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))));
+                } catch (NullPointerException npe) {
+                    npe.getMessage();
                 }
             }
 
@@ -227,19 +232,21 @@ public class PlatformerUploader {
     public void redraw() {
         structureGC.clearRect(ATX, ATY, structure.getWidth() + ATX, structure.getHeight() + ATY);
 
-        for (int i = (int) Math.floor(Math.abs(ATY) / gm.get("BLOCK_SIZE")); i < (int) Math.ceil(ATY + structure.getHeight() / gm.get("BLOCK_SIZE")); i++) {
-            for (int j = 0; j < level.level[i].length; j++) {
-                try {
-                    structureGC.drawImage(level.level[i][j].texture, gm.get("BLOCK_SIZE") * i, gm.get("BLOCK_SIZE") * j);
-                } catch (NullPointerException npe) {
-                    npe.getMessage();
-                }
+        for (int i = 0; i < level.entities.length; i++) {
+            for (int j = 0; j < level.entities[i].length; j++) {
                 try {
                     structureGC.drawImage(level.entities[i][j].skin, gm.get("BLOCK_SIZE") * i, gm.get("BLOCK_SIZE") * j);
                 } catch (NullPointerException npe) {
                     npe.getMessage();
                 }
+            }
+        }
 
+        for (Block block: level.level){
+            try {
+                structureGC.drawImage(block.texture, gm.get("BLOCK_SIZE") * block.xCoord, gm.get("BLOCK_SIZE") * block.yCoord);
+            } catch (NullPointerException npe) {
+                npe.getMessage();
             }
         }
     }
