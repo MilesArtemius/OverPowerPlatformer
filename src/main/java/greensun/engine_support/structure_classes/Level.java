@@ -3,6 +3,7 @@ package greensun.engine_support.structure_classes;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import greensun.engine_support.every_day_singles.BlocksNEntities;
+import greensun.engine_support.every_day_singles.MediaStorage;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -20,9 +21,10 @@ public class Level {
     public int mainCharacterY;
 
     //public Block[][] level;
-    public Entity[][] entities;
+    //public Entity[][] entities;
 
     public ArrayList<Block> level;
+    public ArrayList<Entity> entities;
 
     public Level(String filepath, JsonObject level) {
         // jo, jo, jo, jo
@@ -36,11 +38,18 @@ public class Level {
         this.mainCharacterY = Integer.parseInt(positionMC.substring(positionMC.indexOf('x') + 1));
 
         this.level = new ArrayList<>();
-        this.entities = new Entity [Height][Width];
+        this.entities = new ArrayList<>();
 
         BlocksNEntities BnE = BlocksNEntities.init(filepath);
+        MediaStorage MS = MediaStorage.init(filepath);
 
         System.out.println(BnE.getBlockz());
+        System.out.println(BnE.getEntitiez());
+        System.out.println("\n\n\n");
+        System.out.println(MS.getTextures());
+        System.out.println(MS.getBackgrounds());
+        System.out.println(MS.getSounds());
+        System.out.println("\n\n\n");
 
         for (Map.Entry<String, JsonElement> coordinates: level.get("level_pack").getAsJsonObject().entrySet()) {
             int x_coord = Integer.parseInt(coordinates.getKey().substring(0, coordinates.getKey().indexOf('x')));
@@ -53,9 +62,11 @@ public class Level {
             int x_coord = Integer.parseInt(coordinates.getKey().substring(0, coordinates.getKey().indexOf('x')));
             int y_coord = Integer.parseInt(coordinates.getKey().substring(coordinates.getKey().indexOf('x') + 1));
 
-            this.entities[x_coord][y_coord] = new Entity(filepath, level.get("entity_pack").getAsJsonObject().get(coordinates.getKey()).getAsString());
+            this.entities.add(new Entity(BnE.getEntitiez().get(level.get("entity_pack").getAsJsonObject().get(coordinates.getKey()).getAsString()), x_coord, y_coord));
         }
     }
+
+
 
     public ArrayList<Block> blocksInCoordinate(boolean horizontal, double upperRange, double lowerRange, @Nullable ArrayList<Block> source) {
         if (source == null) {
@@ -80,6 +91,34 @@ public class Level {
         for (Block block: this.level) {
             if ((block.xCoord == xCoord) && (block.yCoord == yCoord)) {
                 return block;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Entity> entitiesInCoordinate(boolean horizontal, double upperRange, double lowerRange, @Nullable ArrayList<Entity> source) {
+        if (source == null) {
+            source = this.entities;
+        }
+        ArrayList<Entity> answer = new ArrayList<>();
+        for (Entity entity: source) {
+            if (horizontal) {
+                if ((entity.xCoord <= upperRange) && (entity.xCoord >= lowerRange)) {
+                    answer.add(entity);
+                }
+            } else {
+                if ((entity.yCoord <= upperRange) && (entity.yCoord >= lowerRange)) {
+                    answer.add(entity);
+                }
+            }
+        }
+        return answer;
+    }
+
+    public Entity getEntity(double xCoord, double yCoord) {
+        for (Entity entity: this.entities) {
+            if ((entity.xCoord == xCoord) && (entity.yCoord == yCoord)) {
+                return entity;
             }
         }
         return null;

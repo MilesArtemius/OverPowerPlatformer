@@ -1,18 +1,20 @@
 package greensun.platformer_engine;
 
-import greensun.engine_support.screenRedrawer;
 import greensun.engine_support.Depacker;
 import greensun.engine_support.OuterFunctions;
 import greensun.engine_support.ResizableCanvas;
+import greensun.engine_support.every_day_singles.MediaStorage;
 import greensun.engine_support.structure_classes.Block;
-import greensun.engine_support.every_day_singles.GameRulez;
+import greensun.engine_support.every_day_singles.GameRules;
+import greensun.engine_support.structure_classes.Entity;
 import greensun.engine_support.structure_classes.Level;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+import javafx.scene.media.MediaPlayer;
 
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class PlatformerUploader {
     ResizableCanvas structure;
@@ -22,7 +24,7 @@ public class PlatformerUploader {
     ResizableCanvas decoration;
     GraphicsContext decorationGC;
 
-    GameRulez gr = GameRulez.get("null"); // current level & rules.
+    GameRules gr = GameRules.get("null"); // current level & rules.
     HashMap<String, Double> gm; // library of level rules.
 
     double x = 0; // x coordinate of protagonist.
@@ -42,7 +44,7 @@ public class PlatformerUploader {
     Double param; // min(ScreenWidth, ScreenHeight).
 
     interActivator activator;
-    screenRedrawer redrawer;
+    //screenRedrawer redrawer;
 
 
 
@@ -62,7 +64,10 @@ public class PlatformerUploader {
         this.structure = new ResizableCanvas() {
             @Override
             public void redraw() {
-                redrawCanvas();
+                setBackground();
+                if (!levelPath.equals("null")) {
+                    resizeCanvas();
+                }
             }
         };
         this.structureGC = structure.getGraphicsContext2D();
@@ -76,50 +81,50 @@ public class PlatformerUploader {
             public void redraw() {}
         };
         this.decorationGC = decoration.getGraphicsContext2D();
+
+        this.gr = GameRules.get(levelPath);
+        resizeCanvas();
+    }
+
+    public void setBackground() {
+        structureGC.drawImage(new Image(getClass().getResourceAsStream("/backgrounds/abyss.png")), 0, 0, structure.getWidth(), structure.getHeight());
     }
 
     public void setSource(String path) {
+        level = Depacker.getStartedLevel(getClass(), levelPath);
         this.levelPath = path;
-        this.gr = GameRulez.get(path);
+        level = Depacker.getStartedLevel(getClass(), levelPath);
 
+        this.gr = GameRules.get(path);
+        resizeCanvas();
+
+        MediaPlayer player = new MediaPlayer(MediaStorage.get().getSounds().get("sofia.mp3"));
+        player.play();
+
+        redrawCanvas();
+    }
+
+    public void resizeCanvas() {
+        param = ((source.getHeight() > source.getWidth()) ? (source.getWidth()) : (source.getHeight()));
+        gm = gr.getRules(source.getWidth(), source.getHeight(), param, true);
+
+        if (level != null) {
+            for (Map.Entry<String, Image> texture: MediaStorage.get().getTextures().entrySet()) {
+                try {
+                    MediaStorage.get().getTextures().replace(texture.getKey(), OuterFunctions.scale(texture.getValue(), gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0)))); //0 - bad, 1 - good;
+                } catch (NullPointerException npe) {
+                    npe.getMessage();
+                }
+            }
+        }
     }
 
     public void redrawCanvas() {
         if ((source.getWidth() > 0) && (source.getHeight() > 0)) {
 
-            param = ((source.getHeight() > source.getWidth()) ? (source.getWidth()) : (source.getHeight()));
-
-            gm = gr.getRulez(source.getWidth(), source.getHeight(), param, true);
-            System.out.println(gm.toString());
-
             if (ATX == 0) {
-                System.out.println("\n" + levelPath + "\n");
-                level = Depacker.getStartedLevel(getClass(), levelPath);
-
                 x = level.mainCharacterX * gm.get("BLOCK_SIZE");
                 y = level.mainCharacterY * gm.get("BLOCK_SIZE");
-            }
-
-            structureGC.clearRect(0, 0, source.getWidth(), source.getHeight());
-            structureGC.setFill(Color.WHEAT);
-            structureGC.fillRect(0, 0, source.getWidth(), source.getHeight());
-
-            for (int i = 0; i < level.entities.length; i++) {
-                for (int j = 0; j < level.entities[i].length; j++) {
-                    try {
-                        level.entities[i][j].resetImage(OuterFunctions.scale(level.entities[i][j].skin, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))));
-                    } catch (NullPointerException npe) {
-                        npe.getMessage();
-                    }
-                }
-            }
-
-            for (Block block: level.level){
-                try {
-                    block.resetImage(OuterFunctions.scale(block.texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))));
-                } catch (NullPointerException npe) {
-                    npe.getMessage();
-                }
             }
 
             activator = new interActivator(this);
@@ -156,10 +161,10 @@ public class PlatformerUploader {
 
                     //TODO: choose redraw parameter: BlockByBlock, 9Images or ScreenCamera;
 
-                    System.out.println(jumper);
+                    //System.out.println(jumper);
 
                     //
-                    sourceGC.drawImage(OuterFunctions.scale(gr.getBlockz(levelPath, false).get("sample").texture, gm.get("BLOCK_SIZE").intValue(), gm.get("BLOCK_SIZE").intValue(), (!gm.get("IMG_QUALITY").equals(0.0))), x, y); //0 - bad, 1 - good;
+                    sourceGC.drawImage(MediaStorage.get().getTextures().get("OH_MOY_GRANDSON_NOT_BAD.png"), x, y);
 
                     if (gm.get("PLATFORMER") == 1) {
                         if ((jumper == 2) || (!AntiJumper)) { // optimize
@@ -233,20 +238,21 @@ public class PlatformerUploader {
     public void redraw() {
         structureGC.clearRect(ATX, ATY, structure.getWidth() + ATX, structure.getHeight() + ATY);
 
-        for (int i = 0; i < level.entities.length; i++) {
-            for (int j = 0; j < level.entities[i].length; j++) {
-                try {
-                    structureGC.drawImage(level.entities[i][j].skin, gm.get("BLOCK_SIZE") * i, gm.get("BLOCK_SIZE") * j);
-                } catch (NullPointerException npe) {
-                    npe.getMessage();
-                }
+        structureGC.drawImage(MediaStorage.get().getBackgrounds().get("abyss.png"), ATX, ATY, structure.getWidth(), structure.getHeight());
+
+        for (Entity entity: level.entitiesInCoordinate(true, Math.ceil((ATX + source.getWidth()) / gm.get("BLOCK_SIZE")), Math.floor(ATX / gm.get("BLOCK_SIZE")),
+                level.entitiesInCoordinate(false, Math.ceil((ATY + source.getHeight()) / gm.get("BLOCK_SIZE")), Math.floor(ATY / gm.get("BLOCK_SIZE")), null))) {
+            try {
+                structureGC.drawImage(entity.getTexture(), gm.get("BLOCK_SIZE") * entity.xCoord, gm.get("BLOCK_SIZE") * entity.yCoord);
+            } catch (NullPointerException npe) {
+                npe.getMessage();
             }
         }
 
         for (Block block: level.blocksInCoordinate(true, Math.ceil((ATX + source.getWidth()) / gm.get("BLOCK_SIZE")), Math.floor(ATX / gm.get("BLOCK_SIZE")),
                 level.blocksInCoordinate(false, Math.ceil((ATY + source.getHeight()) / gm.get("BLOCK_SIZE")), Math.floor(ATY / gm.get("BLOCK_SIZE")), null))) {
             try {
-                structureGC.drawImage(block.texture, gm.get("BLOCK_SIZE") * block.xCoord, gm.get("BLOCK_SIZE") * block.yCoord);
+                structureGC.drawImage(block.getTexture(), gm.get("BLOCK_SIZE") * block.xCoord, gm.get("BLOCK_SIZE") * block.yCoord);
             } catch (NullPointerException npe) {
                 npe.getMessage();
             }

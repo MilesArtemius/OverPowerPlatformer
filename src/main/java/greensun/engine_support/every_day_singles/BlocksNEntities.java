@@ -48,19 +48,10 @@ public class BlocksNEntities {
         if (filepath.equals("null")) {
             BlockSet.putAll(getStartedBlockz(getClass(), "/blockset.json"));
             EntitySet.putAll(getStartedEntities(getClass(), "/entityset.json"));
-            //TODO: any inner blocks?
-            //RulezfromFile = Depacker.getStartedConfiguration(getClass(), "/config.json");
-            //BlockzfromFile = Depacker.getStartedConfiguration(getClass(), "/blockset.json");
-            //EntitiezfromFile = Depacker.getStartedConfiguration(getClass(), "/entityset.json");
         } else {
             BlockSet.putAll(getStartedBlockz(getClass(), filepath + "&blockset.json"));
             EntitySet.putAll(getStartedEntities(getClass(), filepath + "&entityset.json"));
-            //RulezfromFile = Depacker.getStartedConfiguration(getClass(), filepath + "&config.json");
-            //BlockzfromFile = Depacker.getStartedConfiguration(getClass(), filepath + "&blockset.json");
-            //EntitiezfromFile = Depacker.getStartedConfiguration(getClass(), filepath + "&entityset.json");
         }
-
-        //BlockSet = getBlockz(filepath, true);
     }
 
     public static HashMap<String, Entity> getStartedEntities(Class app, String path) {
@@ -82,8 +73,8 @@ public class BlocksNEntities {
         try {
             System.out.println(Depacker.getStarted(app, path));
 
-            for (Map.Entry<String, JsonElement> element : Depacker.getStarted(app, path).entrySet()) {
-                hm.put(element.getKey(), new Block(path, element.getValue().getAsJsonObject()));
+            for (Map.Entry<String, JsonElement> element: Depacker.getStarted(app, path).entrySet()) {
+                hm.put(element.getKey(), new Block(element.getValue().getAsJsonObject()));
             }
         } catch (Exception e) {
             //e.getMessage();

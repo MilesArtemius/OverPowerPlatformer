@@ -1,6 +1,6 @@
 package greensun.engine_support.structure_classes;
 
-import greensun.engine_support.every_day_singles.GameRulez;
+import greensun.engine_support.every_day_singles.MediaStorage;
 import greensun.platformer_engine.PlatformerAI;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -18,10 +18,10 @@ public class Entity {
 
     PlatformerAI ai;
 
-    public Image skin;
+    public String texture;
 
-    int xCoord;
-    int yCoord;
+    public double xCoord;
+    public double yCoord;
 
     public Entity(String filepath, JsonObject entity) {
         abilities = new ArrayList<>();
@@ -30,24 +30,17 @@ public class Entity {
             abilities.add(new Ability(entry.getKey(), entry.getValue().getAsJsonObject()));
         }
         this.name = entity.get("name").getAsString();
-        try {
-            if ((filepath.indexOf("/") == 0) || (filepath.equals("null"))) {
-                this.skin = new Image(getClass().getResource("/textures/" + entity.get("texture").getAsString()).toString(), 128, 128, true, true);
-            } else {
-                this.skin = new Image(Files.newInputStream(Paths.get(filepath.substring(0, filepath.lastIndexOf("levels")) + "textures\\" + entity.get("texture").getAsString())), 128, 128, true, true);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
-    public Entity(String filepath, String name) {
-        GameRulez gr = GameRulez.get(filepath);
-        this.name = gr.getEntitiez(filepath, true).get(name).name;
-        this.skin = gr.getEntitiez(filepath, true).get(name).skin;
+    public Entity(Entity block, double x, double y) {
+        this.name = block.name;
+        this.texture = block.texture;
+
+        this.xCoord = x;
+        this.yCoord = y;
     }
 
-    public void resetImage(Image texture) {
-        this.skin = texture;
+    public Image getTexture() {
+        return MediaStorage.get().getTextures().get(this.texture);
     }
 }

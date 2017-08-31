@@ -22,7 +22,7 @@ public class GameController {
         System.out.println(stackPane.getUserData());
         LUP.setSource((String) stackPane.getUserData());
 
-        LUP.redrawCanvas();
+        //LUP.redrawCanvas();
 
         Scene scene = stackPane.getScene();
 
