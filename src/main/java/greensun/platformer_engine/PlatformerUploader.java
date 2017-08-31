@@ -87,11 +87,10 @@ public class PlatformerUploader {
     }
 
     public void setBackground() {
-        structureGC.drawImage(new Image(getClass().getResourceAsStream("/backgrounds/abyss.png")), 0, 0, structure.getWidth(), structure.getHeight());
+        structureGC.drawImage(new Image(getClass().getResourceAsStream("/utils/pictures/TheGreenSun.png")), 0, 0, structure.getWidth(), structure.getHeight());
     }
 
     public void setSource(String path) {
-        level = Depacker.getStartedLevel(getClass(), levelPath);
         this.levelPath = path;
         level = Depacker.getStartedLevel(getClass(), levelPath);
 

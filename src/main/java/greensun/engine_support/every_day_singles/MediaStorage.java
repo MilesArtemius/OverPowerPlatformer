@@ -7,6 +7,7 @@ import javafx.scene.media.Media;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,14 +51,9 @@ public class MediaStorage {
     }
 
     private MediaStorage(String filepath) {
-        if (filepath.equals("null")) {
-            TextureSet.putAll(getStartedImages("textures"));
-            BackgroundSet.putAll(getStartedImages("backgrounds"));
-        } else {
-            TextureSet.putAll(getStartedImages(filepath + "&textures/"));
-            BackgroundSet.putAll(getStartedImages(filepath + "&textures/entities/"));
-            SoundSet.putAll(getStartedMedia(filepath + "&musics/"));
-        }
+        TextureSet.putAll(getStartedImages(filepath + "&textures/"));
+        BackgroundSet.putAll(getStartedImages(filepath + "&backgrounds/"));
+        SoundSet.putAll(getStartedMedia(filepath + "&musics/"));
     }
 
     public HashMap<String, Media> getStartedMedia(String path) {
@@ -78,5 +74,15 @@ public class MediaStorage {
             }
         }
         return hm;
+    }
+
+    public void subloadTextures(ArrayList<String> names) {
+        for (String name: names) {
+            try {
+                TextureSet.put(name, new Image(getClass().getResourceAsStream("/textures/" + name)));
+            } catch (Exception e) {
+                //donothing;;;
+            }
+        }
     }
 }

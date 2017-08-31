@@ -1,6 +1,7 @@
 package greensun.engine_support.every_day_singles;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import greensun.engine_support.Depacker;
 import greensun.engine_support.structure_classes.Block;
 import greensun.engine_support.structure_classes.Entity;
@@ -45,21 +46,25 @@ public class BlocksNEntities {
     }
 
     private BlocksNEntities(String filepath) {
-        if (filepath.equals("null")) {
-            BlockSet.putAll(getStartedBlockz(getClass(), "/blockset.json"));
-            EntitySet.putAll(getStartedEntities(getClass(), "/entityset.json"));
-        } else {
-            BlockSet.putAll(getStartedBlockz(getClass(), filepath + "&blockset.json"));
-            EntitySet.putAll(getStartedEntities(getClass(), filepath + "&entityset.json"));
-        }
+        BlockSet.putAll(getStartedBlockz(getClass(), filepath + "&blockset.json"));
+        EntitySet.putAll(getStartedEntities(getClass(), filepath + "&entityset.json"));
     }
 
     public static HashMap<String, Entity> getStartedEntities(Class app, String path) {
         HashMap<String, Entity> hm = new HashMap<>();
-
+        ArrayList<String> systemBlockNames = new ArrayList<>();
         try {
             for (Map.Entry<String, JsonElement> element: Depacker.getStarted(app, path).entrySet()) {
-                hm.put(element.getKey(), new Entity(path, element.getValue().getAsJsonObject()));
+                if (element.getValue() instanceof JsonObject) {
+                    hm.put(element.getKey(), new Entity(element.getValue().getAsJsonObject()));
+                } else {
+                    Entity missingBlock = new Entity(Depacker.getStartedSingleJson(app, "/entity.json").get(element.getKey()).getAsJsonObject());
+                    systemBlockNames.add(missingBlock.getImageLocation());
+                    hm.put(element.getKey(), missingBlock);
+                }
+            }
+            if (!systemBlockNames.isEmpty()) {
+                MediaStorage.get().subloadTextures(systemBlockNames);
             }
         } catch (Exception e) {
             //e.getMessage();
@@ -69,16 +74,29 @@ public class BlocksNEntities {
 
     public static HashMap<String, Block> getStartedBlockz(Class app, String path) {
         HashMap<String, Block> hm = new HashMap<>();
-
+        ArrayList<String> systemBlockNames = new ArrayList<>();
         try {
-            System.out.println(Depacker.getStarted(app, path));
-
             for (Map.Entry<String, JsonElement> element: Depacker.getStarted(app, path).entrySet()) {
-                hm.put(element.getKey(), new Block(element.getValue().getAsJsonObject()));
+                if (element.getValue() instanceof JsonObject) {
+                    hm.put(element.getKey(), new Block(element.getValue().getAsJsonObject()));
+                } else {
+                    Block missingBlock = new Block(Depacker.getStartedSingleJson(app, "/blockset.json").get(element.getKey()).getAsJsonObject());
+                    systemBlockNames.add(missingBlock.getImageLocation());
+                    hm.put(element.getKey(), missingBlock);
+                }
+            }
+            if (!systemBlockNames.isEmpty()) {
+                MediaStorage.get().subloadTextures(systemBlockNames);
             }
         } catch (Exception e) {
             //e.getMessage();
         }
         return hm;
+    }
+
+    public void clearAll() {
+        BlockSet.clear();
+        EntitySet.clear();
+        singles = null;
     }
 }

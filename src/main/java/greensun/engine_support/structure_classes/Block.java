@@ -34,4 +34,8 @@ public class Block {
     public Image getTexture() {
         return MediaStorage.get().getTextures().get(this.texture);
     }
+
+    public String getImageLocation() {
+        return texture;
+    }
 }

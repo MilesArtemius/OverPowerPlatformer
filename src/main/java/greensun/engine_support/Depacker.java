@@ -88,23 +88,23 @@ public class Depacker {
         return null;
     }
 
+    public static JsonObject getStartedSingleJson(Class app, String path) {
+        try {
+            JsonParser JP = new JsonParser();
+            JsonElement config;
+            config = JP.parse(new JsonReader(new InputStreamReader(app.getResourceAsStream("/preinstallations" + path))));
+            return config.getAsJsonObject();
+        } catch (Exception e) {
+            System.out.println("game .jar damaged");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static HashMap<String, File> getStartedFiles(Class app, String path) {
         try {
             HashMap<String, File> fileSet = new HashMap<>();
-            File folder = new File(path);
-
-            if (path.charAt(path.length() - 1) != '/') {
-                Enumeration<URL> e = app.getClassLoader().getResources(path);
-                System.out.println();
-                while (e.hasMoreElements()) {
-                    URL u = e.nextElement();
-                    folder = new File(u.getFile());
-                    System.out.println(Arrays.toString(folder.listFiles()));
-                }
-                System.out.println();
-            } else {
-                folder = new File(path.substring(0, path.lastIndexOf("\\levels") + 1) + path.substring(path.lastIndexOf('&') + 1));
-            }
+            File folder = new File(path.substring(0, path.lastIndexOf("\\levels") + 1) + path.substring(path.lastIndexOf('&') + 1));
             try {
                 for (File music : folder.listFiles()) {
                     fileSet.put(music.getName(), music);

@@ -40,8 +40,8 @@ public class Level {
         this.level = new ArrayList<>();
         this.entities = new ArrayList<>();
 
-        BlocksNEntities BnE = BlocksNEntities.init(filepath);
         MediaStorage MS = MediaStorage.init(filepath);
+        BlocksNEntities BnE = BlocksNEntities.init(filepath);
 
         System.out.println(BnE.getBlockz());
         System.out.println(BnE.getEntitiez());
@@ -64,6 +64,8 @@ public class Level {
 
             this.entities.add(new Entity(BnE.getEntitiez().get(level.get("entity_pack").getAsJsonObject().get(coordinates.getKey()).getAsString()), x_coord, y_coord));
         }
+
+        BnE.clearAll();
     }
 
 

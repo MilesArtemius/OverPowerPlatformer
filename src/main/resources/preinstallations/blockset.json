@@ -3,6 +3,10 @@
     "texture": "ErEsursE.png",
     "name": "sample"
   },
+  "sample_block": {
+    "texture": "firebase.png",
+    "name": "preset"
+  },
   "floor": {
     "texture": "floor.png",
     "name": "floor"

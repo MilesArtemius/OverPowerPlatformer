@@ -23,7 +23,7 @@ public class Entity {
     public double xCoord;
     public double yCoord;
 
-    public Entity(String filepath, JsonObject entity) {
+    public Entity(JsonObject entity) {
         abilities = new ArrayList<>();
         JsonObject abls = entity.get("abilities").getAsJsonObject();
         for (Map.Entry<String, JsonElement> entry: abls.entrySet()) {
@@ -42,5 +42,9 @@ public class Entity {
 
     public Image getTexture() {
         return MediaStorage.get().getTextures().get(this.texture);
+    }
+
+    public String getImageLocation() {
+        return texture;
     }
 }
