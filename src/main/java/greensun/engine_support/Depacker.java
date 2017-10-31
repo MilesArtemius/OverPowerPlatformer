@@ -36,7 +36,7 @@ public class Depacker {
     public static void getStartedConnection(Class app) {
         String path = app.getProtectionDomain().getCodeSource().getLocation().getPath();
         System.out.println(path);
-        try {
+        /*try {
             Path temo = Files.createTempFile("resource", ".json");
             Files.copy(app.getResourceAsStream("/preinstallations/connector.json"), temo, StandardCopyOption.REPLACE_EXISTING);
             FileInputStream serviceAccount = new FileInputStream(temo.toFile());
@@ -50,7 +50,7 @@ public class Depacker {
         } catch (Exception e) {
             System.out.println("game .jar damaged");
             e.printStackTrace();
-        }
+        }*/
     }
 
     public static Level getStartedLevel(Class app, String filepath) {

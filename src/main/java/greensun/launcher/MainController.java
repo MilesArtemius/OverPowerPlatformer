@@ -96,16 +96,13 @@ public class MainController {
 
         vBox.spacingProperty().bind(pane.heightProperty().divide(vBox.getChildren().size() * 2));
 
-        new_game_button.setHeight(8); //64 for screening;
-        new_game_button.setText("NEW GAME");
+        new_game_button.setText("NEW GAME", 50);
         new_game_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> startNewGame());
 
-        continue_button.setHeight(8);
-        continue_button.setText("CONTINUE");
+        continue_button.setText("CONTINUE", 50);
         continue_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> continueGame());
 
-        redactor_button.setHeight(8);
-        redactor_button.setText("REDACTOR");
+        redactor_button.setText("REDACTOR", 50);
         redactor_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> somethingElse());
         /*link.setOnAction(event -> {
             try {
