@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
@@ -96,13 +97,13 @@ public class MainController {
 
         vBox.spacingProperty().bind(pane.heightProperty().divide(vBox.getChildren().size() * 2));
 
-        new_game_button.setText("NEW GAME", 50);
+        new_game_button.setText("NEW GAME", 0.04 * Screen.getPrimary().getVisualBounds().getHeight());
         new_game_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> startNewGame());
 
-        continue_button.setText("CONTINUE", 50);
+        continue_button.setText("CONTINUE", 0.04 * Screen.getPrimary().getVisualBounds().getHeight());
         continue_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> continueGame());
 
-        redactor_button.setText("REDACTOR", 50);
+        redactor_button.setText("REDACTOR", 0.04 * Screen.getPrimary().getVisualBounds().getHeight());
         redactor_button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> somethingElse());
         /*link.setOnAction(event -> {
             try {

@@ -9,9 +9,18 @@ import greensun.engine_support.every_day_singles.GameRules;
 import greensun.engine_support.structure_classes.Entity;
 import greensun.engine_support.structure_classes.Level;
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -87,7 +96,7 @@ public class PlatformerUploader {
     }
 
     public void setBackground() {
-        structureGC.drawImage(new Image(getClass().getResourceAsStream("/utils/pictures/TheGreenSun.png")), 0, 0, structure.getWidth(), structure.getHeight());
+        structureGC.drawImage(new Image(getClass().getResourceAsStream("/utils/pictures/TheGreenSun.jpg")), 0, 0, structure.getWidth(), structure.getHeight());
     }
 
     public void setSource(String path) {
@@ -98,7 +107,7 @@ public class PlatformerUploader {
         resizeCanvas();
 
         MediaPlayer player = new MediaPlayer(MediaStorage.get().getSounds().get("sofia.mp3"));
-        player.play();
+        //player.play(); //TODO: wrong.
 
         redrawCanvas();
     }
@@ -129,7 +138,6 @@ public class PlatformerUploader {
             activator = new interActivator(this);
             //redrawer = new screenRedrawer(this);
         }
-
 
         if (at == null) {
             at = new AnimationTimer() {

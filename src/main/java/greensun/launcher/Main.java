@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -23,7 +24,7 @@ public class Main extends Application {
         //primaryStage.setAlwaysOnTop(true);
         //primaryStage.setMaximized(true);
         primaryStage.setTitle("Ultimate Platformer");
-        Scene scene = new Scene(root, 1000, 800);
+        Scene scene = new Scene(root, 0.52 * Screen.getPrimary().getVisualBounds().getWidth(), 0.74 * Screen.getPrimary().getVisualBounds().getHeight());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

@@ -1,7 +1,9 @@
 package greensun.engine_support;
 
+import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 /**
  * Created by HP on 21.06.2017.
@@ -12,6 +14,8 @@ public class OuterFunctions {
         imageView.setPreserveRatio(preserveRatio);
         imageView.setFitWidth(targetWidth);
         imageView.setFitHeight(targetHeight);
-        return imageView.snapshot(null, null);
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        return imageView.snapshot(params, null);
     }
 }

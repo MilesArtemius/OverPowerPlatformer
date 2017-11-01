@@ -1,15 +1,15 @@
 package greensun.launcher;
 
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class NeoButton extends StackPane {
-    Label text;
+    Text text;
     Rectangle frame;
 
     public NeoButton() {
@@ -22,21 +22,15 @@ public class NeoButton extends StackPane {
 
     public void setText(String txt, double value) {
         frame = new Rectangle();
-        this.text = new Label(txt);
+        this.text = new Text(txt);
         paintIt(Color.WHITE, Color.TRANSPARENT);
 
         frame.setStrokeWidth(value / 6);
-        text.setFont(Font.font(text.getFont().getFamily(), value));
+        text.setFont(Font.font(text.getFont().getFamily(), FontWeight.BOLD, value));
         this.getChildren().addAll(frame, text);
 
-        recalculateSize();
-    }
-
-    private void recalculateSize () {
         Text theText = new Text(text.getText());
         theText.setFont(text.getFont());
-        double width = theText.getBoundsInLocal().getWidth();
-        System.out.println(width);
 
         super.setHeight(theText.getBoundsInLocal().getHeight() * 12 / 10);
         super.setWidth(theText.getBoundsInLocal().getWidth() * 12 / 10);
@@ -48,7 +42,7 @@ public class NeoButton extends StackPane {
 
     public void paintIt(Color internal, Color external) {
         frame.setStroke(internal);
-        text.setTextFill(internal);
+        text.setFill(internal);
         frame.setFill(external);
     }
 }
