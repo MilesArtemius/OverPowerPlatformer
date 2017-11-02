@@ -20,9 +20,6 @@ public class Level {
     public int mainCharacterX;
     public int mainCharacterY;
 
-    //public Block[][] level;
-    //public Entity[][] entities;
-
     public ArrayList<Block> level;
     public ArrayList<Entity> entities;
 
@@ -77,11 +74,11 @@ public class Level {
         ArrayList<Block> answer = new ArrayList<>();
         for (Block block: source) {
             if (horizontal) {
-                if ((block.xCoord <= upperRange) && (block.xCoord >= lowerRange)) {
+                if ((block.getX() <= upperRange) && (block.getX() >= lowerRange)) {
                     answer.add(block);
                 }
             } else {
-                if ((block.yCoord <= upperRange) && (block.yCoord >= lowerRange)) {
+                if ((block.getY() <= upperRange) && (block.getY() >= lowerRange)) {
                     answer.add(block);
                 }
             }
@@ -91,7 +88,7 @@ public class Level {
 
     public Block getBlock(double xCoord, double yCoord) {
         for (Block block: this.level) {
-            if ((block.xCoord == xCoord) && (block.yCoord == yCoord)) {
+            if ((block.getX() == xCoord) && (block.getY() == yCoord)) {
                 return block;
             }
         }
@@ -105,11 +102,11 @@ public class Level {
         ArrayList<Entity> answer = new ArrayList<>();
         for (Entity entity: source) {
             if (horizontal) {
-                if ((entity.xCoord <= upperRange) && (entity.xCoord >= lowerRange)) {
+                if ((entity.getX() <= upperRange) && (entity.getX() >= lowerRange)) {
                     answer.add(entity);
                 }
             } else {
-                if ((entity.yCoord <= upperRange) && (entity.yCoord >= lowerRange)) {
+                if ((entity.getY() <= upperRange) && (entity.getY() >= lowerRange)) {
                     answer.add(entity);
                 }
             }
@@ -119,7 +116,7 @@ public class Level {
 
     public Entity getEntity(double xCoord, double yCoord) {
         for (Entity entity: this.entities) {
-            if ((entity.xCoord == xCoord) && (entity.yCoord == yCoord)) {
+            if ((entity.getX() == xCoord) && (entity.getY() == yCoord)) {
                 return entity;
             }
         }

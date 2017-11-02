@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Entity {
+public class Entity extends Coordinatable {
     String name;
 
     ArrayList<Ability> abilities;
@@ -19,9 +19,6 @@ public class Entity {
     PlatformerAI ai;
 
     public String texture;
-
-    public double xCoord;
-    public double yCoord;
 
     public Entity(JsonObject entity) {
         abilities = new ArrayList<>();
@@ -36,8 +33,8 @@ public class Entity {
         this.name = block.name;
         this.texture = block.texture;
 
-        this.xCoord = x;
-        this.yCoord = y;
+        this.setX(x);
+        this.setY(y);
     }
 
     public Image getTexture() {

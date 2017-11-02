@@ -53,7 +53,8 @@ public class PlatformerUploader {
     Double param; // min(ScreenWidth, ScreenHeight).
 
     interActivator activator;
-    //screenRedrawer redrawer;
+
+    int millimomentsCounter = 0;
 
 
 
@@ -150,10 +151,10 @@ public class PlatformerUploader {
                     System.out.println("X: " + x);
                     System.out.println("Y: " + y);
 
-                    /*System.out.println(gm.get("SPEED") * t);
-                    System.out.println(gm.get("GRAVITY") * t * t / 2);
-                    System.out.println(t);
-                    System.out.println(jumper);*/
+                    millimomentsCounter++;
+                    if (millimomentsCounter >= 60) {
+                        millimomentsCounter = 0;
+                    }
 
                     if ((gm.get("PLATFORMER") == 1) && (gm.get("TEST_LEVEL") == 1) && (y > (level.Height * gm.get("BLOCK_SIZE")))) {
                         y = gm.get("BASIC_STATE_Y");
@@ -164,11 +165,9 @@ public class PlatformerUploader {
 
                     sourceGC.clearRect(ATX, ATY, source.getWidth() + ATX, source.getHeight() + ATY);
 
-                    redraw();
+                    redraw(millimomentsCounter);
 
                     //TODO: choose redraw parameter: BlockByBlock, 9Images or ScreenCamera;
-
-                    //System.out.println(jumper);
 
                     //
                     sourceGC.drawImage(MediaStorage.get().getTextures().get("OH_MOY_GRANDSON_NOT_BAD.png"), x, y);
@@ -242,7 +241,7 @@ public class PlatformerUploader {
         at.start();
     }
 
-    public void redraw() {
+    public void redraw(int millis) {
         structureGC.clearRect(ATX, ATY, structure.getWidth() + ATX, structure.getHeight() + ATY);
 
         structureGC.drawImage(MediaStorage.get().getBackgrounds().get("abyss.png"), ATX, ATY, structure.getWidth(), structure.getHeight());
@@ -250,7 +249,7 @@ public class PlatformerUploader {
         for (Entity entity: level.entitiesInCoordinate(true, Math.ceil((ATX + source.getWidth()) / gm.get("BLOCK_SIZE")), Math.floor(ATX / gm.get("BLOCK_SIZE")),
                 level.entitiesInCoordinate(false, Math.ceil((ATY + source.getHeight()) / gm.get("BLOCK_SIZE")), Math.floor(ATY / gm.get("BLOCK_SIZE")), null))) {
             try {
-                structureGC.drawImage(entity.getTexture(), gm.get("BLOCK_SIZE") * entity.xCoord, gm.get("BLOCK_SIZE") * entity.yCoord);
+                structureGC.drawImage(entity.getTexture(), gm.get("BLOCK_SIZE") * entity.getX(), gm.get("BLOCK_SIZE") * entity.getY());
             } catch (NullPointerException npe) {
                 npe.getMessage();
             }
@@ -259,7 +258,7 @@ public class PlatformerUploader {
         for (Block block: level.blocksInCoordinate(true, Math.ceil((ATX + source.getWidth()) / gm.get("BLOCK_SIZE")), Math.floor(ATX / gm.get("BLOCK_SIZE")),
                 level.blocksInCoordinate(false, Math.ceil((ATY + source.getHeight()) / gm.get("BLOCK_SIZE")), Math.floor(ATY / gm.get("BLOCK_SIZE")), null))) {
             try {
-                structureGC.drawImage(block.getTexture(), gm.get("BLOCK_SIZE") * block.xCoord, gm.get("BLOCK_SIZE") * block.yCoord);
+                structureGC.drawImage(block.getTexture(millis), gm.get("BLOCK_SIZE") * block.getX(), gm.get("BLOCK_SIZE") * block.getY());
             } catch (NullPointerException npe) {
                 npe.getMessage();
             }

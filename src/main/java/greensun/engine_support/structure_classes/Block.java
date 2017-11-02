@@ -1,41 +1,32 @@
 package greensun.engine_support.structure_classes;
 
-import com.google.gson.JsonObject;
 import greensun.engine_support.every_day_singles.MediaStorage;
 import javafx.scene.image.Image;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 
 /**
  * Created by User on 15.06.2017.
  */
-public class Block {
+public class Block extends Coordinatable {
     public String name;
-    //public Image skin;
-    private String texture;
+    private ArrayList<String> texture;
+    public boolean isOneTextured;
 
-    public double xCoord;
-    public double yCoord;
-
-    public Block(Block block, double x, double y) {
+    public Block(Block_Pred block, double x, double y) {
         this.name = block.name;
-        this.texture = block.texture;
+        this.isOneTextured = block.isOneTextured;
+        this.texture = block.getImageLocation();
 
-        this.xCoord = x;
-        this.yCoord = y;
+        this.setX(x);
+        this.setY(y);
     }
 
-    public Block(JsonObject block) {
-        this.name = block.get("name").getAsString();
-        this.texture = block.get("texture").getAsString();
-    }
-
-    public Image getTexture() {
-        return MediaStorage.get().getTextures().get(this.texture);
-    }
-
-    public String getImageLocation() {
-        return texture;
+    public Image getTexture(int mill) {
+        if (isOneTextured) {
+            return MediaStorage.get().getTextures().get(this.texture.get(0));
+        } else {
+            return MediaStorage.get().getTextures().get(this.texture.get((int) Math.ceil(mill / (60 / texture.size()))));
+        }
     }
 }
