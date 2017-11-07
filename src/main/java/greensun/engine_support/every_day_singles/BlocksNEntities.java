@@ -3,8 +3,8 @@ package greensun.engine_support.every_day_singles;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import greensun.engine_support.Depacker;
+import greensun.engine_support.structure_classes.Block;
 import greensun.engine_support.structure_classes.Entity;
-import greensun.engine_support.structure_classes.Block_Pred;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,10 +13,10 @@ import java.util.Map;
 public class BlocksNEntities {
     private static BlocksNEntities singles;
 
-    private static HashMap<String, Block_Pred> BlockSet = new HashMap<>();
+    private static HashMap<String, Block> BlockSet = new HashMap<>();
     private static HashMap<String, Entity> EntitySet = new HashMap<>();
 
-    public HashMap<String, Block_Pred> getBlockz() {
+    public HashMap<String, Block> getBlockz() {
         return BlockSet;
     }
 
@@ -57,9 +57,9 @@ public class BlocksNEntities {
                 if (element.getValue() instanceof JsonObject) {
                     hm.put(element.getKey(), new Entity(element.getValue().getAsJsonObject()));
                 } else {
-                    Entity missingBlock = new Entity(Depacker.getStartedSingleJson(app, "/entity.json").get(element.getKey()).getAsJsonObject());
-                    systemBlockNames.add(missingBlock.getImageLocation());
-                    hm.put(element.getKey(), missingBlock);
+                    Entity missingEntity = new Entity(Depacker.getStartedSingleJson(app, "/entityset.json").get(element.getKey()).getAsJsonObject());
+                    systemBlockNames.addAll(missingEntity.getImageLocation());
+                    hm.put(element.getKey(), missingEntity);
                 }
             }
             if (!systemBlockNames.isEmpty()) {
@@ -71,15 +71,15 @@ public class BlocksNEntities {
         return hm;
     }
 
-    public static HashMap<String, Block_Pred> getStartedBlockz(Class app, String path) {
-        HashMap<String, Block_Pred> hm = new HashMap<>();
+    public static HashMap<String, Block> getStartedBlockz(Class app, String path) {
+        HashMap<String, Block> hm = new HashMap<>();
         ArrayList<String> systemBlockNames = new ArrayList<>();
         try {
             for (Map.Entry<String, JsonElement> element: Depacker.getStarted(app, path).entrySet()) {
                 if (element.getValue() instanceof JsonObject) {
-                    hm.put(element.getKey(), new Block_Pred(element.getValue().getAsJsonObject()));
+                    hm.put(element.getKey(), new Block(element.getValue().getAsJsonObject()));
                 } else {
-                    Block_Pred missingBlock = new Block_Pred(Depacker.getStartedSingleJson(app, "/blockset.json").get(element.getKey()).getAsJsonObject());
+                    Block missingBlock = new Block(Depacker.getStartedSingleJson(app, "/blockset.json").get(element.getKey()).getAsJsonObject());
                     systemBlockNames.addAll(missingBlock.getImageLocation());
                     hm.put(element.getKey(), missingBlock);
                 }

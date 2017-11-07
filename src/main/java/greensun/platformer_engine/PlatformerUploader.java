@@ -249,7 +249,7 @@ public class PlatformerUploader {
         for (Entity entity: level.entitiesInCoordinate(true, Math.ceil((ATX + source.getWidth()) / gm.get("BLOCK_SIZE")), Math.floor(ATX / gm.get("BLOCK_SIZE")),
                 level.entitiesInCoordinate(false, Math.ceil((ATY + source.getHeight()) / gm.get("BLOCK_SIZE")), Math.floor(ATY / gm.get("BLOCK_SIZE")), null))) {
             try {
-                structureGC.drawImage(entity.getTexture(), gm.get("BLOCK_SIZE") * entity.getX(), gm.get("BLOCK_SIZE") * entity.getY());
+                structureGC.drawImage(entity.getTexture(millis), gm.get("BLOCK_SIZE") * entity.getX(), gm.get("BLOCK_SIZE") * entity.getY());
             } catch (NullPointerException npe) {
                 npe.getMessage();
             }

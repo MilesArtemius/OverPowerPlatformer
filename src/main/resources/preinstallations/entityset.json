@@ -10,6 +10,9 @@
         "hostile": "false"
       }
     },
+    "ai_modifiers": {
+
+    },
     "texture": "ErEsursE.png",
     "name": "Mr.Shrimp"
   }
