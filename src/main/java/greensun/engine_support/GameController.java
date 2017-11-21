@@ -87,7 +87,7 @@ public class GameController {
         LUP.getSource().heightProperty().bind(heightProperty);
         LUP.getDecoration().widthProperty().bind(widthProperty);
         LUP.getDecoration().heightProperty().bind(heightProperty);
-//
+
         button.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> startGame());
     }
 }
