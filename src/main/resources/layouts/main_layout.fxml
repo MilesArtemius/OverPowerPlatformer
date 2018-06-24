@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import greensun.launcher.NeoButton?>
+<?import ekdorn.thegreensun.launcher.NeoButton?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
-<TilePane fx:id="pane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="greensun.launcher.MainController">
+<TilePane fx:id="pane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ekdorn.thegreensun.launcher.MainController">
       <children>
          <VBox fx:id="vBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
              <NeoButton fx:id="new_game_button" />

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/op.iml" filepath="$PROJECT_DIR$/.idea/modules/op.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/op_main.iml" filepath="$PROJECT_DIR$/.idea/modules/op_main.iml" group="op" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/op_test.iml" filepath="$PROJECT_DIR$/.idea/modules/op_test.iml" group="op" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tgs.iml" filepath="$PROJECT_DIR$/.idea/modules/tgs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tgs_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tgs_main.iml" group="tgs" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tgs_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tgs_test.iml" group="tgs" />
     </modules>
   </component>
 </project>
